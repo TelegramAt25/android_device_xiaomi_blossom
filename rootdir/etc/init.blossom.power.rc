@@ -38,7 +38,7 @@ on post-fs-data
     write /proc/sys/vm/page-cluster 0
     write /proc/sys/vm/swappiness 80
     write /sys/kernel/mm/swap/vma_ra_enabled false
-    write /proc/sys/vm/vfs_cache_pressure 130
+    write /proc/sys/vm/vfs_cache_pressure 200
     write /proc/sys/vm/dirty_writeback_centisecs 300
     write /proc/sys/vm/stat_interval 2
     write /proc/sys/vm/overcommit_memory 2
