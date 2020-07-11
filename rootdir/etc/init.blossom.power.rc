@@ -38,6 +38,8 @@ on post-fs-data
     write /proc/sys/vm/vfs_cache_pressure 130
     write /proc/sys/vm/dirty_writeback_centisecs 300
     write /proc/sys/vm/stat_interval 2
+    write /proc/sys/vm/overcommit_memory 2
+    write /proc/sys/vm/overcommit_ratio 100
 
 on property:sys.boot_completed=1
     # We should adjust the setting upon boot_complete
