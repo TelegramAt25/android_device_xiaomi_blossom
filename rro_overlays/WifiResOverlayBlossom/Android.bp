@@ -1,6 +1,5 @@
 runtime_resource_overlay {
     name: "WifiResOverlayBlossom",
     theme: "WifiResOverlay",
-    certificate: "platform",
     product_specific: true
 }
