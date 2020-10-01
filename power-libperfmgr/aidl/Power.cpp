@@ -45,6 +45,9 @@ constexpr char kPowerHalStateProp[] = "vendor.powerhal.state";
 constexpr char kPowerHalAudioProp[] = "vendor.powerhal.audio";
 constexpr char kPowerHalRenderingProp[] = "vendor.powerhal.rendering";
 
+extern bool isDeviceSpecificModeSupported(Mode type, bool* _aidl_return);
+extern bool setDeviceSpecificMode(Mode type, bool enabled);
+
 Power::Power()
     : mInteractionHandler(nullptr),
       mSustainedPerfModeOn(false) {
@@ -79,6 +82,10 @@ ndk::ScopedAStatus Power::setMode(Mode type, bool enabled) {
         HintManager::GetInstance()->GetAdpfProfile()->mReportingRateLimitNs > 0) {
         PowerSessionManager::getInstance()->updateHintMode(toString(type), enabled);
     }
+    if (setDeviceSpecificMode(type, enabled)) {
+        return ndk::ScopedAStatus::ok();
+    }
+
     switch (type) {
         case Mode::SUSTAINED_PERFORMANCE:
             if (enabled) {
@@ -120,6 +127,10 @@ ndk::ScopedAStatus Power::setMode(Mode type, bool enabled) {
 }
 
 ndk::ScopedAStatus Power::isModeSupported(Mode type, bool *_aidl_return) {
+    if (isDeviceSpecificModeSupported(type, _aidl_return)) {
+        return ndk::ScopedAStatus::ok();
+    }
+
     bool supported = HintManager::GetInstance()->IsHintSupported(toString(type));
     LOG(INFO) << "Power mode " << toString(type) << " isModeSupported: " << supported;
     *_aidl_return = supported;
