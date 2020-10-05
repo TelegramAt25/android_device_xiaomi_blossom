@@ -15,6 +15,10 @@
 /dev/camera-isp                                                                                         u:object_r:camera_device:s0
 /mnt/vendor/persist/camera(/.*)?                                                                        u:object_r:persist_camera_data_file:s0
 
+# NFC
+/dev/sec-nfc                                            u:object_r:sec_device:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.nfc@1\.2-service\.samsung       u:object_r:hal_nfc_default_exec:s0
+
 # Data files
 /data/per_boot(/.*)?                                                 u:object_r:per_boot_file:s0
 
