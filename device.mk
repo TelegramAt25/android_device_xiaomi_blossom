@@ -466,6 +466,10 @@ PRODUCT_SYSTEM_EXT_PROPERTIES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.recovery_update=false
 
+# Mobile data
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.com.android.mobiledata=false
+
 # Seccomp
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/seccomp/,$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy)
