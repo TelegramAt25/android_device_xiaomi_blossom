@@ -100,9 +100,6 @@ on post-fs
     chmod 0770 /mnt/vendor/protect_s
 
 on late-fs
-    wait_for_prop hwservicemanager.ready "true"
-    exec_start wait_for_keymaster
-
     mount_all /vendor/etc/fstab.mt6765 --late
 
 on post-fs-data
