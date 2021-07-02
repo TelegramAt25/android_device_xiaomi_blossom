@@ -638,4 +638,7 @@
     -->
     <bool name="config_bg_prompt_abusive_apps_to_bg_restricted">true</bool>
 
+    <!-- True if the device should block turning display on at boot until wallpaper is ready -->
+    <bool name="config_checkWallpaperAtBoot">false</bool>
+
 </resources>
