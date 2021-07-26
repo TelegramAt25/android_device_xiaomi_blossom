@@ -122,6 +122,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     DT2W-Service-MT6768
 
+
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/dt2w/dt2w_event:$(TARGET_COPY_OUT_VENDOR)/bin/dt2w_event
+
 # PowerOffAlarm
 PRODUCT_PACKAGES += \
     PowerOffAlarm
