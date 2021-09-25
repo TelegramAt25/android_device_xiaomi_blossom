@@ -17,10 +17,6 @@ on init
     mkdir /mnt/vendor/persist 0771 system system
     mkdir /mnt/vendor/nvdata 0771 system system
 
-on late-init
-    # enable rcu_expedited
-    write /sys/kernel/rcu_expedited 1
-
 on charger
     write /proc/perfmgr/boost_ctrl/cpu_ctrl/boot_freq "-1 -1 -1 -1"
     write /sys/devices/platform/10012000.dvfsrc/helio-dvfsrc/dvfsrc_req_ddr_opp "-1"

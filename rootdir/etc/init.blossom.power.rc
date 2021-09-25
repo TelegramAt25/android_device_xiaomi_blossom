@@ -23,6 +23,10 @@ on init
     write /sys/block/mmcblk0/queue/iostats 0
     write /sys/block/mmcblk0/queue/nr_requests 256
 
+on late-init
+    # enable rcu_expedited
+    write /sys/kernel/rcu_expedited 1
+
 on post-fs
     # boot perf. tune
     write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "0 100"
@@ -80,3 +84,6 @@ on property:sys.boot_completed=1
 
     # disably systracker
     write /sys/bus/platform/drivers/systracker/tracker_run 0
+
+    # disable rcu_expedited
+    write /sys/kernel/rcu_expedited 0
