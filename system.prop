@@ -56,6 +56,7 @@ ro.mtk_perf_simple_start_win=1
 # RIL
 vendor.rild.libargs=-d /dev/ttyC0
 vendor.rild.libpath=mtk-ril.so
+persist.sys.fflag.override.settings_provider_model=false
 
 # USB
 ro.sys.usb.bicr=no
