@@ -37,6 +37,7 @@ on post-fs-data
     write /sys/kernel/mm/swap/vma_ra_enabled false
     write /proc/sys/vm/vfs_cache_pressure 130
     write /proc/sys/vm/dirty_writeback_centisecs 300
+    write /proc/sys/vm/stat_interval 2
 
 on property:sys.boot_completed=1
     # We should adjust the setting upon boot_complete
