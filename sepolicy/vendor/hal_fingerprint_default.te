@@ -12,3 +12,6 @@ add_service(hal_fingerprint_default, vendor_fingerprint_service)
 
 allow hal_fingerprint_default proc_ppm:dir r_dir_perms;
 allow hal_fingerprint_default proc_ppm:file rw_file_perms;
+
+allow hal_fingerprint_default sysfs_fingerprint:file rw_file_perms;
+allow hal_fingerprint_default sysfs_fingerprint:dir r_dir_perms;
