@@ -420,7 +420,7 @@
          is true (in that case this is assumed true as well).  It can allow you to tune down
          your device's memory use without going to the point of causing applications to turn
          off features. -->
-    <!-- <bool name="config_avoidGfxAccel">true</bool> -->
+    <bool name="config_avoidGfxAccel">true</bool>
 
     <!-- Flag specifying whether VoLTE TTY is supported -->
     <bool name="config_carrier_volte_tty_supported">true</bool>
