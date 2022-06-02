@@ -1,3 +1,4 @@
+import /vendor/etc/init/hw/init.blossom.power.rc
 import /vendor/etc/init/hw/init.connectivity.rc
 import /vendor/etc/init/hw/init.mt6765.usb.rc
 import /vendor/etc/init/hw/init.project.rc
@@ -8,9 +9,6 @@ import /vendor/etc/init/hw/init.modem.rc
 
 on early-init
     write /proc/bootprof "0"
-    # boot perf. tune
-    write /proc/perfmgr/boost_ctrl/cpu_ctrl/boot_freq "0 0 0 0"
-    write /sys/devices/platform/10012000.dvfsrc/helio-dvfsrc/dvfsrc_req_ddr_opp 0
     write /proc/sys/kernel/printk "3 3 1 3"
 
 on init
@@ -29,20 +27,6 @@ on init
 
     chown root system /proc/lk_env
     chmod 0660 /proc/lk_env
-
-    # increase sysctl_rmem_max and sysctl_wmem_max values to 2M
-    write /proc/sys/net/core/wmem_max 8388608
-    write /proc/sys/net/core/rmem_max 8388608
-
-    # update cpus for cpuset cgroup
-    write /dev/cpuset/foreground/cpus 0-7
-    write /dev/cpuset/foreground/boost/cpus 0-7
-    write /dev/cpuset/background/cpus 0-3
-    write /dev/cpuset/system-background/cpus 0-3
-    write /dev/cpuset/top-app/cpus 0-7
-
-    # update bg rt_runtime 100ms
-    write /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us 100000
 
 on late-init
     # enable rcu_expedited
@@ -136,19 +120,8 @@ on fs
     chown system system /mnt/vendor/persist
     chmod 0771 /mnt/vendor/persist
     restorecon_recursive /mnt/vendor/persist
-    
-    write /dev/memcg/memory.swappiness 180
-    write /dev/memcg/apps/memory.swappiness 180
-    write /dev/memcg/system/memory.swappiness 180
-    write /proc/sys/vm/swappiness 180
 
 on post-fs
-    # boot perf. tune
-    write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "0 100"
-    write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "1 100"
-    write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "2 100"
-    write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "3 100"
-
     # change permission for engineer mode
     chown radio system /proc/freqhopping/dramc
     chown radio system /proc/freqhopping/dumpregs
@@ -182,18 +155,6 @@ on late-fs
     write /sys/kernel/tracing/trace_marker "E"
 
 on post-fs-data
-
-    # boot time fs tune
-    write /sys/block/mmcblk0/queue/iostats 0
-    write /sys/block/mmcblk0/queue/read_ahead_kb 2048
-    write /sys/block/mmcblk0/queue/nr_requests 256
-    write /sys/block/dm-0/queue/read_ahead_kb 2048
-    write /sys/block/dm-1/queue/read_ahead_kb 2048
-    write /sys/block/dm-2/queue/read_ahead_kb 2048
-    write /sys/block/dm-3/queue/read_ahead_kb 2048
-    write /sys/block/dm-4/queue/read_ahead_kb 2048
-    write /sys/block/dm-5/queue/read_ahead_kb 2048
-
     chown system system /mnt/vendor/nvcfg
     chmod 0771 /mnt/vendor/nvcfg
     restorecon_recursive /mnt/vendor/nvcfg
@@ -312,7 +273,6 @@ on post-fs-data
     chmod 0660 /dev/rfkill
 
     mkdir /dev/radio 0770 radio radio
-
 
     # GPS
     chmod 0775 /vendor/xbin/MPED
@@ -695,7 +655,6 @@ on post-fs-data
     mkdir /data/vendor/mac_addr 0771 system system
 
 on boot
-    write /proc/sys/vm/dirty_writeback_centisecs 300
     chmod 0660 /sys/power/autosleep
 
     chmod 0664 /sys/class/leds/lcd-backlight/brightness
@@ -991,56 +950,6 @@ on property:vold.decrypt=trigger_shutdown_framework
 
     setprop persist.sys.strictmode.disable 1
     setprop persist.bluetooth.a2dp_offload.disabled false
-
-# end boot time fs tune
-on property:sys.boot_completed=1
-    write /sys/block/mmcblk0/queue/iostats 1
-    write /sys/block/mmcblk0/queue/read_ahead_kb 512
-    write /sys/block/mmcblk0/queue/nr_requests 128
-    write /sys/block/dm-0/queue/read_ahead_kb 128
-    write /sys/block/dm-1/queue/read_ahead_kb 128
-    write /sys/block/dm-2/queue/read_ahead_kb 128
-    write /sys/block/dm-3/queue/read_ahead_kb 128
-    write /sys/block/dm-4/queue/read_ahead_kb 128
-    write /sys/block/dm-5/queue/read_ahead_kb 128
-
-# start EAS+
-on property:sys.boot_completed=1
-    write /dev/stune/schedtune.boost 0
-    write /dev/stune/foreground/schedtune.boost 0
-    write /dev/stune/background/schedtune.boost 0
-    write /dev/stune/top-app/schedtune.boost 0
-    write /dev/stune/rt/schedtune.boost 0
-    write /sys/devices/system/cpu/eas/enable 1
-    write /proc/cpufreq/cpufreq_sched_disable 0
-    chown system system /dev/stune/foreground/schedtune.prefer_idle
-    chown system system /dev/stune/top-app/schedtune.prefer_idle
-    chown system system /dev/stune/rt/schedtune.prefer_idle
-    write /dev/stune/foreground/schedtune.prefer_idle 0
-    write /dev/stune/top-app/schedtune.prefer_idle 0
-    write /dev/stune/rt/schedtune.prefer_idle 0
-    write /dev/stune/top-app/schedtune.boost 1
-    write /proc/sys/kernel/sched_migration_cost_ns 200000
-    write /proc/sys/net/ipv4/tcp_mtu_probing 1
-    write /proc/sys/net/ipv4/ip_no_pmtu_disc 0
-    write /proc/sys/kernel/panic_on_rcu_stall 0
-
-    # switch to sched-dvfs
-    write /sys/devices/system/cpu/cpufreq/policy0/scaling_governor "schedplus"
-    write /sys/devices/system/cpu/cpufreq/policy4/scaling_governor "schedplus"
-
-    # restore perf. parameters
-    write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "0 0"
-    write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "1 0"
-    write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "2 0"
-    write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "3 0"
-    write /proc/perfmgr/boost_ctrl/cpu_ctrl/boot_freq "-1 -1 -1 -1"
-    write /sys/devices/platform/10012000.dvfsrc/helio-dvfsrc/dvfsrc_req_ddr_opp "-1"
-
-    # Stop bootprof
-    write /proc/bootprof "0"
-
-    write /proc/sys/kernel/printk "3 3 1 3"
 
 on property:persist.vendor.mediatek.fg.disable=1
     write /sys/devices/platform/battery_meter/FG_daemon_disable 1

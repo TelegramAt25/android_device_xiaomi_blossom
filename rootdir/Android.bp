@@ -18,6 +18,13 @@ prebuilt_etc {
 }
 
 prebuilt_etc {
+    name: "init.blossom.power.rc",
+    src: "etc/init.blossom.power.rc",
+    relative_install_path: "init/hw",
+    vendor: true,
+}
+
+prebuilt_etc {
     name: "init.connectivity.rc",
     src: "etc/init.connectivity.rc",
     relative_install_path: "init/hw",
