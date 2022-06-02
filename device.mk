@@ -28,6 +28,7 @@ PRODUCT_PACKAGES += \
     fstab.mt6762 \
     fstab.mt6765_ramdisk \
     fstab.mt6762_ramdisk \
+    init.blossom.power.rc \
     init.connectivity.rc \
     init.modem.rc \
     init.mt6765.rc \
