@@ -17,6 +17,9 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/developer_gsi_keys.mk)
 # Properties
 include $(LOCAL_PATH)/vendor_logtag.mk
 
+# Flatten APEXs for performance
+OVERRIDE_TARGET_FLATTEN_APEX := true
+
 # HACK: Avoid usb crash
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES := \
     persist.adb.nonblocking_ffs=0 \
