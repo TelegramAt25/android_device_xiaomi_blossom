@@ -14,6 +14,7 @@ on init
     write /dev/cpuset/background/cpus 0-3
     write /dev/cpuset/system-background/cpus 4-7
     write /dev/cpuset/top-app/cpus 0-7
+    write /dev/cpuset/restricted/cpus 2-7
 
     # update bg rt_runtime 100ms
     write /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us 100000
