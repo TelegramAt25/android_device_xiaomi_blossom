@@ -327,6 +327,43 @@ ndk::ScopedAStatus PowerHintSession::reportActualWorkDuration(
     return ndk::ScopedAStatus::ok();
 }
 
+ndk::ScopedAStatus PowerHintSession::sendHint(SessionHint hint) {
+    if (mSessionClosed) {
+        ALOGE("Error: session is dead");
+        return ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_STATE);
+    }
+    // The amount we boost threads that have unexpected workloads
+    // Consider adding this value to the powerhint.json and using that value directly
+    constexpr int kRelativeBoost = 200;
+    std::shared_ptr<AdpfConfig> adpfConfig = HintManager::GetInstance()->GetAdpfProfile();
+    switch (hint) {
+        case SessionHint::CPU_LOAD_UP:
+            setSessionUclampMin(
+                    std::min(adpfConfig->mUclampMinHigh,
+                             static_cast<uint32_t>(mDescriptor->current_min + kRelativeBoost)));
+            break;
+        case SessionHint::CPU_LOAD_DOWN:
+            setSessionUclampMin(adpfConfig->mUclampMinLow);
+            break;
+        case SessionHint::CPU_LOAD_RESET:
+            setSessionUclampMin(std::max(adpfConfig->mUclampMinInit,
+                                         static_cast<uint32_t>(mDescriptor->current_min)));
+            break;
+        case SessionHint::CPU_LOAD_RESUME:
+            setSessionUclampMin(mDescriptor->current_min);
+            break;
+        default:
+            ALOGE("Error: hint is invalid");
+            return ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_ARGUMENT);
+    }
+    if (ATRACE_ENABLED()) {
+        const std::string idstr = getIdString();
+        std::string sz = StringPrintf("adpf.%s-session_hint", idstr.c_str());
+        ATRACE_INT(sz.c_str(), static_cast<int>(hint));
+    }
+    return ndk::ScopedAStatus::ok();
+}
+
 std::string AppHintDesc::toString() const {
     std::string out =
             StringPrintf("session %" PRIxPTR "\n", reinterpret_cast<uintptr_t>(this) & 0xffff);
