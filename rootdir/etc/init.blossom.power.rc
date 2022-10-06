@@ -85,3 +85,7 @@ on property:sys.boot_completed=1
     write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "3 0"
     write /proc/perfmgr/boost_ctrl/cpu_ctrl/boot_freq "-1 -1 -1 -1"
     write /sys/devices/platform/10012000.dvfsrc/helio-dvfsrc/dvfsrc_req_ddr_opp "-1"
+
+    # TCP settings
+    write /proc/sys/net/ipv4/tcp_ecn 1
+    write /proc/sys/net/ipv4/tcp_fastopen 3
