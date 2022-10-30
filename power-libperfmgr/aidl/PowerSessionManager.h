@@ -50,6 +50,8 @@ class PowerSessionManager : public MessageHandler {
     // monitoring session status
     void addPowerSession(PowerHintSession *session);
     void removePowerSession(PowerHintSession *session);
+    void addThreadsFromPowerSession(PowerHintSession *session);
+    void removeThreadsFromPowerSession(PowerHintSession *session);
     void setUclampMin(PowerHintSession *session, int min);
     void setUclampMinLocked(PowerHintSession *session, int min);
     void handleMessage(const Message &message) override;

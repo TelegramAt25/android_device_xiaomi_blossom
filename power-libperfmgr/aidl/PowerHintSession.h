@@ -44,7 +44,7 @@ using std::chrono::steady_clock;
 using std::chrono::time_point;
 
 struct AppHintDesc {
-    AppHintDesc(int32_t tgid, int32_t uid, std::vector<int> threadIds)
+    AppHintDesc(int32_t tgid, int32_t uid, std::vector<int32_t> threadIds)
         : tgid(tgid),
           uid(uid),
           threadIds(std::move(threadIds)),
@@ -57,7 +57,7 @@ struct AppHintDesc {
     std::string toString() const;
     const int32_t tgid;
     const int32_t uid;
-    const std::vector<int> threadIds;
+    std::vector<int32_t> threadIds;
     nanoseconds duration;
     int current_min;
     // status
@@ -80,6 +80,7 @@ class PowerHintSession : public BnPowerHintSession {
     ndk::ScopedAStatus reportActualWorkDuration(
             const std::vector<WorkDuration> &actualDurations) override;
     ndk::ScopedAStatus sendHint(SessionHint hint) override;
+    ndk::ScopedAStatus setThreads(const std::vector<int32_t> &threadIds) override;
     bool isActive();
     bool isTimeout();
     void setStale();

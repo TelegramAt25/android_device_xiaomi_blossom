@@ -363,6 +363,25 @@ ndk::ScopedAStatus PowerHintSession::sendHint(SessionHint hint) {
     return ndk::ScopedAStatus::ok();
 }
 
+ndk::ScopedAStatus PowerHintSession::setThreads(const std::vector<int32_t> &threadIds) {
+    if (mSessionClosed) {
+        ALOGE("Error: session is dead");
+        return ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_STATE);
+    }
+    if (threadIds.size() == 0) {
+        LOG(ERROR) << "Error: threadIds.size() shouldn't be " << threadIds.size();
+        return ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_ARGUMENT);
+    }
+
+    PowerSessionManager::getInstance()->removeThreadsFromPowerSession(this);
+    mDescriptor->threadIds.resize(threadIds.size());
+    std::copy(threadIds.begin(), threadIds.end(), back_inserter(mDescriptor->threadIds));
+    PowerSessionManager::getInstance()->addThreadsFromPowerSession(this);
+    // init boost
+    setSessionUclampMin(HintManager::GetInstance()->GetAdpfProfile()->mUclampMinInit);
+    return ndk::ScopedAStatus::ok();
+}
+
 std::string AppHintDesc::toString() const {
     std::string out =
             StringPrintf("session %" PRIxPTR "\n", reinterpret_cast<uintptr_t>(this) & 0xffff);
@@ -398,7 +417,7 @@ bool PowerHintSession::isTimeout() {
     return now >= staleTime;
 }
 
-const std::vector<int> &PowerHintSession::getTidList() const {
+const std::vector<int32_t> &PowerHintSession::getTidList() const {
     return mDescriptor->threadIds;
 }
 
