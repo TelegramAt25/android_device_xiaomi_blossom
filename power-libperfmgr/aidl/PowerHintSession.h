@@ -121,6 +121,8 @@ class PowerHintSession : public BnPowerHintSession {
     std::mutex mSessionLock;
     std::atomic<bool> mSessionClosed = false;
     std::string mIdString;
+    // Used when setting a temporary boost value to hold the true boost
+    std::atomic<std::optional<int>> mNextUclampMin;
     // To cache the status of whether ADPF hints are supported.
     std::unordered_map<std::string, std::optional<bool>> mSupportedHints;
 };

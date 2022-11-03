@@ -316,6 +316,14 @@ ndk::ScopedAStatus PowerHintSession::reportActualWorkDuration(
         setSessionUclampMin(adpfConfig->mUclampMinHigh);
         return ndk::ScopedAStatus::ok();
     }
+
+    // replace temporary uclamp_min value with true min
+    if (std::optional<int> trueMin = mNextUclampMin.load()) {
+        std::lock_guard<std::mutex> guard(mSessionLock);
+        mDescriptor->current_min = *trueMin;
+        mNextUclampMin.store(std::nullopt);
+    }
+
     int64_t output = convertWorkDurationToBoostByPid(actualDurations);
 
     /* apply to all the threads in the group */
@@ -334,20 +342,22 @@ ndk::ScopedAStatus PowerHintSession::sendHint(SessionHint hint) {
     }
     // The amount we boost threads that have unexpected workloads
     // Consider adding this value to the powerhint.json and using that value directly
-    constexpr int kRelativeBoost = 200;
+    constexpr int kRelativeBoost = 150;
     std::shared_ptr<AdpfConfig> adpfConfig = HintManager::GetInstance()->GetAdpfProfile();
     switch (hint) {
         case SessionHint::CPU_LOAD_UP:
-            setSessionUclampMin(
+            mNextUclampMin.store(
                     std::min(adpfConfig->mUclampMinHigh,
                              static_cast<uint32_t>(mDescriptor->current_min + kRelativeBoost)));
+            setSessionUclampMin(adpfConfig->mUclampMinHigh);
             break;
         case SessionHint::CPU_LOAD_DOWN:
             setSessionUclampMin(adpfConfig->mUclampMinLow);
             break;
         case SessionHint::CPU_LOAD_RESET:
-            setSessionUclampMin(std::max(adpfConfig->mUclampMinInit,
-                                         static_cast<uint32_t>(mDescriptor->current_min)));
+            mNextUclampMin.store(std::max(adpfConfig->mUclampMinInit,
+                                          static_cast<uint32_t>(mDescriptor->current_min)));
+            setSessionUclampMin(adpfConfig->mUclampMinHigh);
             break;
         case SessionHint::CPU_LOAD_RESUME:
             setSessionUclampMin(mDescriptor->current_min);
@@ -464,6 +474,7 @@ void PowerHintSession::StaleTimerHandler::handleMessage(const Message &) {
         PowerHintMonitor::getInstance()->getLooper()->sendMessageDelayed(
                 next, mSession->mStaleTimerHandler, NULL);
     } else {
+        mSession->mNextUclampMin.store(std::nullopt);
         mSession->setStale();
         if (ATRACE_ENABLED()) {
             mSession->traceSessionVal("session_hint", -1);
