@@ -357,9 +357,7 @@ ndk::ScopedAStatus PowerHintSession::sendHint(SessionHint hint) {
             return ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_ARGUMENT);
     }
     if (ATRACE_ENABLED()) {
-        const std::string idstr = getIdString();
-        std::string sz = StringPrintf("adpf.%s-session_hint", idstr.c_str());
-        ATRACE_INT(sz.c_str(), static_cast<int>(hint));
+        traceSessionVal("session_hint", static_cast<int>(hint));
     }
     return ndk::ScopedAStatus::ok();
 }
