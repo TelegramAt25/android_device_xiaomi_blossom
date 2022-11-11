@@ -57,6 +57,9 @@ function blob_fixup() {
     case "${1}" in
         *)
             ;;
+        vendor/lib/libMtkOmxVdecEx.so)
+            "${PATCHELF}" --replace-needed "libui.so" "libui-v32.so" "$2"
+            ;;
     esac
 }
 

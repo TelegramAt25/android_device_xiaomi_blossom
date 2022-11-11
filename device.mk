@@ -401,6 +401,10 @@ PRODUCT_PACKAGES += \
     libshim_showlogo \
     libshim_vtservice
 
+# VNDK
+PRODUCT_PACKAGES += \
+    libui-v32
+
 # Additional native libraries
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/public.libraries.vendor.txt:$(TARGET_COPY_OUT_VENDOR)/etc/public.libraries.txt
