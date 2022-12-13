@@ -7,4 +7,4 @@ on post-fs-data
     write /sys/kernel/mm/swap/vma_ra_enabled false
 
 on property:sys.boot_completed=1
-    swapon_all /vendor/etc/fstab.enableswap
+    swapon_all /vendor/etc/fstab.mt6765
