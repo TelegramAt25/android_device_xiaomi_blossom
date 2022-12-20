@@ -116,12 +116,14 @@ int64_t PowerHintSession::convertWorkDurationToBoostByPid(
 }
 
 PowerHintSession::PowerHintSession(int32_t tgid, int32_t uid, const std::vector<int32_t> &threadIds,
-                                   int64_t durationNanos) {
+                                   int64_t durationNanos)
+    : mStaleTimerHandler(sp<StaleTimerHandler>::make(this)),
+      mBoostTimerHandler(sp<BoostTimerHandler>::make(this)) {
     mDescriptor = new AppHintDesc(tgid, uid, threadIds);
     mDescriptor->duration = std::chrono::nanoseconds(durationNanos);
     mIdString = StringPrintf("%" PRId32 "-%" PRId32 "-%" PRIxPTR, mDescriptor->tgid,
                              mDescriptor->uid, reinterpret_cast<uintptr_t>(this) & 0xffff);
-    mStaleTimerHandler = sp<StaleTimerHandler>(new StaleTimerHandler(this));
+
     mPowerManagerHandler = PowerSessionManager::getInstance();
     mLastUpdatedTime.store(std::chrono::steady_clock::now());
     if (ATRACE_ENABLED()) {
@@ -246,6 +248,7 @@ ndk::ScopedAStatus PowerHintSession::close() {
     // Remove the session from PowerSessionManager first to avoid racing.
     PowerSessionManager::getInstance()->removePowerSession(this);
     mStaleTimerHandler->setSessionDead();
+    mBoostTimerHandler->setSessionDead();
     setSessionUclampMin(0);
     mDescriptor->is_active.store(false);
     updateUniveralBoostMode();
@@ -301,7 +304,6 @@ ndk::ScopedAStatus PowerHintSession::reportActualWorkDuration(
         traceSessionVal("hint.count", mDescriptor->update_count);
         traceSessionVal("hint.overtime",
                         actualDurations.back().durationNanos - mDescriptor->duration.count() > 0);
-        traceSessionVal("session_hint", -1);
     }
 
     mLastUpdatedTime.store(std::chrono::steady_clock::now());
@@ -312,16 +314,11 @@ ndk::ScopedAStatus PowerHintSession::reportActualWorkDuration(
         updateUniveralBoostMode();
     }
 
+    disableTemporaryBoost();
+
     if (!adpfConfig->mPidOn) {
         setSessionUclampMin(adpfConfig->mUclampMinHigh);
         return ndk::ScopedAStatus::ok();
-    }
-
-    // replace temporary uclamp_min value with true min
-    if (std::optional<int> trueMin = mNextUclampMin.load()) {
-        std::lock_guard<std::mutex> guard(mSessionLock);
-        mDescriptor->current_min = *trueMin;
-        mNextUclampMin.store(std::nullopt);
     }
 
     int64_t output = convertWorkDurationToBoostByPid(actualDurations);
@@ -349,6 +346,7 @@ ndk::ScopedAStatus PowerHintSession::sendHint(SessionHint hint) {
             mNextUclampMin.store(
                     std::min(adpfConfig->mUclampMinHigh,
                              static_cast<uint32_t>(mDescriptor->current_min + kRelativeBoost)));
+            mBoostTimerHandler->updateTimer(mDescriptor->duration * 2);
             setSessionUclampMin(adpfConfig->mUclampMinHigh);
             break;
         case SessionHint::CPU_LOAD_DOWN:
@@ -357,6 +355,7 @@ ndk::ScopedAStatus PowerHintSession::sendHint(SessionHint hint) {
         case SessionHint::CPU_LOAD_RESET:
             mNextUclampMin.store(std::max(adpfConfig->mUclampMinInit,
                                           static_cast<uint32_t>(mDescriptor->current_min)));
+            mBoostTimerHandler->updateTimer(mDescriptor->duration * 3);
             setSessionUclampMin(adpfConfig->mUclampMinHigh);
             break;
         case SessionHint::CPU_LOAD_RESUME:
@@ -368,6 +367,7 @@ ndk::ScopedAStatus PowerHintSession::sendHint(SessionHint hint) {
     }
     mLastUpdatedTime.store(std::chrono::steady_clock::now());
     if (ATRACE_ENABLED()) {
+        mLastHintSent = static_cast<int>(hint);
         traceSessionVal("session_hint", static_cast<int>(hint));
     }
     return ndk::ScopedAStatus::ok();
@@ -431,7 +431,29 @@ const std::vector<int32_t> &PowerHintSession::getTidList() const {
     return mDescriptor->threadIds;
 }
 
+bool PowerHintSession::disableTemporaryBoost() {
+    if (ATRACE_ENABLED()) {
+        if (mLastHintSent != -1) {
+            mLastHintSent = -1;
+            traceSessionVal("session_hint", -1);
+        }
+    }
+
+    // replace temporary uclamp_min value with true min
+    std::optional<int> trueMin = mNextUclampMin.load();
+    if (trueMin.has_value()) {
+        std::lock_guard<std::mutex> guard(mSessionLock);
+        mDescriptor->current_min = *trueMin;
+        mNextUclampMin.store(std::nullopt);
+        return true;
+    }
+
+    return false;
+}
+
 void PowerHintSession::setStale() {
+    // Make sure any temporary boost is disabled
+    disableTemporaryBoost();
     // Reset to default uclamp value.
     PowerSessionManager::getInstance()->setUclampMin(this, 0);
     // Deliver a task to check if all sessions are inactive.
@@ -441,54 +463,62 @@ void PowerHintSession::setStale() {
     }
 }
 
-void PowerHintSession::StaleTimerHandler::updateTimer() {
-    auto now = std::chrono::steady_clock::now();
-    nanoseconds staleDuration = std::chrono::nanoseconds(
-            static_cast<int64_t>(mSession->mDescriptor->duration.count() *
-                                 HintManager::GetInstance()->GetAdpfProfile()->mStaleTimeFactor));
-    mStaleTime.store(now + staleDuration);
-    int64_t next = static_cast<int64_t>(staleDuration.count());
+void PowerHintSession::SessionTimerHandler::updateTimer(nanoseconds delay) {
+    mTimeout.store(steady_clock::now() + delay);
     {
         std::lock_guard<std::mutex> guard(mMessageLock);
-        PowerHintMonitor::getInstance()->getLooper()->removeMessages(mSession->mStaleTimerHandler);
-        PowerHintMonitor::getInstance()->getLooper()->sendMessageDelayed(
-                next, mSession->mStaleTimerHandler, NULL);
+        sp<MessageHandler> selfPtr = sp<MessageHandler>::fromExisting(this);
+        PowerHintMonitor::getInstance()->getLooper()->removeMessages(selfPtr);
+        PowerHintMonitor::getInstance()->getLooper()->sendMessageDelayed(delay.count(), selfPtr,
+                                                                         NULL);
     }
     if (ATRACE_ENABLED()) {
-        mSession->traceSessionVal("timer.stale", 0);
+        mSession->traceSessionVal(("timer." + mName).c_str(), 0);
     }
 }
 
-void PowerHintSession::StaleTimerHandler::handleMessage(const Message &) {
+void PowerHintSession::SessionTimerHandler::handleMessage(const Message &) {
     std::lock_guard<std::mutex> guard(mClosedLock);
     if (mIsSessionDead) {
         return;
     }
-    auto now = std::chrono::steady_clock::now();
-    int64_t next =
-            static_cast<int64_t>(duration_cast<nanoseconds>(mStaleTime.load() - now).count());
+    time_point now = steady_clock::now();
+    int64_t next = (mTimeout.load() - now).count();
     if (next > 0) {
         // Schedule for the stale timeout check.
         std::lock_guard<std::mutex> guard(mMessageLock);
-        PowerHintMonitor::getInstance()->getLooper()->removeMessages(mSession->mStaleTimerHandler);
-        PowerHintMonitor::getInstance()->getLooper()->sendMessageDelayed(
-                next, mSession->mStaleTimerHandler, NULL);
+        sp<MessageHandler> selfPtr = sp<MessageHandler>::fromExisting(this);
+        PowerHintMonitor::getInstance()->getLooper()->removeMessages(selfPtr);
+        PowerHintMonitor::getInstance()->getLooper()->sendMessageDelayed(next, selfPtr, NULL);
     } else {
-        mSession->mNextUclampMin.store(std::nullopt);
-        mSession->setStale();
-        if (ATRACE_ENABLED()) {
-            mSession->traceSessionVal("session_hint", -1);
-        }
+        onTimeout();
     }
     if (ATRACE_ENABLED()) {
-        mSession->traceSessionVal("timer.stale", next > 0 ? 0 : 1);
+        mSession->traceSessionVal(("timer." + mName).c_str(), next > 0 ? 0 : 1);
     }
 }
 
-void PowerHintSession::StaleTimerHandler::setSessionDead() {
+void PowerHintSession::SessionTimerHandler::setSessionDead() {
     std::lock_guard<std::mutex> guard(mClosedLock);
     mIsSessionDead = true;
-    PowerHintMonitor::getInstance()->getLooper()->removeMessages(mSession->mStaleTimerHandler);
+    PowerHintMonitor::getInstance()->getLooper()->removeMessages(
+            sp<MessageHandler>::fromExisting(this));
+}
+
+void PowerHintSession::StaleTimerHandler::updateTimer() {
+    SessionTimerHandler::updateTimer(duration_cast<nanoseconds>(
+            mSession->mDescriptor->duration *
+            HintManager::GetInstance()->GetAdpfProfile()->mStaleTimeFactor));
+}
+
+void PowerHintSession::StaleTimerHandler::onTimeout() {
+    mSession->setStale();
+}
+
+void PowerHintSession::BoostTimerHandler::onTimeout() {
+    if (mSession->disableTemporaryBoost()) {
+        mSession->setSessionUclampMin(mSession->getUclampMin());
+    }
 }
 
 }  // namespace pixel
