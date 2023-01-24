@@ -622,8 +622,6 @@ on boot
     chmod 0660 /proc/perfmgr/boost_ctrl/eas_ctrl/perfserv_fg_boost
     chown system system /proc/perfmgr/boost_ctrl/eas_ctrl/perfserv_bg_boost
     chmod 0660 /proc/perfmgr/boost_ctrl/eas_ctrl/perfserv_bg_boost
-    chown system system /proc/perfmgr/boost_ctrl/dram_ctrl/ddr
-    chmod 0660 /proc/perfmgr/boost_ctrl/eas_ctrl/dram_ctrl/ddr
 
     chown root radio /proc/net/vlan/config
     chmod 0640 /proc/net/vlan/config
