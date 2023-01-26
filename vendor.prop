@@ -30,6 +30,9 @@ bluetooth.profile.pbap.server.enabled=true
 bluetooth.profile.sap.server.enabled=true
 ro.vendor.mtk.bt_sap_enable=true
 
+# Brightness curve
+persist.sys.brightness.low.gamma=true
+
 # Cached app compaction
 persist.device_config.activity_manager.use_compaction=true
 
