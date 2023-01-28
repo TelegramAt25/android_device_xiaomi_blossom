@@ -355,7 +355,8 @@ ndk::ScopedAStatus PowerHintSession::sendHint(SessionHint hint) {
         case SessionHint::CPU_LOAD_RESET:
             mNextUclampMin.store(std::max(adpfConfig->mUclampMinInit,
                                           static_cast<uint32_t>(mDescriptor->current_min)));
-            mBoostTimerHandler->updateTimer(mDescriptor->duration * 3);
+            mBoostTimerHandler->updateTimer(duration_cast<nanoseconds>(
+                    mDescriptor->duration * adpfConfig->mStaleTimeFactor / 2.0));
             setSessionUclampMin(adpfConfig->mUclampMinHigh);
             break;
         case SessionHint::CPU_LOAD_RESUME:
