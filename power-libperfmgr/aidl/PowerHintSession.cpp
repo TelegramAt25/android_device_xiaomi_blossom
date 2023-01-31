@@ -338,15 +338,10 @@ ndk::ScopedAStatus PowerHintSession::sendHint(SessionHint hint) {
         return ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_STATE);
     }
     disableTemporaryBoost();
-    // The amount we boost threads that have unexpected workloads
-    // Consider adding this value to the powerhint.json and using that value directly
-    constexpr int kRelativeBoost = 150;
     std::shared_ptr<AdpfConfig> adpfConfig = HintManager::GetInstance()->GetAdpfProfile();
     switch (hint) {
         case SessionHint::CPU_LOAD_UP:
-            mNextUclampMin.store(
-                    std::min(adpfConfig->mUclampMinHigh,
-                             static_cast<uint32_t>(mDescriptor->current_min + kRelativeBoost)));
+            mNextUclampMin.store(mDescriptor->current_min);
             mBoostTimerHandler->updateTimer(mDescriptor->duration * 2);
             setSessionUclampMin(adpfConfig->mUclampMinHigh);
             break;
