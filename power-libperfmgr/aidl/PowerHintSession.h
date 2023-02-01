@@ -129,7 +129,7 @@ class PowerHintSession : public BnPowerHintSession {
 
   private:
     void updateUniveralBoostMode();
-    int setSessionUclampMin(int32_t min);
+    int setSessionUclampMin(int32_t min, bool resetStale = true);
     void tryToSendPowerHint(std::string hint);
     int64_t convertWorkDurationToBoostByPid(const std::vector<WorkDuration> &actualDurations);
     void traceSessionVal(char const *identifier, int64_t val) const;
