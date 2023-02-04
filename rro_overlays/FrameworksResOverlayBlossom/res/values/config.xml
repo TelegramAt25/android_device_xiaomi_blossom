@@ -627,4 +627,7 @@
          user switcher on the other side -->
     <bool name="config_enableBouncerUserSwitcher">false</bool>
 
+    <!-- Build fingerprint from stock ROM -->
+    <string name="config_stockFingerprint" translatable="false">Redmi/dandelion_global2/dandelion:11/RP1A.200720.011/V12.5.11.0.RCZMIXM:user/release-keys</string>
+
 </resources>
