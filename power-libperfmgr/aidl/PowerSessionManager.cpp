@@ -104,23 +104,23 @@ int PowerSessionManager::getDisplayRefreshRate() {
 }
 
 void PowerSessionManager::addPowerSession(PowerHintSession *session) {
-    addThreadsFromPowerSession(session);
-    {
-        std::lock_guard<std::mutex> guard(mLock);
-        mSessions.insert(session);
-    }
+    std::lock_guard<std::mutex> guard(mLock);
+    mSessions.insert(session);
+    addThreadsFromPowerSessionLocked(session);
 }
 
 void PowerSessionManager::removePowerSession(PowerHintSession *session) {
-    removeThreadsFromPowerSession(session);
-    {
-        std::lock_guard<std::mutex> guard(mLock);
-        mSessions.erase(session);
-    }
+    std::lock_guard<std::mutex> guard(mLock);
+    mSessions.erase(session);
+    removeThreadsFromPowerSessionLocked(session);
 }
 
 void PowerSessionManager::addThreadsFromPowerSession(PowerHintSession *session) {
     std::lock_guard<std::mutex> guard(mLock);
+    addThreadsFromPowerSessionLocked(session);
+}
+
+void PowerSessionManager::addThreadsFromPowerSessionLocked(PowerHintSession *session) {
     for (auto t : session->getTidList()) {
         if (mTidSessionListMap[t].empty()) {
             if (!SetTaskProfiles(t, {"ResetUclampGrp"})) {
@@ -133,9 +133,13 @@ void PowerSessionManager::addThreadsFromPowerSession(PowerHintSession *session) 
 
 void PowerSessionManager::removeThreadsFromPowerSession(PowerHintSession *session) {
     std::lock_guard<std::mutex> guard(mLock);
+    removeThreadsFromPowerSessionLocked(session);
+}
+
+void PowerSessionManager::removeThreadsFromPowerSessionLocked(PowerHintSession *session) {
     for (auto t : session->getTidList()) {
-        mTidSessionListMap[t].erase(session);
-        if (mTidSessionListMap[t].empty()) {
+        size_t cnt = mTidSessionListMap[t].erase(session);
+        if (cnt != 0 && mTidSessionListMap[t].empty()) {
             if (!SetTaskProfiles(t, {"NoResetUclampGrp"})) {
                 ALOGW("Failed to set NoResetUclampGrp task profile for tid:%d", t);
             }
