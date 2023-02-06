@@ -10,6 +10,17 @@ Build.BRAND=MTK
 ro.camera.sound.forced=0
 
 # Dalvik
+pm.dexopt.install=speed-profile
+pm.dexopt.bg-dexopt=speed-profile
+pm.dexopt.boot=verify
+pm.dexopt.first-boot=verify
+pm.dexopt.ab-ota=speed-profile
+dalvik.vm.dex2oat-cpu-set=4,5,6,7
+dalvik.vm.dex2oat-threads=4
+dalvik.vm.boot-dex2oat-cpu-set=4,5,6,7
+dalvik.vm.boot-dex2oat-threads=4
+dalvik.vm.image-dex2oat-cpu-set=4,5,6,7
+dalvik.vm.image-dex2oat-threads=4
 dalvik.vm.dex2oat64.enabled=true
 
 # Display
