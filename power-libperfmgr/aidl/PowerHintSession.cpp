@@ -364,7 +364,7 @@ ndk::ScopedAStatus PowerHintSession::sendHint(SessionHint hint) {
             ALOGE("Error: hint is invalid");
             return ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_ARGUMENT);
     }
-    setCpuLoadChangeHint(toString(hint));
+    tryToSendPowerHint(toString(hint));
     mLastUpdatedTime.store(std::chrono::steady_clock::now());
     if (ATRACE_ENABLED()) {
         mLastHintSent = static_cast<int>(hint);
