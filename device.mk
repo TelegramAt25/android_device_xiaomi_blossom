@@ -470,6 +470,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.com.android.mobiledata=false
 
+# Miku UI - Performance mode
+PRODUCT_SYSTEM_EXT_PROPERTIES += \
+    ro.perfmode=true \
+    ro.perf.cluster1=0
+
 # Seccomp
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/seccomp/,$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy)
