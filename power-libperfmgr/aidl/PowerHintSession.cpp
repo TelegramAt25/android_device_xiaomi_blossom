@@ -132,7 +132,7 @@ PowerHintSession::PowerHintSession(int32_t tgid, int32_t uid, const std::vector<
     }
     PowerSessionManager::getInstance()->addPowerSession(this);
     // init boost
-    setSessionUclampMin(HintManager::GetInstance()->GetAdpfProfile()->mUclampMinInit);
+    sendHint(SessionHint::CPU_LOAD_RESET);
     ALOGV("PowerHintSession created: %s", mDescriptor->toString().c_str());
 }
 
