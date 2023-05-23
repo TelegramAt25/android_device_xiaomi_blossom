@@ -1,15 +1,10 @@
-# MTK platform .rc configure
-
 import /vendor/etc/init/hw/init.connectivity.rc
 import /vendor/etc/init/hw/init.mt6765.usb.rc
 import /vendor/etc/init/hw/init.project.rc
 import /vendor/etc/init/hw/init.sensor_1_0.rc
 import /vendor/etc/init/hw/init.ago.rc
 import /vendor/etc/init/hw/init.${ro.hardware}.volte.rc
-
-# init.modem.rc must be the LAST rc file because vold.post_fs_data_done is set in it
 import /vendor/etc/init/hw/init.modem.rc
-# *** DO NOT import the new rc file after this line ***
 
 on early-init
     write /proc/bootprof "INIT:early-init"
@@ -26,49 +21,35 @@ on init
     chown root system /dev/stune/io/tasks
     chmod 0664 /dev/stune/io/tasks
 
-    # if primary storage is physical, set ro.vold.primary_physical to 1
-    # setprop ro.vold.primary_physical 1
-
-# Temp Backward compatibility
     mkdir /mnt/vendor/protect_f 0771 system system
     mkdir /mnt/vendor/protect_s 0771 system system
     mkdir /mnt/vendor/nvcfg 0771 system system
-	
-# M505 Add for sensor calibration command in 20200220 start
     mkdir /mnt/vendor/persist 0771 system system
-
-#Create nvdata mount point
     mkdir /mnt/vendor/nvdata 0771 system system
-# Create CIP mount point
     mkdir /custom
 
-# change lk_env permission
     chown root system /proc/lk_env
     chmod 0660 /proc/lk_env
 
-# increase sysctl_rmem_max and sysctl_wmem_max values to 2M
+    # increase sysctl_rmem_max and sysctl_wmem_max values to 2M
     write /proc/sys/net/core/wmem_max 8388608
     write /proc/sys/net/core/rmem_max 8388608
 
-# update cpus for cpuset cgroup
+    # update cpus for cpuset cgroup
     write /dev/cpuset/foreground/cpus 0-7
     write /dev/cpuset/foreground/boost/cpus 0-7
     write /dev/cpuset/background/cpus 0-3
     write /dev/cpuset/system-background/cpus 0-3
     write /dev/cpuset/top-app/cpus 0-7
 
-# update bg rt_runtime 100ms
+    # update bg rt_runtime 100ms
     write /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us 100000
 
 on late-init
     write /proc/bootprof "INIT:late-init"
 
-# enable rcu_expedited
+    # enable rcu_expedited
     write /sys/kernel/rcu_expedited 1
-
-# mount different fs start
-
-#lcd feature ++ start
 
 on property:odm.display_hbm=0
     write /sys/display_hbm/hbm_mode 0
@@ -90,7 +71,6 @@ on property:odm.display_cabc=2
 
 on property:odm.display_cabc=3
     write /sys/display_cabc/cabc_mode 3
-#lcd feature ++ end
 
 on charger
     write /proc/perfmgr/boost_ctrl/cpu_ctrl/boot_freq "-1 -1 -1 -1"
@@ -130,11 +110,11 @@ on charger
     write /sys/power/pm_async 0
     write /sys/power/pm_freeze_timeout 2000
 
-	chmod 0666 /sys/class/power_supply/battery/cycle_count
-	chmod 0666 /sys/class/power_supply/battery/resistance
-	chmod 0666 /sys/class/power_supply/battery/charge_full_design
-	chmod 0666 /sys/class/power_supply/battery/charge_full
-	chmod 0666 /sys/class/power_supply/battery/typec_mode
+    chmod 0666 /sys/class/power_supply/battery/cycle_count
+    chmod 0666 /sys/class/power_supply/battery/resistance
+    chmod 0666 /sys/class/power_supply/battery/charge_full_design
+    chmod 0666 /sys/class/power_supply/battery/charge_full
+    chmod 0666 /sys/class/power_supply/battery/typec_mode
 
     start fuelgauged
     start fuelgauged_nvram
@@ -160,18 +140,15 @@ on fs
     write /sys/kernel/tracing/trace_marker "E"
     write /proc/bootprof "INIT:Mount_END"
 
-	#Thermal
+    #Thermal
     mkdir /data/vendor/.tp/ 0775 system system
     mkdir /data/vendor/thermal 0771 root system
     mkdir /data/vendor/thermal/config 0771 root system
 
-# M505 Add for sensor calibration command in 20200220 start
     chown system system /mnt/vendor/persist
     chmod 0771 /mnt/vendor/persist
     restorecon_recursive /mnt/vendor/persist
-# M505 Add for sensor calibration command in 20200220 end
     
-    # It might be overwritten by AGO setting if needed
     write /dev/memcg/memory.swappiness 180
     write /dev/memcg/apps/memory.swappiness 180
     write /dev/memcg/system/memory.swappiness 180
@@ -186,20 +163,19 @@ on post-fs
     write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "2 100"
     write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "3 100"
 
-    #change permission for engineer mode
+    # change permission for engineer mode
     chown radio system /proc/freqhopping/dramc
     chown radio system /proc/freqhopping/dumpregs
     chown radio system /proc/freqhopping/freqhopping_debug
     chown radio system /proc/freqhopping/status
     chown radio system /proc/freqhopping/userdef
 
-    # Support A/B feature for emmc boot region
+    # support A/B feature for emmc boot region
     symlink /dev/block/sda /dev/block/mmcblk0boot0
     symlink /dev/block/sdb /dev/block/mmcblk0boot1
     symlink /dev/block/mmcblk0boot0 /dev/block/platform/bootdevice/by-name/preloader_a
     symlink /dev/block/mmcblk0boot1 /dev/block/platform/bootdevice/by-name/preloader_b
 
-# change owner
     chown system system /proc/bootprof
     chmod 0664 /proc/bootprof
     chown root system /proc/mtprof/cputime
@@ -242,8 +218,7 @@ on post-fs-data
     chown system system /mnt/vendor/nvcfg/fg
     chown system system /mnt/vendor/nvcfg/fg/old_fg_data
     chown system system /mnt/vendor/nvcfg/fg/car_tune_value
-	
-	# M505 Add for sensor calibration command  in 20200220 start
+
     mkdir /mnt/vendor/persist/sensor
     chown system system /mnt/vendor/persist/sensor
     chmod 0777 /mnt/vendor/persist/sensor
@@ -255,15 +230,12 @@ on post-fs-data
     chown system system /mnt/vendor/persist/sensor/sensor_history.txt
     chown system system /mnt/vendor/persist/sensor/default_cal_data.txt
     chown system system /mnt/vendor/persist/.sn.bin
-# M505 Add for sensor calibration command in 20200220 end
-# M505 Add for camera dual calibration   in 20200220 start
+
     mkdir /mnt/vendor/persist/camera
     chown system system /mnt/vendor/persist/camera
     chmod 0777 /mnt/vendor/persist/camera
     restorecon_recursive /mnt/vendor/persist/camera
-# M505 Add for camera dual calibration  in 20200220 end
 
-# M505 Add for camera dual in 20200328 start
     mkdir /data/vendor/camera 0777 system camera
     mkdir /data/vendor/camera/model 0777 system camera
     mkdir /data/vendor/camera/model/capture_model 0777 system camera
@@ -292,9 +264,7 @@ on post-fs-data
     chmod 0777 /data/vendor/camera/model/capture_model/cache_data
     chmod 0777 /data/vendor/camera/model/preview_model/mask/cache_data
     chmod 0777 /data/vendor/camera/model/preview_model/score/cache_data
-# M505 Add for camera dual in 20200328 end
 
-# M505 add for saving files of TP selftest
     mkdir /data/vendor/touchpad
     chown system system /data/vendor/touchpad
     chmod 0775 /data/vendor/touchpad
@@ -311,73 +281,66 @@ on post-fs-data
     chown system system /data/vendor/touchpad/NVT_OpenTest.csv
     chown system system /data/vendor/touchpad/NVT_ShortTest.csv
 
-    # create basic filesystem structure
-    # mkdir /mnt/vendor/nvdata 2770 root system
-    # We chown/chmod /mnt/vendor/nvdata again so because mount is run as root + defaults
     chown root system /mnt/vendor/nvdata
     chmod 0771 /mnt/vendor/nvdata
     mkdir /mnt/vendor/nvdata/media 0771 media audio
 
-    #Create cct mount point
+    # create cct mount point
     mkdir /mnt/vendor/cct
     chown root system /mnt/vendor/cct
     chmod 0771 /mnt/vendor/cct
 
-    #Create flash folder
+    # create flash folder
     mkdir /data/vendor/flash
     chown root system /data/vendor/flash
     chmod 0771 /data/vendor/flash
 
-    #Create shading mount point
+    # create shading mount point
     mkdir /data/vendor/shading
     chown root system /data/vendor/shading
     chmod 0771 /data/vendor/shading
 
-    #Create shading_otp mount point
+    # create shading_otp mount point
     mkdir /data/vendor/shading_otp
     chown root system /data/vendor/shading_otp
     chmod 0771 /data/vendor/shading_otp
 
-    #Create NDD mount point
+    # create NDD mount point
     mkdir /data/vendor/camera_dump
     chown root system /data/vendor/camera_dump
     chmod 0771 /data/vendor/camera_dump
-	copy /vendor/etc/camera/waDumpinputMainImg_3264x2448.nv21 /data/vendor/camera/waDumpinputMainImg_3264x2448.nv21
-	copy /vendor/etc/camera/waDumpinputSubImg_1600x1200.nv21 /data/vendor/camera/waDumpinputSubImg_1600x1200.nv21
-	chmod 0777 /data/vendor/camera/waDumpinputMainImg_3264x2448.nv21
-	chmod 0777 /data/vendor/camera/waDumpinputSubImg_1600x1200.nv21
-    #Create Camera Dip Debug Folder
+    copy /vendor/etc/camera/waDumpinputMainImg_3264x2448.nv21 /data/vendor/camera/waDumpinputMainImg_3264x2448.nv21
+    copy /vendor/etc/camera/waDumpinputSubImg_1600x1200.nv21 /data/vendor/camera/waDumpinputSubImg_1600x1200.nv21
+    chmod 0777 /data/vendor/camera/waDumpinputMainImg_3264x2448.nv21
+    chmod 0777 /data/vendor/camera/waDumpinputSubImg_1600x1200.nv21
+
+    # create Camera Dip Debug Folder
     mkdir /data/vendor/dipdebug
     chown root system /data/vendor/dipdebug
     chmod 0771 /data/vendor/dipdebug
     
-    #Create flicker mount point
+    # create flicker mount point
     mkdir /data/vendor/flicker
     chown root system /data/vendor/flicker
     chmod 0771 /data/vendor/flicker
 
-    # Set SELinux security contexts on upgrade or policy update.
+    # set SELinux security contexts on upgrade or policy update.
     restorecon_recursive /mnt/vendor/nvdata
 
-
-    #give system access to rfkill device node
     chmod 0660 /dev/rfkill
 
-    # create for muxd pts device node , to operate without root
     mkdir /dev/radio 0770 radio radio
 
 
-# GPS
+    # GPS
     chmod 0775 /vendor/xbin/MPED
     chmod 0660 /dev/gps_emi
 
-# Fingerprint
+    # Fingerprint
     mkdir /data/vendor/focaltech 0760 system system
     mkdir /data/vendor/fpc 0777 system system
     restorecon /data/vendor/focaltech
 
-# -----------------------
-# Add by MTK
     # SCP log
     chmod 0220 /sys/class/misc/scp/scp_mobile_log
     chown root system /sys/class/misc/scp/scp_mobile_log
@@ -396,12 +359,9 @@ on post-fs-data
     chmod 444 /etc/radvd/radvd.conf
 
     # Mali 3D GPU driver
-    #insmod /vendor/lib/modules/mali.ko
     chmod 666 /dev/mali0
-    #chown system graphics /dev/mali
 
     # Touch Panel
-    # chmod 0664 /dev/touch
     chown root diag /sys/module/tpd_setting/parameters/tpd_calmat
     chown root diag /sys/module/tpd_setting/parameters/tpd_em_debounce_time
     chown root diag /sys/module/tpd_setting/parameters/tpd_mode
@@ -417,9 +377,6 @@ on post-fs-data
 
     chmod 0666 /dev/pmem_multimedia
 
-    # watch dog kicker
-    # write /proc/wdk "0 20 30 0 1"
-
     # set ptmx group to non-root
     chown root radio /dev/ptmx
 
@@ -428,14 +385,12 @@ on post-fs-data
     chown root system /dev/alarm
 
     # M4U
-    #insmod /vendor/lib/modules/m4u.ko
     chmod 0444 /dev/m4u
-    #chown system media /dev/M4U_device
 
-    #set mlock to 64MB for netd
+    # set mlock to 64MB for netd
     setrlimit 8 67108864 67108864
 
-    #set mlock limit to infinate (for m4u operation)
+    # set mlock limit to infinate (for m4u operation)
     setrlimit 8 -1 -1
 
     # CMDQ
@@ -446,41 +401,39 @@ on post-fs-data
     chmod 0644 /dev/mdp_sync
     chown system system /dev/mdp_sync
 
-    #OFFLOAD SERVICE
+    # OFFLOAD SERVICE
     chmod 0640 /dev/offloadservice
     chown media media /dev/offloadservice
 
-    #OPEN DSP
+    # OPEN DSP
     chmod 0640 /dev/audio_ipi
     chown media media /dev/audio_ipi
 
-    #SmartPA
+    # SmartPA
     chmod 0640 /dev/audio_scp
     chown media media /dev/audio_scp
     chown audioserver audio /sys/bus/platform/devices/rt5509_param.0/prop_param
     chown audioserver audio /sys/bus/platform/devices/rt5509_param.1/prop_param
     chown audioserver audio /sys/bus/platform/devices/mt6660-param.0/prop_params
 
-    #Accdet
+    # Accdet
     chown root radio /sys/devices/platform/Accdet_Driver/driver/accdet_call_state
 
-    #Fingerprint
+    # Fingerprint
     chmod 0666 /dev/goodix_fp
 
-    #VideoCodec
-    #insmod /vendor/lib/modules/vcodec_kernel_driver.ko
+    # VideoCodec
     chmod 0666 /dev/Vcodec
     chown mediacodec system /dev/Vcodec
 
-    #MJC
-    #insmod /vendor/lib/modules/mjc_kernel_driver.ko
+    # MJC
     chmod 0660 /dev/MJC
     chown media system /dev/MJC
 
-    #kpd
+    # kpd
     chown radio radio /sys/devices/platform/mtk-kpd/driver/kpd_call_state
 
-    #Charging Battery
+    # Charging Battery
     chown radio radio /sys/devices/platform/battery/Charging_CallState
     chmod 0777 /sys/class/power_supply/battery/charging_enabled
     chown system system /sys/class/power_supply/battery/charging_enabled
@@ -489,10 +442,9 @@ on post-fs-data
     chown radio system /sys/devices/platform/mt-pmic/low_battery_protect_stop
     chown radio system /sys/devices/platform/mt-pmic/low_battery_protect_ut
 
-    #MDDB
+    # MDDB
     mkdir /data/vendor_de/meta 0770 system system
     mkdir /data/vendor_de/meta/mddb 0770 system system
-
 
     chown system /sys/devices/platform/msensor/driver/cpsopmode
     chown system /sys/devices/platform/msensor/driver/cpsreptxy
@@ -541,7 +493,7 @@ on post-fs-data
     chown system /sys/class/input/input10/wake
     chown system /sys/class/input/input10/offsets
 
-    #EM eint
+    # EM eint
     chown root diag /sys/bus/platform/drivers/eint/current_eint
 
     # Display
@@ -561,7 +513,7 @@ on post-fs-data
     chown root diag /vendor/bin/baseband_regdump
     chmod 4750 /vendor/bin/baseband_regdump
 
-    #pmu
+    # pmu
     chown root radio /sys/devices/platform/mt-pmic/pmic_access_bank0
     chown root radio /sys/devices/platform/mt-pmic/pmic_access_bank1
     chown root radio /sys/devices/platform/mt6311-user/mt6311_access
@@ -581,7 +533,7 @@ on post-fs-data
     chmod 0664 /proc/cpu_ss/cpu_ss_period
     chmod 0664 /proc/cpu_ss/cpu_ss_period_mode
 
-    #EM eint
+    # EM eint
     chown root diag /sys/bus/platform/drivers/eint/current_eint
 
     # Android SEC related device nodes
@@ -592,8 +544,6 @@ on post-fs-data
     chmod 0666 /dev/fm
     chown system system /dev/fm
 
-    # device apc settings
-
     # device info /proc interface
     chmod 0440 /dev/devmap
     chown root system /dev/devmap
@@ -601,17 +551,16 @@ on post-fs-data
     # bluetooth
     chown bluetooth bluetooth /dev/hid-keyboard
     chmod 0660 /dev/hid-keyboard
-    #Use uinput's default permission
     chown system net_bt_admin /dev/uinput
 
     # UIBC
     chown system media /dev/uibc
     chmod 0660 /dev/uibc
 
-    #TV-out
+    # TV-out
     chmod 0664 /dev/TV-out
 
-    #HDMI
+    # HDMI
     chown media system /dev/hdmitx
     chmod 0664 /dev/hdmitx
 
@@ -628,7 +577,7 @@ on post-fs-data
     # DISP
     chmod 0444 /dev/mtk_disp
 
-    #ANC SERVICE
+    # ANC SERVICE
     chmod 0640 /dev/ancservice
     chown media media /dev/ancservice
 
@@ -636,7 +585,7 @@ on post-fs-data
     chmod 0660 /dev/gz_kree
     chown system camera /dev/gz_kree
 
-    #Camera
+    # Camera
     chmod 0660 /dev/camera-sysram
     chmod 0660 /dev/camera-isp
     chmod 0660 /dev/camera-tsf
@@ -672,15 +621,15 @@ on post-fs-data
     chmod 0660 /sys/class/leds/torch-light0/brightness
     chown system system /sys/class/leds/torch-light0/brightness
 
-    #CCU
+    # CCU
     chmod 0660 /dev/ccu
     chown system camera /dev/ccu
 
-    #VOW
+    # VOW
     chmod 0640 /dev/vow
     chown media media /dev/vow
 
-    #MATV
+    # MATV
     chmod 0660 /dev/MATV
     chown system media /dev/MATV
 
@@ -703,8 +652,6 @@ on post-fs-data
     # DFRC
     chmod 0660 /dev/mtk_dfrc
     chown system graphics /dev/mtk_dfrc
-
-   #change partition permission
 
     chmod 0640 /mtd@sec_ro
     chown root system /mtd@sec_ro
@@ -756,17 +703,13 @@ on post-fs-data
 
     chmod 0666 /dev/exm0
 
-
-	#Thermal
-	mkdir /data/vendor/.tp/ 0775 system system
+    # Thermal
+    mkdir /data/vendor/.tp/ 0775 system system
 
     # power manager
     write /sys/power/pm_async 0
 
-# End of adding by MTK drivers
-# -----------------------
-
-#Creat qr_code
+    #Creat qr_code
     mkdir /data/vendor/mac_addr 0771 system system
 
 on zygote-start
@@ -827,13 +770,13 @@ on boot
     chmod 0770 /sys/power/tuxonice
     chmod 0220 /sys/power/tuxonice/do_hibernate
 
-	chown system system /sys/class/thermal/thermal_message/sconfig
+    chown system system /sys/class/thermal/thermal_message/sconfig
 
-# Smartbook Handler Framework
+    # Smartbook Handler Framework
     chown system system /sys/power/sb_state
     chmod 0660 /sys/power/sb_state
 
-# HMP CPU hotplug strategy
+    # HMP CPU hotplug strategy
     chown system system /proc/hps/num_base_perf_serv
     chmod 0660 /proc/hps/num_base_perf_serv
     chown system system /proc/hps/num_limit_power_serv
@@ -855,7 +798,7 @@ on boot
     chown system system /proc/hps/down_times
     chmod 0660 /proc/hps/down_times
 
-# PPM
+    # PPM
     chown system system /proc/ppm/mode
     chmod 0660 /proc/ppm/mode
     chown system system /proc/ppm/policy/perfserv_min_perf_idx
@@ -889,7 +832,7 @@ on boot
     chown system system /proc/ppm/policy/hica_settings/L_ONLY_to_4L_LL/loading_hold_time
     chmod 0660 /proc/ppm/policy/hica_settings/L_ONLY_to_4L_LL/loading_hold_time
 
-# cpu_loading
+    # cpu_loading
     chown system system /proc/cpu_loading/onoff
     chmod 0664 /proc/cpu_loading/onoff
     chown system system /proc/cpu_loading/overThrhld
@@ -901,7 +844,7 @@ on boot
     chown system system /proc/cpu_loading/uevent_enable
     chmod 0664 /proc/cpu_loading/uevent_enable
 
-# CPU freq
+    # CPU freq
     chown system system /proc/cpufreq/cpufreq_limited_by_hevc
     chmod 0660 /proc/cpufreq/cpufreq_limited_by_hevc
     chown system system /proc/cpufreq/cpufreq_limited_max_freq_by_user
@@ -911,7 +854,7 @@ on boot
     chown system system /proc/cpufreq/enable_hw_gov
     chmod 0660 /proc/cpufreq/enable_hw_gov
 
-# BW monitor
+    # BW monitor
     chown system system /proc/fliperfs/cg_enable
     chmod 0664 /proc/fliperfs/cg_enable
     chown system system /proc/fliperfs/cg_threshold
@@ -921,7 +864,7 @@ on boot
     chown system system /proc/fliperfs/perf
     chmod 0664 /proc/fliperfs/perf
 
-# perfmgr
+    # perfmgr
     chown system system /proc/perfmgr/smart/smart_uevent_enable
     chmod 0660 /proc/perfmgr/smart/smart_uevent_enable
     chown system system /proc/perfmgr/smart/smart_force_isolate
@@ -997,9 +940,6 @@ on boot
     chown system system /proc/perfmgr/boost_ctrl/dram_ctrl/ddr
     chmod 0660 /proc/perfmgr/boost_ctrl/eas_ctrl/dram_ctrl/ddr
 
- 
-##Netlog tool
-   #change permissions about terminal
     chown root radio /proc/net/vlan/config
     chmod 0640 /proc/net/vlan/config
     chown root radio /proc/net/ip6_tables_matches
@@ -1018,23 +958,23 @@ on boot
     chown root radio /proc/net/netfilter/nfnetlink_log
     chown root radio /proc/net/netfilter/nfnetlink_queue
 
-# WMT proc
+    # WMT proc
     chown shell system /proc/driver/wmt_dbg
     chown shell system /proc/driver/wmt_aee
 
-# define device for EMCSMDLOGGER
+    # EMCSMDLOGGER
     chown system radio /dev/ttyGS3
     chmod 0660 /dev/ttyGS3
 
-#Define device for ATCID
+    # Define device for ATCID
     chmod 660 /dev/ttyGS0
     chown system radio /dev/ttyGS0
     chmod 660 /dev/ttyGS1
     chown system radio /dev/ttyGS1
-#Power Manager
+    # Power Manager
     write /sys/power/pm_freeze_timeout 2000
 
-# Fingerprint
+    # Fingerprint
     chown system system /sys/devices/platform/11010000.spi/spi_master/spi1/spi1.0/irq
     chown system system /sys/devices/platform/11010000.spi/spi_master/spi1/spi1.0/wakeup_enable
     chown system system /sys/devices/platform/11010000.spi/spi_master/spi1/spi1.0/modalias
@@ -1073,8 +1013,8 @@ on property:vold.decrypt=trigger_shutdown_framework
     setprop sys.boot_completed 0
     setprop dev.bootcomplete 0
 
-# Define TCP buffer sizes for various networks
-#   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
+    # Define TCP buffer sizes for various networks
+    #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
     setprop net.tcp.buffersize.default 4096,87380,524288,4096,16384,524288
     setprop net.tcp.buffersize.wifi    524288,1048576,2097152,262144,524288,1048576
     setprop net.tcp.buffersize.lte     524288,1048576,2097152,262144,524288,1048576
@@ -1145,49 +1085,12 @@ service pppoe_wlan0 /vendor/bin/launchpppoe
     disabled
     oneshot
 
-
 service cmmb /system/bin/cmmbsp
     class main
     user root
     group system audio camera graphics inet net_bt net_bt_admin net_bw_acct media
     ioprio rt 4
 
-#service dpfd /vendor/bin/dpfd
-#	user root
-#	group system media
-
-#
-#  External Modme control related services
-#
-
-#
-#  Modem related services (Begin)
-#
-##Add by T.Zh for ppp daemon
-#service pppd /system/bin/pppd file /data/misc/ppp/ppp_options
-#    user root
-#    disabled
-#    oneshot
-#
-##
-#
-#  Modem related services (End)
-#
-
-#add for power-off alarm
-#service poad /vendor/bin/poad
-#    class main
-#    user system
-#    group system
-#    oneshot
-
-#service BGW /vendor/xbin/BGW
-#	user system
-#	group gps system radio
-#	class main
-
-
-# Battery info
 on property:persist.vendor.mediatek.fg.disable=1
     write /sys/devices/platform/battery_meter/FG_daemon_disable 1
     write /sys/bus/platform/devices/battery/FG_daemon_disable 1
@@ -1205,7 +1108,6 @@ on property:persist.vendor.mediatek.fg.log.enable=1
     write /sys/bus/platform/devices/battery/FG_daemon_log_level 7
     write /proc/sys/kernel/printk 8
 
-# add meta_tst for ATM
 service meta_tst /vendor/bin/meta_tst
     class main
     user system
@@ -1215,9 +1117,9 @@ service meta_tst /vendor/bin/meta_tst
     disabled
     oneshot
 
-# add custom camera app sensormode
 on property:sys.camera.sensormode.apk=1
     setprop vendor.debug.cameng.force_sensormode 1
+
 on property:sys.camera.sensormode.apk=0
     setprop vendor.debug.cameng.force_sensormode -1
 
@@ -1227,7 +1129,7 @@ on property:sys.boot_completed=1 && property:ro.boot.atm=enable
 
 on property:sys.camera.ctsverify.apk=1
     setprop vendor.camera.ctsverify.apk 5
-	
+
 on init
     symlink /dev/block/platform/bootdevice /dev/block/bootdevice
 
@@ -1237,9 +1139,6 @@ on boot
 
 # Fingerprint
 service vendor.fps_hal /vendor/bin/hw/android.hardware.biometrics.fingerprint@2.1-service
-    # "class hal" causes a race condition on some devices due to files created
-    # in /data. As a workaround, postpone startup until later in boot once
-    # /data is mounted.
     class late_start
     user system
     group system input uhid
