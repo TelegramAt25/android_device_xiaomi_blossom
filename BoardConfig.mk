@@ -142,7 +142,6 @@ ENABLE_VENDOR_RIL_SERVICE := true
 
 # Power
 TARGET_POWERHAL_AIDL_VERSION := 1
-TARGET_POWERHAL_MODE_EXT := $(DEVICE_PATH)/power/power-mode.cpp
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
