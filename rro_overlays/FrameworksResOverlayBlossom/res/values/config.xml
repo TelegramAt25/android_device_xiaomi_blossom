@@ -503,7 +503,7 @@
     <bool name="config_switch_phone_on_voice_reg_state_change">false</bool>
 
     <!-- If this is true, the screen will come on when you unplug usb/power/whatever. -->
-    <!-- <bool name="config_unplugTurnsOnScreen">true</bool> -->
+    <bool name="config_unplugTurnsOnScreen">true</bool>
 
     <!-- When true use the linux /dev/input/event subsystem to detect the switch changes
          on the headphone/microphone jack. When false use the older uevent framework. -->
