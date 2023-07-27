@@ -30,6 +30,9 @@ bluetooth.profile.pbap.server.enabled=true
 bluetooth.profile.sap.server.enabled=true
 ro.vendor.mtk.bt_sap_enable=true
 
+# Cached app compaction
+persist.device_config.activity_manager.use_compaction=true
+
 # Camera
 camera.disable_zsl_mode=1
 persist.vendor.camera3.pipeline.bufnum.base.imgo=4
