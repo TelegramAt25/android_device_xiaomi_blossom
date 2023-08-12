@@ -126,8 +126,8 @@ ro.vendor.mtk_exchange_support=1
 ro.vendor.pref_scale_enable_cfg=1
 
 # PQ
-ro.vendor.mtk_pq_color_mode=1
-ro.vendor.mtk_pq_support=2
+ro.vendor.mtk_pq_color_mode=0
+ro.vendor.mtk_pq_support=0
 
 # Radio
 persist.radio.multisim.config=dsds
