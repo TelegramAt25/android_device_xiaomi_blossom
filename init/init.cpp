@@ -64,6 +64,16 @@ void load_dalvik_properties()
     property_override("dalvik.vm.heapmaxfree", heapmaxfree);
 }
 
+void set_low_ram_config() {
+    struct sysinfo sys;
+    sysinfo(&sys);
+
+    if (sys.totalram <= 3072ull * 1024 * 1024) {
+        // Low ram
+        property_override("ro.config.art_lowmem", "true");
+    }
+}
+
 bool check_device_has_fp() {
     std::ifstream ifs("/proc/bus/input/devices");
     std::string line;
@@ -277,6 +287,7 @@ cattail_india:
 }
 
 void vendor_load_properties() {
+    set_low_ram_config();
     load_dalvik_properties();
     load_device_properties();
 }
