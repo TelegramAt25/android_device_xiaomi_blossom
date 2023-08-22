@@ -120,6 +120,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.log.tag.PKM-Monitor=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.PKM-SA=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.PKM-Service=$(VENDOR_LOG_LEVEL) \
+    persist.log.tag.PQ=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.PQ_DS=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.Phone=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.PhoneConfigurationSettings=$(VENDOR_LOG_LEVEL) \
