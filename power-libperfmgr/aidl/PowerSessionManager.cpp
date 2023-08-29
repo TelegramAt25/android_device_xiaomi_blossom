@@ -72,7 +72,7 @@ static void set_uclamp_min(int tid, int min) {
 
     int ret = sched_setattr(tid, &attr, 0);
     if (ret) {
-        if (ret == ESRCH) {
+        if (errno == ESRCH) {
             ALOGV("sched_setattr failed for thread %d, err=%d", tid, errno);
         } else {
             ALOGW("sched_setattr failed for thread %d, err=%d", tid, errno);
