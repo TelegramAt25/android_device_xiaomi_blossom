@@ -15,3 +15,9 @@ type per_boot_file, file_type, data_file_type, core_data_file_type;
 
 # eMMC
 type vendor_sysfs_mmc_host, fs_type, sysfs_type;
+
+# Latency
+type latency_device, dev_type;
+
+# PPS
+type pps_socket, file_type;
