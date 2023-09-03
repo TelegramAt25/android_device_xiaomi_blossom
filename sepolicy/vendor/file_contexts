@@ -29,3 +29,6 @@
 
 # GPS
 /dev/socket/bip_socket u:object_r:bip_socket:s0
+
+# Latency
+/dev/cpu_dma_latency                                                                                    u:object_r:latency_device:s0
