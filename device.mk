@@ -236,6 +236,10 @@ PRODUCT_PACKAGES += \
     android.hardware.power@1.2.vendor \
     android.hardware.power@1.3.vendor
 
+PRODUCT_PACKAGES += \
+    libmtkperf_client_vendor \
+    libmtkperf_client
+
 # Health
 PRODUCT_PACKAGES += \
     android.hardware.health@2.1-impl \
