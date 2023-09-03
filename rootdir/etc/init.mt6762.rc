@@ -1009,3 +1009,7 @@ service nfc_hal_service /vendor/bin/hw/android.hardware.nfc@1.2-service.sec
     class hal
     user nfc
     group nfc
+
+# initialize powerHAL when boot is completed
+on property:sys.boot_completed=1
+    setprop vendor.mediatek.powerhal.init 1
