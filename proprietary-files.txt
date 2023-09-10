@@ -291,7 +291,6 @@ vendor/bin/md_monitor
 vendor/bin/md_monitor_ctrl
 vendor/bin/netdagent
 vendor/bin/netdc
-vendor/bin/rttv
 vendor/etc/apdb/APDB_MT6765_S01__W2043
 vendor/etc/apdb/APDB_MT6765_S01__W2043_ENUM
 vendor/etc/init/em_hidl_user.rc
@@ -1006,18 +1005,9 @@ vendor/lib/libladder.so
 vendor/lib64/libaedv.so
 vendor/lib64/libladder.so
 
-# Performance
-vendor/etc/init/bootperf.rc
-
 # Configstore
 vendor/lib/libhwminijail.so
 
 # UDF (Userspace debugging framework)
 vendor/lib/libudf.so
 vendor/lib64/libudf.so
-
-# Engineer Mode
-vendor/lib/vendor.mediatek.hardware.engineermode@1.0.so
-vendor/lib/vendor.mediatek.hardware.engineermode@1.1.so
-vendor/lib/vendor.mediatek.hardware.engineermode@1.2.so
-vendor/lib/vendor.mediatek.hardware.engineermode@1.3.so
