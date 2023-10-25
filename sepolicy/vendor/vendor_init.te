@@ -11,3 +11,6 @@ allow vendor_init proc:file w_file_perms;
 allow vendor_init mtk_radio_device:lnk_file unlink;
 
 allow vendor_init proc_net:file write;
+
+allow vendor_init sysfs_leds:dir r_dir_perms;
+allow vendor_init sysfs_leds:file rw_file_perms;
