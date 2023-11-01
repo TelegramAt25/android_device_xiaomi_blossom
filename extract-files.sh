@@ -62,6 +62,10 @@ function blob_fixup() {
         vendor/lib/libMtkOmxVdecEx.so)
             "${PATCHELF}" --replace-needed "libui.so" "libui-v32.so" "$2"
             ;;
+        vendor/bin/mnld | vendor/lib*/libaalservice.so | vendor/lib*/libcam.utils.sensorprovider.so)
+            grep -q "libsensorndkbridge.so" "${2}" && \
+            "${PATCHELF}" --replace-needed "libsensorndkbridge.so" "libsensorndkbridge-hidl.so" "${2}"
+            ;;
     esac
 }
 
