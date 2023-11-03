@@ -10,9 +10,6 @@ type vendor_fingerprint_data_file, core_data_file_type, data_file_type, file_typ
 # Camera
 type persist_camera_data_file, data_file_type, file_type;
 
-# Performance
-type proc_vm_dirty, fs_type, proc_type;
-
 # per boot files
 type per_boot_file, file_type, data_file_type, core_data_file_type;
 
