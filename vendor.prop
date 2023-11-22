@@ -1,5 +1,6 @@
 # AAL
 ro.vendor.mtk_aal_support=1
+persist.vendor.sys.mtkaal.function=0
 
 # AEE
 ro.vendor.have_aeev_feature=0
