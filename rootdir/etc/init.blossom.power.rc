@@ -19,6 +19,10 @@ on init
     # update bg rt_runtime 100ms
     write /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us 100000
 
+    # boot time fs tune
+    write /sys/block/mmcblk0/queue/iostats 0
+    write /sys/block/mmcblk0/queue/nr_requests 256
+
 on fs
     write /dev/memcg/memory.swappiness 180
     write /dev/memcg/apps/memory.swappiness 180
@@ -33,6 +37,10 @@ on post-fs
     write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "3 100"
 
 on property:sys.boot_completed=1
+    # We should adjust the setting upon boot_complete
+    write /sys/block/mmcblk0/queue/iostats 1
+    write /sys/block/mmcblk0/queue/nr_requests 128
+
     write /dev/stune/schedtune.boost 0
     write /dev/stune/foreground/schedtune.boost 0
     write /dev/stune/background/schedtune.boost 0
