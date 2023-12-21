@@ -73,6 +73,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.log.tag.MAPI-SocketListener=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.MAPI-TranslatorManager=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.MDM-Subscriber=$(VENDOR_LOG_LEVEL) \
+    persist.log.tag.MDP=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.MTKSST=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.MtkAdnRecord=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.MtkCsimFH=$(VENDOR_LOG_LEVEL) \
