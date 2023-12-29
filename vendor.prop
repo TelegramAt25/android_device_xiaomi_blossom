@@ -201,6 +201,7 @@ telephony.active_modems.max_count=2
 telephony.lteOnCdmaDevice=1
 
 # SurfaceFlinger
+ro.surface_flinger.clear_slots_with_set_layer_buffer=true
 ro.surface_flinger.primary_display_orientation=ORIENTATION_0
 ro.surface_flinger.force_hwc_copy_for_virtual_displays=true
 ro.surface_flinger.uclamp.min=130 
