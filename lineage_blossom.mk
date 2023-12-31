@@ -8,12 +8,13 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/non_ab_device.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/go_defaults.mk)
 
 # Inherit from device makefile.
 $(call inherit-product, device/xiaomi/blossom/device.mk)
 
 # Inherit some common LineageOS stuff.
-$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
+$(call inherit-product, vendor/lineage/config/common_full_go_phone.mk)
 
 PRODUCT_NAME := lineage_blossom
 PRODUCT_DEVICE := blossom
