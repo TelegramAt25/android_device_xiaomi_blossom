@@ -409,6 +409,10 @@ PRODUCT_PACKAGES += \
     libshim_showlogo \
     libshim_vtservice
 
+# USB
+PRODUCT_PACKAGES += \
+    android.hardware.usb-service.mediatek-legacy
+
 # VNDK
 PRODUCT_PACKAGES += \
     libui-v32
