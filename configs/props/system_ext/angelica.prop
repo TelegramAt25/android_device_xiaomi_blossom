@@ -1,0 +1,8 @@
+#
+# angelica specific properties
+#
+
+ro.product.system_ext.device=angelica
+ro.product.system_ext.marketname=Redmi 9C
+ro.product.system_ext.model=M2006C3MG
+ro.product.system_ext.fingerprint=Redmi/angelica_global/angelica:11/RP1A.200720.011/V12.5.4.0.RCRMIXM:user/release-keys

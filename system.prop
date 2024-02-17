@@ -70,3 +70,6 @@ wifi.tethering.interface=ap0
 
 # Zygote
 ro.zygote.preload.enable=0
+
+# Device specific properties
+import /system/etc/properties/${ro.boot.hwname}.prop

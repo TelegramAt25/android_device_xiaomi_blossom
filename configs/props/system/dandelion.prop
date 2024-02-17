@@ -1,0 +1,16 @@
+#
+# dandelion specific properties
+#
+
+ro.build.product=dandelion
+ro.build.fingerprint=Redmi/dandelion_in/dandelion:11/RP1A.200720.011/V12.5.9.0.RCDINXM:user/release-keys
+ro.build.description=dandelion-user 11 RP1A.200720.011 V12.5.9.0.RCDINXM release-keys
+
+ro.product.device=dandelion
+ro.product.marketname=Redmi 9A
+ro.product.model=M2006C3LI
+
+ro.product.system.device=dandelion
+ro.product.system.marketname=Redmi 9A
+ro.product.system.model=M2006C3LI
+ro.product.system.fingerprint=Redmi/dandelion_in/dandelion:11/RP1A.200720.011/V12.5.9.0.RCDINXM:user/release-keys

@@ -1,0 +1,18 @@
+#
+# angelicain specific properties
+#
+
+ro.build.product=angelicain
+ro.build.fingerprint=POCO/angelicain_in/angelicain:11/RP1A.200720.011/V12.5.3.0.RCRINRF:user/release-keys
+ro.build.description=angelicain-user 11 RP1A.200720.011 V12.5.3.0.RCRINRF release-keys
+
+ro.product.device=angelicain
+ro.product.brand=POCO
+ro.product.marketname=POCO C31
+ro.product.model=M211033MI
+
+ro.product.system.device=angelicain
+ro.product.system.brand=POCO
+ro.product.system.marketname=POCO C31
+ro.product.system.model=M211033MI
+ro.product.system.fingerprint=POCO/angelicain_in/angelicain:11/RP1A.200720.011/V12.5.3.0.RCRINRF:user/release-keys

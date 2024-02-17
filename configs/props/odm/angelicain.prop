@@ -1,0 +1,9 @@
+#
+# angelicain specific properties
+#
+
+ro.product.odm.device=angelicain
+ro.product.odm.brand=POCO
+ro.product.odm.marketname=POCO C31
+ro.product.odm.model=M211033MI
+ro.product.odm.fingerprint=POCO/angelicain_in/angelicain:11/RP1A.200720.011/V12.5.3.0.RCRINRF:user/release-keys

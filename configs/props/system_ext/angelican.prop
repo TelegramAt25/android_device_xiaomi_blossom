@@ -1,0 +1,8 @@
+#
+# angelican specific properties
+#
+
+ro.product.system_ext.device=angelican
+ro.product.system_ext.marketname=Redmi 9C NFC
+ro.product.system_ext.model=M2006C3MNG
+ro.product.system_ext.fingerprint=Redmi/angelican_global/angelican:11/RP1A.200720.011/V12.5.3.0.RCSMIXM:user/release-keys

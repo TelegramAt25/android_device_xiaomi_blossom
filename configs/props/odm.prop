@@ -1,0 +1,2 @@
+# Device specific properties
+import /odm/etc/properties/${ro.boot.hwname}.prop

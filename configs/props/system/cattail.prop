@@ -1,0 +1,16 @@
+#
+# cattail specific properties
+#
+
+ro.build.product=cattail
+ro.build.fingerprint=Redmi/cattail/cattail:11/RP1A.200720.011/V12.5.6.0.RCTINXM:user/release-keys
+ro.build.description=cattail-user 11 RP1A.200720.011 V12.5.6.0.RCTINXM release-keys
+
+ro.product.device=cattail
+ro.product.marketname=Redmi 9 Activ
+ro.product.model=M2006C3MII
+
+ro.product.system.device=cattail
+ro.product.system.marketname=Redmi 9 Activ
+ro.product.system.model=M2006C3MII
+ro.product.system.fingerprint=Redmi/cattail/cattail:11/RP1A.200720.011/V12.5.6.0.RCTINXM:user/release-keys

@@ -1,0 +1,2 @@
+# Device specific properties
+import /system_ext/etc/properties/${ro.boot.hwname}.prop

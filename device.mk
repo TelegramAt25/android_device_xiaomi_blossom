@@ -197,6 +197,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/permissions/privapp-permissions-com.mediatek.ims.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/privapp-permissions-com.mediatek.ims.xml
 
+# Device properties
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/props/odm,$(TARGET_COPY_OUT_ODM)/etc/properties) \
+    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/props/product,$(TARGET_COPY_OUT_PRODUCT)/etc/properties) \
+    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/props/system,$(TARGET_COPY_OUT_SYSTEM)/etc/properties) \
+    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/props/system_ext,$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/properties) \
+    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/props/vendor,$(TARGET_COPY_OUT_VENDOR)/etc/properties)
+
 # VNDK
 PRODUCT_COPY_FILES += \
     prebuilts/vndk/v32/arm64/arch-arm-armv8-a/shared/vndk-sp/libhidlbase.so:$(TARGET_COPY_OUT_VENDOR)/lib/libhidlbase-v32.so \

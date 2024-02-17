@@ -50,6 +50,10 @@ BOARD_HAVE_MTK_FM := true
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
 
+TARGET_ODM_PROP += $(DEVICE_PATH)/configs/props/odm.prop
+TARGET_PRODUCT_PROP += $(DEVICE_PATH)/configs/props/product.prop
+TARGET_SYSTEM_EXT_PROP += $(DEVICE_PATH)/configs/props/system_ext.prop
+
 # Init
 TARGET_INIT_VENDOR_LIB := //$(DEVICE_PATH):libinit_blossom
 TARGET_RECOVERY_DEVICE_MODULES := libinit_blossom

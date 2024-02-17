@@ -252,3 +252,6 @@ ro.zram.periodic_wb_delay_hours=2
 
 # Zygote
 zygote.critical_window.minute=10
+
+# Device specific properties
+import /vendor/etc/properties/${ro.boot.hwname}.prop
