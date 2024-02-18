@@ -90,6 +90,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.log.tag.MtkImsManager=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.MtkImsService=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.MtkIsimFH=$(VENDOR_LOG_LEVEL) \
+    persist.log.tag.MtkOmxVdecExV4L2=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.MtkPhoneNotifr=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.MtkPhoneNumberUtils=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.MtkPhoneSwitcher=$(VENDOR_LOG_LEVEL) \
