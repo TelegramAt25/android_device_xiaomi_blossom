@@ -1,7 +1,9 @@
 ifeq (eng,$(TARGET_BUILD_VARIANT))
 VENDOR_LOG_LEVEL=I
+WIDE_LOG_LEVEL=D
 else
 VENDOR_LOG_LEVEL=S
+WIDE_LOG_LEVEL=I
 endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -279,3 +281,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.log.tag.MAPI-CommandProcessor=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.RpAudioControl=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.gralloc4=$(VENDOR_LOG_LEVEL)
+
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.log.tag=$(WIDE_LOG_LEVEL)
