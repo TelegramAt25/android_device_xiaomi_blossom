@@ -15,6 +15,9 @@ $(call inherit-product, device/xiaomi/blossom/device.mk)
 # Inherit some common Miku UI stuff.
 $(call inherit-product, vendor/miku/build/product/miku_product.mk)
 
+# Maintainer
+MIKU_MASTER := fukiame
+
 PRODUCT_NAME := miku_blossom
 PRODUCT_DEVICE := blossom
 PRODUCT_MANUFACTURER := Xiaomi
