@@ -277,9 +277,10 @@ PRODUCT_COPY_FILES += \
 
 # Thermal
 PRODUCT_PACKAGES += \
-    android.hardware.thermal@1.0.vendor \
-    android.hardware.thermal@2.0.vendor \
-    android.hardware.thermal@1.0-impl
+    android.hardware.thermal-service.mediatek
+
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/thermal,$(TARGET_COPY_OUT_VENDOR)/etc)
 
 # Power
 PRODUCT_PACKAGES += \
