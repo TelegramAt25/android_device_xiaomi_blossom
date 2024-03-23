@@ -27,6 +27,9 @@ ro.vendor.df.effect.conflict=1
 sys.paper_mode_max_level=255
 vendor.display.enable_default_color_mode=0
 
+# Filesystem
+fs_mgr.overlayfs.prefer_cache_backing_storage=true
+
 # GPU
 ro.opengles.version=196610
 
