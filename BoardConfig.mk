@@ -190,6 +190,9 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(DEVICE_PATH)/framework_compatibi
 # VNDK
 BOARD_VNDK_VERSION := current
 
+# Wi-Fi
+WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
+
 # SELinux
 SELINUX_IGNORE_NEVERALLOWS := true
 include device/mediatek/sepolicy_vndr/SEPolicy.mk
