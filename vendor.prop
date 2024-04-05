@@ -81,6 +81,9 @@ persist.vendor.connsys.fm_chipid=mt6631
 # FRP
 ro.frp.pst=/dev/block/platform/bootdevice/by-name/frp
 
+# FUSE passthrough
+persist.sys.fuse.passthrough.enable=true
+
 # Gatekeeper
 ro.hardware.gatekeeper=beanpod
 
