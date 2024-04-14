@@ -12,11 +12,13 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/non_ab_device.mk)
 # Inherit from device makefile.
 $(call inherit-product, device/xiaomi/blossom/device.mk)
 
-# Inherit some common Miku UI stuff.
-$(call inherit-product, vendor/miku/build/product/miku_product.mk)
+# Inherit some common YAAP stuff.
+$(call inherit-product, vendor/yaap/config/common_full_phone.mk)
 
 # include private signing keys
 -include vendor/niigo-priv/keys/keys.mk
+
+scr_resolution := 720
 
 PRODUCT_NAME := miku_blossom
 PRODUCT_DEVICE := blossom
