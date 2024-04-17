@@ -248,12 +248,8 @@ vendor/bin/wmt_launcher
 vendor/bin/wmt_loader
 vendor/etc/init/init.wlan_drv.rc
 vendor/etc/init/init.wmt_drv.rc
-vendor/etc/vintf/manifest/wpa_supplicant.xml
 -vendor/lib64/libwifi-hal-mtk.so
 vendor/lib64/libwifitest.so
-vendor/lib64/vendor.mediatek.hardware.wifi.supplicant@2.0.so
-vendor/lib64/vendor.mediatek.hardware.wifi.supplicant@2.1.so
-vendor/lib64/vendor.mediatek.hardware.wifi.supplicant@2.2.so
 
 # Radio
 vendor/bin/hw/mtkfusionrild
