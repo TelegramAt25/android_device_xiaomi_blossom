@@ -1,5 +1,3 @@
-# MTK project .rc configure
-
 on early-init
     exec_background u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules helloworld.ko mt6357-accdet.ko trace_mmstat.ko
 
@@ -8,14 +6,14 @@ on init
     mkdir /storage/usbotg 0700 root root
 
 on post-fs-data
-	mkdir /data/vendor/thermal 0771 root system
+    mkdir /data/vendor/thermal 0771 root system
     mkdir /data/vendor/thermal/config 0771 root system
-    #thermal
+    # thermal
     chown system system /sys/class/thermal/thermal_message/sconfig
     chmod 0666 /sys/module/migt/parameters/mi_viptask
     restorecon /sys/module/migt/parameters/mi_viptask
 
-#Camera
+    #Camera
     chmod 0660 /dev/MAINAF
     chown system camera /dev/MAINAF
 
@@ -37,23 +35,12 @@ on post-fs-data
     chmod 0660 /dev/BU64745GWZAF
     chown system camera /dev/BU64745GWZAF
 
-#SMB
+    #SMB
     chown system system /proc/smb/ScreenComm
     chmod 0660 /proc/smb/ScreenComm
 
     chmod 0660 /dev/spm
     chown system system /dev/spm
-
-
-on init
-    # Refer to http://source.android.com/devices/tech/storage/index.html
-    # It said, "Starting in Android 4.4, multiple external storage devices are surfaced to developers through
-    #           Context.getExternalFilesDirs(), Context.getExternalCacheDirs(), and Context.getObbDirs().
-    #           External storage devices surfaced through these APIs must be a semi-permanent part of the device (such as an SD card slot in a battery compartment).
-    #           Developers expect data stored in these locations to be available over long periods of time."
-    # Therefore, if the target doesn't support sd hot-plugging (Ex: the SD card slot in a battery compartment), we need to export SECONDARY_STORAGE in 'boot' section
-    #
-    # export SECONDARY_STORAGE /storage/sdcard1
 
 service fuse_usbotg /system/bin/sdcard -u 1023 -g 1023 -w 1023 -d /mnt/media_rw/usbotg /storage/usbotg
     class late_start
