@@ -98,6 +98,7 @@ persist.vendor.mtk_wfc_support=1
 persist.vendor.vilte_support=0
 persist.vendor.viwifi_support=1
 persist.vendor.volte_support=1
+persist.dbg.ims_volte_enable=1
 
 # Keymaster
 ro.hardware.kmsetkey=beanpod
