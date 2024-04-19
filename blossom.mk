@@ -12,13 +12,13 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/non_ab_device.mk)
 # Inherit from device makefile.
 $(call inherit-product, device/xiaomi/blossom/device.mk)
 
-# Inherit some common BlissRoms stuff.
-$(call inherit-product, vendor/bliss/config/common_full_phone.mk)
+# Inherit some common LeafOS stuff.
+$(call inherit-product, vendor/leaf/config/common_full_phone.mk)
 
 # Include private signing keys
 -include vendor/extra/product.mk
 
-PRODUCT_NAME := bliss_blossom
+PRODUCT_NAME := blossom
 PRODUCT_DEVICE := blossom
 PRODUCT_MANUFACTURER := Xiaomi
 PRODUCT_BRAND := Redmi
