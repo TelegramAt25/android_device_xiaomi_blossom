@@ -81,10 +81,6 @@ vendor/lib/vendor.mediatek.hardware.mtkpower@1.1.so
 vendor/lib/vendor.mediatek.hardware.power@1.1.so
 vendor/lib/vendor.mediatek.hardware.power@2.0.so
 
-# Power (Hardware)
-vendor/bin/hw/power_native_test_v_1_0
-vendor/bin/hw/power_native_test_v_1_1
-
 # IMS
 vendor/bin/hw/vtservice_hidl
 vendor/bin/mtk_pkm_service
@@ -292,21 +288,15 @@ vendor/bin/charon
 vendor/bin/dmc_core
 vendor/bin/em_hidl
 vendor/bin/epdg_wod
-vendor/bin/getgameserver
 vendor/bin/gsm0710muxd
 vendor/bin/md_monitor
 vendor/bin/md_monitor_ctrl
-vendor/bin/mrdump_tool
 vendor/bin/netdagent
 vendor/bin/netdc
 vendor/bin/rttv
-vendor/bin/starter
-vendor/bin/stroke
-vendor/bin/testgameserver
 vendor/etc/apdb/APDB_MT6765_S01__W2043
 vendor/etc/apdb/APDB_MT6765_S01__W2043_ENUM
 vendor/etc/init/em_hidl_user.rc
-vendor/etc/init/getgameserver.rc
 vendor/etc/init/gsm0710muxd.rc
 vendor/etc/init/init.cccifsd.rc
 vendor/etc/init/init.cccimdinit.rc
@@ -638,7 +628,6 @@ vendor/lib/vendor.mediatek.hardware.audio@6.1.so
 
 # Media
 vendor/bin/hw/vendor.mediatek.hardware.mtkcodecservice@1.1-service
-vendor/bin/jpegtool
 vendor/etc/init/vendor.mediatek.hardware.mtkcodecservice@1.1-service.rc
 vendor/etc/mtk_omx_core.cfg
 vendor/lib/hw/vendor.mediatek.hardware.mtkcodecservice@1.1-impl.so
@@ -853,7 +842,6 @@ vendor/lib64/libwvhidl.so
 
 # Camera
 vendor/bin/hw/camerahalserver
-vendor/bin/cal_tool
 vendor/bin/lib3a.ccu.dm
 vendor/bin/lib3a.ccu.pm
 vendor/bin/libccu_gc_gc02m10_ii.dm
