@@ -15,7 +15,7 @@
      limitations under the License.
 -->
 <permissions>
-    <privapp-permissions package="co.potatoproject.dt2w.MT6768">
+    <privapp-permissions package="co.potatoproject.dt2w.blossom">
         <permission name="android.permission.WRITE_SECURE_SETTINGS"/>
     </privapp-permissions>
 </permissions>

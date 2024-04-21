@@ -120,7 +120,7 @@ PRODUCT_COPY_FILES += \
 
 # DT2W
 PRODUCT_PACKAGES += \
-    DT2W-Service-MT6768
+    DT2W-Service-blossom
 
 
 PRODUCT_COPY_FILES += \

@@ -15,7 +15,7 @@
  */
 
 android_app {
-    name: "DT2W-Service-MT6768",
+    name: "DT2W-Service-blossom",
 
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
@@ -29,13 +29,13 @@ android_app {
     },
 
     required: [
-        "privapp-permissions_co.potatoproject.dt2w.MT6768"
+        "privapp-permissions_co.potatoproject.dt2w.blossom"
     ]
 }
 
 prebuilt_etc {
-    name: "privapp-permissions_co.potatoproject.dt2w.MT6768",
+    name: "privapp-permissions_co.potatoproject.dt2w.blossom",
     sub_dir: "permissions",
-    src: "privapp-permissions_co.potatoproject.dt2w.MT6768.xml",
+    src: "privapp-permissions_co.potatoproject.dt2w.blossom.xml",
     filename_from_src: true,
 }

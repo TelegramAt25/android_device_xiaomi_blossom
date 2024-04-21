@@ -1,4 +1,4 @@
-package co.potatoproject.dt2w.MT6768;
+package co.potatoproject.dt2w.blossom;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.os.UserHandle;
 
 public class OnBootCompleteReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
-        Intent sIntent = new Intent(context, DT2WServiceMT6768.class);
+        Intent sIntent = new Intent(context, DT2WServiceBlossom.class);
         context.startServiceAsUser(sIntent, UserHandle.CURRENT);
     }
 }
