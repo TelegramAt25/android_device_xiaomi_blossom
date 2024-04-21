@@ -5,7 +5,7 @@ type sysfs_mtk_gpufreq, fs_type, sysfs_type;
 type vendor_firmware_file, vendor_file_type, file_type;
 
 # Fingerprint
-type vendor_fingerprint_data_file, core_data_file_type, data_file_type, file_type;
+type vendor_fingerprint_data_file, data_file_type, file_type;
 
 # Camera
 type persist_camera_data_file, data_file_type, file_type;
