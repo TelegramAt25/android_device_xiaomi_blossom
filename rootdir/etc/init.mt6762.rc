@@ -1260,9 +1260,3 @@ service nfc_hal_service /vendor/bin/hw/android.hardware.nfc@1.2-service.sec
     class hal
     user nfc
     group nfc
-
-on property:persist.sys.blossom.dt2w=0
-    exec -- /vendor/bin/dt2w_event 4
-
-on property:persist.sys.blossom.dt2w=1
-    exec -- /vendor/bin/dt2w_event 5

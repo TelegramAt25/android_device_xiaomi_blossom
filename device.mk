@@ -118,14 +118,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,system/ca-certificates/files/,$(TARGET_COPY_OUT_VENDOR)/etc/security/cacerts)
 
-# DT2W
-PRODUCT_PACKAGES += \
-    DT2W-Service-blossom
-
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/dt2w/dt2w_event:$(TARGET_COPY_OUT_VENDOR)/bin/dt2w_event
-
 # PowerOffAlarm
 PRODUCT_PACKAGES += \
     PowerOffAlarm

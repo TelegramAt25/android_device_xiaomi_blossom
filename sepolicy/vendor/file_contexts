@@ -29,6 +29,3 @@
 
 # GPS
 /dev/socket/bip_socket u:object_r:bip_socket:s0
-
-# DT2W Script
-/vendor/bin/dt2w_event  u:object_r:dt2w_event_exec:s0
