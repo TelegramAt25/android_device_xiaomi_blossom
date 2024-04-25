@@ -514,11 +514,6 @@
          phone object irrespective of this config -->
     <bool name="config_switch_phone_on_voice_reg_state_change">false</bool>
 
-    <!-- Enables or disables fading edges when marquee is enabled in TextView.
-         Off by default, since the framebuffer readback used to implement the
-         fading edges is prohibitively expensive on most GPUs. -->
-    <bool name="config_ui_enableFadingMarquee">true</bool>
-
     <!-- If this is true, the screen will come on when you unplug usb/power/whatever. -->
     <!-- <bool name="config_unplugTurnsOnScreen">true</bool> -->
 
