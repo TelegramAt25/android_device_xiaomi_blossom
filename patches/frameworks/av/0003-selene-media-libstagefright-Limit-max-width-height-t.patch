@@ -1,0 +1,73 @@
+From 49869b720b4a971768c2e52a9ced0ff22db1722e Mon Sep 17 00:00:00 2001
+From: 7Soldier <reg.fm4@gmail.com>
+Date: Thu, 7 Jul 2022 15:17:53 +0300
+Subject: [PATCH 3/3] selene: media: libstagefright: Limit max width/height to
+ display size
+
+Adapt width/height sizes to Redmi 10 display (2400x1080),
+and limit that in code.
+
+Reference: https://github.com/mtk-watch/android_frameworks_av/commit/3181400697637f0d9c7619efc13d1400ec9b38f1
+
+Co-authored-by: TTTT555 <albukerko@gmail.com>
+Co-authored-by: Iscle <albertiscle9@gmail.com>
+Change-Id: Ia57c44a9b1d136b2bde2d3a722ffd0cef797cd3c
+Signed-off-by: 7Soldier <reg.fm4@gmail.com>
+---
+ .../libstagefright/data/media_codecs_google_video_le.xml  | 6 +++---
+ media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp | 8 ++++++++
+ 2 files changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/media/libstagefright/data/media_codecs_google_video_le.xml b/media/libstagefright/data/media_codecs_google_video_le.xml
+index d7c65706d6..0e029c5fb5 100644
+--- a/media/libstagefright/data/media_codecs_google_video_le.xml
++++ b/media/libstagefright/data/media_codecs_google_video_le.xml
+@@ -35,7 +35,7 @@
+         </MediaCodec>
+         <MediaCodec name="OMX.google.h264.decoder" type="video/avc">
+             <!-- profiles and levels:  ProfileHigh : Level51 -->
+-            <Limit name="size" min="2x2" max="2048x2048" />
++            <Limit name="size" min="2x2" max="2400x1080" />
+             <Limit name="alignment" value="2x2" />
+             <Limit name="block-size" value="16x16" />
+             <Limit name="block-count" range="1-16384" />
+@@ -45,7 +45,7 @@
+         </MediaCodec>
+         <MediaCodec name="OMX.google.hevc.decoder" type="video/hevc">
+             <!-- profiles and levels:  ProfileMain : MainTierLevel51 -->
+-            <Limit name="size" min="2x2" max="2048x2048" />
++            <Limit name="size" min="2x2" max="2400x1080" />
+             <Limit name="alignment" value="2x2" />
+             <Limit name="block-size" value="8x8" />
+             <Limit name="block-count" range="1-65536" />
+@@ -54,7 +54,7 @@
+             <Feature name="adaptive-playback" />
+         </MediaCodec>
+         <MediaCodec name="OMX.google.vp8.decoder" type="video/x-vnd.on2.vp8">
+-            <Limit name="size" min="2x2" max="2048x2048" />
++            <Limit name="size" min="2x2" max="2400x1080" />
+             <Limit name="alignment" value="2x2" />
+             <Limit name="block-size" value="16x16" />
+             <Limit name="block-count" range="1-8192" /> <!-- max 2048x1024 -->
+diff --git a/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp b/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp
+index e853da9763..06b23ad567 100644
+--- a/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp
++++ b/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp
+@@ -507,6 +507,14 @@ OMX_ERRORTYPE SoftVideoDecoderOMXComponent::internalSetParameter(
+                 ALOGE("b/22885421");
+                 return OMX_ErrorBadParameter;
+             }
++            // 20150126 Marcus Huang: Fix ALPS01919422; limits the max width/height
++            //@Vdec_drv_if_public.c
++            //  DEC_MAX_WIDTH = 2400;
++            //  DEC_MAX_HEIGHT = 1080;
++            if ((newWidth * newHeight) > (2400 * 1080)) {
++                ALOGE("frame size is not supported (%d x %d)", newWidth, newHeight);
++                return OMX_ErrorUnsupportedSetting;
++            }
+             if (newWidth != oldWidth || newHeight != oldHeight) {
+                 bool outputPort = (newParams->nPortIndex == kOutputPortIndex);
+                 if (outputPort) {
+-- 
+2.34.1
+
