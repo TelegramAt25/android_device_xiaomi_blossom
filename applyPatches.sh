@@ -11,3 +11,5 @@ while read -r pdir; do
   git am "$patchesDir/$pdir"/*.patch
   cd "$maindir"
 done < "$maindir/TMP_PATCHES"
+
+exit 0
