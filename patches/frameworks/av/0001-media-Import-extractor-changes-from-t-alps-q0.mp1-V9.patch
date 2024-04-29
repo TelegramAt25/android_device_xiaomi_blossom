@@ -1,0 +1,285 @@
+From a36bbe02a5d784780c2efcfa7de9de0e7b31b3d0 Mon Sep 17 00:00:00 2001
+From: 7Soldier <reg.fm4@gmail.com>
+Date: Wed, 6 Jul 2022 03:41:34 +0300
+Subject: [PATCH 1/3]  media: Import extractor changes from
+ t-alps-q0.mp1-V9.122.1
+
+These changes improves media extractors work on MediaTek devices
+Reference: https://github.com/mtk-watch/android_frameworks_av/commit/3181400697637f0d9c7619efc13d1400ec9b38f1
+
+Co-authored-by: TTTT555 <albukerko@gmail.com>
+Co-authored-by: Iscle <albertiscle9@gmail.com>
+Signed-off-by: 7Soldier <reg.fm4@gmail.com>
+---
+ include/media/MediaExtractorPluginHelper.h    |  9 ++-
+ media/extractors/ogg/OggExtractor.cpp         |  3 +-
+ .../nuplayer/GenericSource.cpp                | 65 +++++++++++++++++++
+ .../nuplayer/NuPlayerDecoder.cpp              | 22 +++++++
+ .../nuplayer/include/nuplayer/GenericSource.h | 17 +++++
+ .../include/nuplayer/NuPlayerSource.h         |  5 ++
+ services/mediaextractor/mediaextractor.rc     |  2 +-
+ 7 files changed, 120 insertions(+), 3 deletions(-)
+
+diff --git a/include/media/MediaExtractorPluginHelper.h b/include/media/MediaExtractorPluginHelper.h
+index b86f177..0478327 100644
+--- a/include/media/MediaExtractorPluginHelper.h
++++ b/include/media/MediaExtractorPluginHelper.h
+@@ -165,6 +165,7 @@ public:
+     virtual media_status_t read(
+             MediaBufferHelper **buffer, const ReadOptions *options = NULL) = 0;
+     virtual bool supportsNonBlockingRead() { return false; }
++virtual const char * extractorName() { return ""; }
+ protected:
+     friend CMediaTrack *wrap(MediaTrackHelper *track);
+     MediaBufferGroupHelper *mBufferGroup;
+@@ -177,7 +178,13 @@ inline CMediaTrack *wrap(MediaTrackHelper *track) {
+     CMediaTrack *wrapper = (CMediaTrack*) malloc(sizeof(CMediaTrack));
+     wrapper->data = track;
+     wrapper->free = [](void *data) -> void {
+-        delete (MediaTrackHelper*)(data);
++        // delete MtkAVISource in ~MtkAVIExtractor
++        if (strcmp(((MediaTrackHelper*)data)->extractorName(), "MtkAVIExtractor")) {
++            delete (MediaTrackHelper*)(data);
++        } else {
++            //  stop MTKAVISource to release buffer (for mp3 clone buffer)
++            ((MediaTrackHelper*)data)->stop();
++        }
+     };
+     wrapper->start = [](void *data, CMediaBufferGroup *bufferGroup) -> media_status_t {
+         if (((MediaTrackHelper*)data)->mBufferGroup) {
+diff --git a/media/extractors/ogg/OggExtractor.cpp b/media/extractors/ogg/OggExtractor.cpp
+index eb2246d..8d3dfcf 100644
+--- a/media/extractors/ogg/OggExtractor.cpp
++++ b/media/extractors/ogg/OggExtractor.cpp
+@@ -968,6 +968,7 @@ void MyOggExtractor::buildTableOfContents() {
+     Page page;
+     ssize_t pageSize;
+     while ((pageSize = readPage(offset, &page)) > 0) {
++        if ((page.mFlags & 1) == 0) {
+         mTableOfContents.push();
+ 
+         TOCEntry &entry =
+@@ -975,7 +976,7 @@ void MyOggExtractor::buildTableOfContents() {
+ 
+         entry.mPageOffset = offset;
+         entry.mTimeUs = getTimeUsOfGranule(page.mGranulePosition);
+-
++        }
+         offset += (size_t)pageSize;
+     }
+ 
+diff --git a/media/libmediaplayerservice/nuplayer/GenericSource.cpp b/media/libmediaplayerservice/nuplayer/GenericSource.cpp
+index 36e4d4a..717bcf4 100644
+--- a/media/libmediaplayerservice/nuplayer/GenericSource.cpp
++++ b/media/libmediaplayerservice/nuplayer/GenericSource.cpp
+@@ -20,6 +20,7 @@
+ #include "GenericSource.h"
+ #include "NuPlayerDrm.h"
+ 
++#include <binder/IPCThreadState.h>
+ #include <binder/IServiceManager.h>
+ #include <cutils/properties.h>
+ #include <datasource/PlayerServiceDataSourceFactory.h>
+@@ -84,6 +85,9 @@ NuPlayer::GenericSource::GenericSource(
+     mBufferingSettings.mInitialMarkMs = kInitialMarkMs;
+     mBufferingSettings.mResumePlaybackMarkMs = kResumePlaybackMarkMs;
+     resetDataSource();
++//mtkadd+
++    init();
++//mtkadd-
+ }
+ 
+ void NuPlayer::GenericSource::resetDataSource() {
+@@ -201,6 +205,23 @@ status_t NuPlayer::GenericSource::initFromDataSource() {
+         }
+     }
+ 
++//mtkadd+
++    //for mp3 low power
++    mExtractor = extractor;
++    const char *extractorName = mExtractor->name();
++    if (extractorName != NULL
++            && !strcasecmp(extractorName, "MtkMP3Extractor")) {
++        mIsMtkMp3 = true;
++    } else if (extractorName != NULL
++            && !strcasecmp(extractorName, "CAFExtractor")) {
++        mIsMtkAlac = true;
++    }
++    if (mIsMtkMp3 && mPID < 0xffffffff) {
++        ALOGV("initFromDataSource, set mPID:%d to MtkMP3Extractor!",mPID);
++        sp<MetaData> mp3Meta = extractor->getTrackMetaData(0, mPID);
++    }
++//mtkadd-
++
+     int32_t totalBitrate = 0;
+ 
+     mMimes.clear();
+@@ -342,6 +363,10 @@ bool NuPlayer::GenericSource::isStreaming() const {
+ 
+ NuPlayer::GenericSource::~GenericSource() {
+     ALOGV("~GenericSource");
++    //mtkadd for stop toc thread before source release.
++    if ((mIsMtkMp3 || mIsMtkAlac) && mAudioTrack.mSource != NULL) {
++        mAudioTrack.mSource->stop();
++    }
+     if (mLooper != NULL) {
+         mLooper->unregisterHandler(id());
+         mLooper->stop();
+@@ -1334,6 +1359,13 @@ void NuPlayer::GenericSource::readBuffer(
+         case MEDIA_TRACK_TYPE_AUDIO:
+             track = &mAudioTrack;
+             maxBuffers = 64;
++// mtkadd+
++            // add for TS, resolve 4k video play not smooth, too many buffers will cause parse audio too long time.
++            // it will block video parse, as TS video and audio is interleave.
++            if (isTS()) {
++                maxBuffers = 8;
++            }
++// mtkadd-
+             break;
+         case MEDIA_TRACK_TYPE_SUBTITLE:
+             track = &mSubtitleTrack;
+@@ -1715,4 +1747,37 @@ void NuPlayer::GenericSource::signalBufferReturned(MediaBufferBase *buffer)
+     buffer->release(); // this leads to delete since that there is no observor
+ }
+ 
++//mtkadd+
++
++void NuPlayer::GenericSource::init() {
++    mExtractor = NULL;
++    mIsMtkMp3 = false;
++    mIsMtkAlac = false;
++    mPID = IPCThreadState::self()->getCallingPid();
++}
++
++void NuPlayer::GenericSource::setGetMp3Param(int32_t *flag, bool set) {
++    if (!set) {  //getflag
++        *flag = mIsMtkMp3 ? 1 : 0;
++        return;
++    }
++    //set flag
++    if (mIsMtkMp3 && *flag == 1) {
++        ALOGV("set mp3 codec sucessfully");
++        mExtractor->getTrackMetaData(0/*index*/, 0xffffffff/*flag*/);
++    }
++}
++
++// for TS
++bool NuPlayer::GenericSource::isTS() {
++    const char *mime = NULL;
++    if (mFileMeta != NULL && mFileMeta->findCString(kKeyMIMEType, &mime)
++            && !strcasecmp(mime, MEDIA_MIMETYPE_CONTAINER_MPEG2TS)) {
++        return true;
++    }
++    return false;
++}
++//mtkadd-
++
++
+ }  // namespace android
+diff --git a/media/libmediaplayerservice/nuplayer/NuPlayerDecoder.cpp b/media/libmediaplayerservice/nuplayer/NuPlayerDecoder.cpp
+index 52b2041..19eb873 100644
+--- a/media/libmediaplayerservice/nuplayer/NuPlayerDecoder.cpp
++++ b/media/libmediaplayerservice/nuplayer/NuPlayerDecoder.cpp
+@@ -346,6 +346,19 @@ void NuPlayer::Decoder::onConfigure(const sp<AMessage> &format) {
+     ALOGV("onConfigure mCrypto: %p (%d)  mIsSecure: %d",
+             crypto.get(), (crypto != NULL ? crypto->getStrongCount() : 0), mIsSecure);
+ 
++//mtkadd+
++    if (!strcasecmp(mComponentName.c_str(), "OMX.MTK.AUDIO.DECODER.MP3")) {
++        int32_t mtkmp3extractorFlag = 0;
++        //get mtkmp3extractor flag
++        mSource->setGetMp3Param(&mtkmp3extractorFlag, false /*get*/);
++        if (mtkmp3extractorFlag == 1) {
++            format->setInt32("mtk-mp3extractor", 1);
++            format->setInt32("app-pid", (int32_t)mPid);
++            ALOGV("set mp3 lowpwer flag to decoder app-pid:%ld", (long)mPid);
++        }
++    }
++//mtkadd-
++
+     err = mCodec->configure(
+             format, mSurface, crypto, 0 /* flags */);
+ 
+@@ -394,6 +407,15 @@ void NuPlayer::Decoder::onConfigure(const sp<AMessage> &format) {
+ 
+     mPaused = false;
+     mResumePending = false;
++
++//mtkadd+ for mp3 lowpower
++    int32_t mtkMp3Codec = 0;
++    if (!strcasecmp(mComponentName.c_str(), "OMX.MTK.AUDIO.DECODER.MP3")
++            && format->findInt32("mtkMp3Codec", &mtkMp3Codec)) {
++        ALOGV("turn on mp3 codec lowpower mode,mtkMp3Codec:%d.",mtkMp3Codec);
++        mSource->setGetMp3Param(&mtkMp3Codec, true /*set*/); //set mp3 codec sucessfully
++    }
++//mtkadd-
+ }
+ 
+ void NuPlayer::Decoder::onSetParameters(const sp<AMessage> &params) {
+diff --git a/media/libmediaplayerservice/nuplayer/include/nuplayer/GenericSource.h b/media/libmediaplayerservice/nuplayer/include/nuplayer/GenericSource.h
+index 80e06f1..cac47a3 100644
+--- a/media/libmediaplayerservice/nuplayer/include/nuplayer/GenericSource.h
++++ b/media/libmediaplayerservice/nuplayer/include/nuplayer/GenericSource.h
+@@ -39,6 +39,9 @@ class IMediaSource;
+ class MediaBuffer;
+ struct MediaClock;
+ struct NuCachedSource2;
++//mtkadd+
++class IMediaExtractor;
++//mtkadd-
+ 
+ struct NuPlayer::GenericSource : public NuPlayer::Source,
+                                  public MediaBufferObserver // Modular DRM
+@@ -239,6 +242,20 @@ private:
+ 
+     status_t checkDrmInfo();
+ 
++//mtkadd+
++    pid_t mPID;
++    sp<IMediaExtractor> mExtractor;
++    bool mIsMtkMp3;
++    bool mIsMtkAlac;
++    void init();
++public:
++    virtual void setGetMp3Param(int32_t *flag, bool set);
++
++private:
++    // add for TS
++    bool isTS();
++//mtkadd-
++
+     DISALLOW_EVIL_CONSTRUCTORS(GenericSource);
+ };
+ 
+diff --git a/media/libmediaplayerservice/nuplayer/include/nuplayer/NuPlayerSource.h b/media/libmediaplayerservice/nuplayer/include/nuplayer/NuPlayerSource.h
+index bf6b539..4d51edf 100644
+--- a/media/libmediaplayerservice/nuplayer/include/nuplayer/NuPlayerSource.h
++++ b/media/libmediaplayerservice/nuplayer/include/nuplayer/NuPlayerSource.h
+@@ -159,6 +159,11 @@ protected:
+     // Modular DRM
+     void notifyDrmInfo(const sp<ABuffer> &buffer);
+ 
++public:
++    //mtkadd+
++    virtual void setGetMp3Param(int32_t *  /*flag*/, bool  /*set*/){};
++    //mtkadd-
++
+ private:
+     sp<AMessage> mNotify;
+ 
+diff --git a/services/mediaextractor/mediaextractor.rc b/services/mediaextractor/mediaextractor.rc
+index 4fb50d0..3b72a97 100644
+--- a/services/mediaextractor/mediaextractor.rc
++++ b/services/mediaextractor/mediaextractor.rc
+@@ -1,6 +1,6 @@
+ service mediaextractor /system/bin/mediaextractor
+     class main
+     user mediaex
+-    group drmrpc mediadrm
++    group drmrpc mediadrm readproc
+     ioprio rt 4
+     task_profiles ProcessCapacityHigh
+-- 
+2.25.1
+
