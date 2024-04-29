@@ -8,7 +8,8 @@ find . -type f -name \*.patch | rev | cut -d/ -f2- | rev | uniq | cut -d/ -f2- >
 cd "$maindir"
 while read -r pdir; do
   cd "$pdir" && echo -e "\napplying patches to $pdir\n" || exit 1
-  git am "$patchesDir/$pdir"/*.patch
+  git am "$patchesDir/$pdir"/*.patch || while ! git am --skip ; do : ; done
+  :
   cd "$maindir"
 done < "$maindir/TMP_PATCHES"
 
