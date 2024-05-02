@@ -1,0 +1,44 @@
+From 0865b3529d05b68ebf10636f887a6f0ede51eb02 Mon Sep 17 00:00:00 2001
+From: DarkJoker360 <simoespo159@gmail.com>
+Date: Tue, 15 Nov 2022 11:44:22 +0100
+Subject:  REThreaded: Use gen- and delete- textures on all render
+ engines
+
+* Fixes bootanimation lags.
+
+This reverts commit https://github.com/begonia-dev/android_frameworks_native/commit/48b5f3cbeae031324406ccbcb037651c66611adb.
+
+Signed-off-by: DarkJoker360 <simoespo159@gmail.com>
+---
+ libs/renderengine/threaded/RenderEngineThreaded.cpp | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/libs/renderengine/threaded/RenderEngineThreaded.cpp b/libs/renderengine/threaded/RenderEngineThreaded.cpp
+index 203bb54..889542b 100644
+--- a/libs/renderengine/threaded/RenderEngineThreaded.cpp
++++ b/libs/renderengine/threaded/RenderEngineThreaded.cpp
+@@ -178,10 +178,6 @@ void RenderEngineThreaded::dump(std::string& result) {
+ 
+ void RenderEngineThreaded::genTextures(size_t count, uint32_t* names) {
+     ATRACE_CALL();
+-    // This is a no-op in SkiaRenderEngine.
+-    if (getRenderEngineType() != RenderEngineType::THREADED) {
+-        return;
+-    }
+     std::promise<void> resultPromise;
+     std::future<void> resultFuture = resultPromise.get_future();
+     {
+@@ -198,10 +194,6 @@ void RenderEngineThreaded::genTextures(size_t count, uint32_t* names) {
+ 
+ void RenderEngineThreaded::deleteTextures(size_t count, uint32_t const* names) {
+     ATRACE_CALL();
+-    // This is a no-op in SkiaRenderEngine.
+-    if (getRenderEngineType() != RenderEngineType::THREADED) {
+-        return;
+-    }
+     std::promise<void> resultPromise;
+     std::future<void> resultFuture = resultPromise.get_future();
+     {
+-- 
+2.25.1
+
