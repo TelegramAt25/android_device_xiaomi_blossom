@@ -620,4 +620,7 @@
     <!-- True if the device supports Sustained Performance Mode -->
     <bool name="config_sustainedPerformanceModeSupported">true</bool>
 
+    <!-- Disable bluetooth by default -->
+    <bool name="def_bluetooth_on">false</bool>
+
 </resources>
