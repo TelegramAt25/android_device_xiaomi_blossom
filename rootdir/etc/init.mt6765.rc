@@ -675,6 +675,10 @@ on boot
     chmod 664 /proc/ppm/policy/ut_fix_freq_idx
     chown system system /proc/ppm/policy/ut_fix_freq_idx
 
+on boot
+    # Power HAL
+    setprop vendor.powerhal.init 1
+
 on init
     symlink /dev/block/platform/bootdevice /dev/block/bootdevice
 

@@ -147,6 +147,9 @@ ro.vendor.mtk_exchange_support=1
 # Perf
 ro.vendor.pref_scale_enable_cfg=1
 
+# Power HAL
+vendor.powerhal.disp.idle_support=false
+
 # PQ
 ro.vendor.mtk_pq_color_mode=0
 ro.vendor.mtk_pq_support=0
