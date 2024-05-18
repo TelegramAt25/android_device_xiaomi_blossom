@@ -7,14 +7,13 @@ import /vendor/etc/init/hw/init.${ro.hardware}.volte.rc
 import /vendor/etc/init/hw/init.modem.rc
 
 on early-init
-    write /proc/bootprof "INIT:early-init"
+    write /proc/bootprof "0"
     # boot perf. tune
     write /proc/perfmgr/boost_ctrl/cpu_ctrl/boot_freq "0 0 0 0"
     write /sys/devices/platform/10012000.dvfsrc/helio-dvfsrc/dvfsrc_req_ddr_opp 0
     write /proc/sys/kernel/printk "3 3 1 3"
 
 on init
-    write /proc/bootprof "INIT:init"
     # create io boost group
     mkdir /dev/stune/io
     chown root system /dev/stune/io
@@ -46,8 +45,6 @@ on init
     write /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us 100000
 
 on late-init
-    write /proc/bootprof "INIT:late-init"
-
     # enable rcu_expedited
     write /sys/kernel/rcu_expedited 1
 
@@ -124,21 +121,12 @@ on charger
     chown system system /sys/class/leds/green/brightness
 
     start vendor.light-default
-    # Stop bootprof
-    write /proc/bootprof "0"
-
-on early-fs
-    write /proc/bootprof "INIT:early-fs"
 
 on fs
-    write /proc/bootprof "INIT:fs"
-
     # mount fstab
-    write /proc/bootprof "INIT:Mount_START"
     write /sys/kernel/tracing/trace_marker "B|1|Mount"
     mount_all /vendor/etc/fstab.mt6765 --early
     write /sys/kernel/tracing/trace_marker "E"
-    write /proc/bootprof "INIT:Mount_END"
 
     #Thermal
     mkdir /data/vendor/.tp/ 0775 system system
@@ -155,8 +143,6 @@ on fs
     write /proc/sys/vm/swappiness 180
 
 on post-fs
-    write /proc/bootprof "INIT:post-fs"
-
     # boot perf. tune
     write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "0 100"
     write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "1 100"
@@ -188,18 +174,14 @@ on post-fs
     chmod 0770 /mnt/vendor/protect_s
 
 on late-fs
-    write /proc/bootprof "INIT:late-fs"
     wait_for_prop hwservicemanager.ready "true"
     exec_start wait_for_keymaster
 
-    write /proc/bootprof "INIT:Mount_START --late"
     write /sys/kernel/tracing/trace_marker "B|1|Mount late"
     mount_all /vendor/etc/fstab.mt6765 --late
     write /sys/kernel/tracing/trace_marker "E"
-    write /proc/bootprof "INIT:Mount_END --late"
 
 on post-fs-data
-    write /proc/bootprof "INIT:post-fs-data"
 
     # boot time fs tune
     write /sys/block/mmcblk0/queue/iostats 0
@@ -712,15 +694,7 @@ on post-fs-data
     #Creat qr_code
     mkdir /data/vendor/mac_addr 0771 system system
 
-on zygote-start
-    write /proc/bootprof "INIT:zygote-start"
-
-on early-boot
-    write /proc/bootprof "INIT:early-boot"
-
 on boot
-    write /proc/bootprof "INIT:boot"
-
     write /proc/sys/vm/dirty_writeback_centisecs 300
     chmod 0660 /sys/power/autosleep
 
@@ -995,21 +969,10 @@ on property:ro.board.platform=mt6753
     write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1300000
 
 on property:vold.decrypt=trigger_reset_main
-    write /proc/bootprof "INIT:vold.decrypt=trigger_reset_main"
     setprop sys.boot_completed 0
     setprop dev.bootcomplete 0
 
-on property:vold.decrypt=trigger_post_fs_data
-    write /proc/bootprof "INIT:vold.decrypt=trigger_post_fs_data"
-
-on property:vold.decrypt=trigger_restart_min_framework
-    write /proc/bootprof "INIT:vold.decrypt=trigger_restart_min_framework"
-
-on property:vold.decrypt=trigger_restart_framework
-    write /proc/bootprof "INIT:vold.decrypt=trigger_restart_framework"
-
 on property:vold.decrypt=trigger_shutdown_framework
-    write /proc/bootprof "INIT:vold.decrypt=trigger_shutdown_framework"
     setprop sys.boot_completed 0
     setprop dev.bootcomplete 0
 
