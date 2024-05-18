@@ -1079,18 +1079,6 @@ on property:sys.boot_completed=1
 
     write /proc/sys/kernel/printk "3 3 1 3"
 
-service pppoe_wlan0 /vendor/bin/launchpppoe
-    user root
-    group radio cache inet misc
-    disabled
-    oneshot
-
-service cmmb /system/bin/cmmbsp
-    class main
-    user root
-    group system audio camera graphics inet net_bt net_bt_admin net_bw_acct media
-    ioprio rt 4
-
 on property:persist.vendor.mediatek.fg.disable=1
     write /sys/devices/platform/battery_meter/FG_daemon_disable 1
     write /sys/bus/platform/devices/battery/FG_daemon_disable 1
@@ -1108,24 +1096,11 @@ on property:persist.vendor.mediatek.fg.log.enable=1
     write /sys/bus/platform/devices/battery/FG_daemon_log_level 7
     write /proc/sys/kernel/printk 8
 
-service meta_tst /vendor/bin/meta_tst
-    class main
-    user system
-    group radio gps system wifi audio bluetooth media
-    capabilities NET_RAW NET_ADMIN
-
-    disabled
-    oneshot
-
 on property:sys.camera.sensormode.apk=1
     setprop vendor.debug.cameng.force_sensormode 1
 
 on property:sys.camera.sensormode.apk=0
     setprop vendor.debug.cameng.force_sensormode -1
-
-# start meta_tst for ATM
-on property:sys.boot_completed=1 && property:ro.boot.atm=enable
-    start meta_tst
 
 on property:sys.camera.ctsverify.apk=1
     setprop vendor.camera.ctsverify.apk 5
