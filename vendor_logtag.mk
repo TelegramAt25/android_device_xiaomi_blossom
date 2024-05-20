@@ -299,6 +299,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.log.tag.mtkpower_client=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.netd=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.thermal_repeater=$(VENDOR_LOG_LEVEL) \
+    persist.log.tag.vendor.mediatek.hardware.mtkpower@1.0-service=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.wpfa_iptable_android=$(VENDOR_LOG_LEVEL)
 
 PRODUCT_VENDOR_PROPERTIES += \
