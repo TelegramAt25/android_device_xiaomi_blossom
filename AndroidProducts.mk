@@ -5,10 +5,10 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lmodroid_blossom.mk
+    $(LOCAL_DIR)/bliss_blossom.mk
 
 COMMON_LUNCH_CHOICES := \
-    lmodroid_blossom-user \
-    lmodroid_blossom-userdebug \
-    lmodroid_blossom-eng
+    bliss_blossom-user \
+    bliss_blossom-userdebug \
+    bliss_blossom-eng
 
