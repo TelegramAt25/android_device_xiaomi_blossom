@@ -17,6 +17,7 @@
     <scenario powerhint="LAUNCH">
         <data cmd="PERF_RES_CPUFREQ_MIN_CLUSTER_0" param1="3000000"></data>
         <data cmd="PERF_RES_CPUFREQ_MIN_CLUSTER_1" param1="3000000"></data>
+        <data cmd="PERF_RES_SCHED_BOOST" param1="6"></data>
         <data cmd="PERF_RES_DRAM_OPP_MIN" param1="0"></data>
         <data cmd="PERF_RES_SCHED_BOOST_VALUE_TA" param1="100"></data>
     </scenario>
@@ -97,5 +98,17 @@
     <scenario powerhint="MTKPOWER_HINT_AUDIO_DISABLE_WIFI_POWER_SAVE">
         <data cmd="PERF_RES_NET_WIFI_CAM" param1="1"></data>
         <data cmd="PERF_RES_POWERHAL_SCREEN_OFF_STATE" param1="1"></data>
+    </scenario>
+    <scenario powerhint="INTERACTION">
+        <data cmd="PERF_RES_CPUFREQ_MIN_CLUSTER_0" param1="1075000"></data>
+        <data cmd="PERF_RES_CPUFREQ_MIN_CLUSTER_1" param1="1162000"></data>
+        <data cmd="PERF_RES_CPUFREQ_MAX_CLUSTER_0" param1="3000000"></data>
+        <data cmd="PERF_RES_CPUFREQ_MAX_CLUSTER_1" param1="3000000"></data>
+        <data cmd="PERF_RES_SCHED_UCLAMP_MIN_TA" param1="50"></data>
+        <data cmd="PERF_RES_POWERHAL_TOUCH_BOOST_DURATION" param1="100000"></data>
+        <data cmd="PERF_RES_POWERHAL_TOUCH_BOOST_EAS_BOOST" param1="50"></data>
+        <data cmd="PERF_RES_POWERHAL_TOUCH_BOOST_NOTIFY_FBC" param1="1"></data>
+        <data cmd="PERF_RES_CPUFREQ_CCI_FREQ" param1="1"></data>
+        <data cmd="PERF_RES_DRAM_OPP_MIN" param1="0"></data>
     </scenario>
 </SCNTABLE>
