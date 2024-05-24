@@ -82,14 +82,11 @@ static uint32_t getBrightness(const HwLightState& state) {
 }
 
 static inline uint32_t scaleBrightness(uint32_t brightness, uint32_t maxBrightness) {
-    LOG(DEBUG) << "Received brightness: " << brightness;
+    if (brightness == 0) {
+        return 0;
+    }
 
-    if (maxBrightness == 4095)
-        return brightness_table_0xfff[brightness];
-    if (maxBrightness == 2047)
-        return brightness_table_0x7ff[brightness];
-
-    return brightness;
+    return (brightness - 1) * (maxBrightness - 19) / (0xFF - 1) + 19;
 }
 
 static inline uint32_t getScaledBrightness(const HwLightState& state, uint32_t maxBrightness) {
@@ -98,7 +95,6 @@ static inline uint32_t getScaledBrightness(const HwLightState& state, uint32_t m
 
 static void handleBacklight(const HwLightState& state) {
     uint32_t brightness = getScaledBrightness(state, getMaxBrightness(LCD_LED MAX_BRIGHTNESS));
-    LOG(DEBUG) << "Setting brightness: " << brightness;
     set(LCD_LED BRIGHTNESS, brightness);
 }
 
