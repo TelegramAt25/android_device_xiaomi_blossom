@@ -48,6 +48,8 @@ static void set(std::string path, int value) {
  * Read max brightness from path and close file.
  */
 static int getMaxBrightness(std::string path) {
+    // T25 start - override max brightness
+    /*
     std::ifstream file(path);
     int value;
 
@@ -57,6 +59,10 @@ static int getMaxBrightness(std::string path) {
     }
 
     file >> value;
+    */
+    // overridden due to faulty behavior
+    int value = 1023;
+    // T25 end
     return value;
 }
 
@@ -86,7 +92,8 @@ static inline uint32_t scaleBrightness(uint32_t brightness, uint32_t maxBrightne
         return 0;
     }
 
-    return (brightness - 1) * (maxBrightness - 19) / (0xFF - 1) + 19;
+    // T25 - reduce min brightness to 13
+    return (brightness - 1) * (maxBrightness - 13) / (0xFF - 1) + 13;
 }
 
 static inline uint32_t getScaledBrightness(const HwLightState& state, uint32_t maxBrightness) {
