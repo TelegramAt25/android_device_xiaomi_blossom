@@ -2,105 +2,105 @@
   "Nodes": [
     {
       "Name": "CPULittleClusterMaxFreq",
-      "Path": "/sys/devices/system/cpu/cpufreq/mtk/lcluster_max_freq",
+      "Path": "/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq",
       "Values": [
         "-1",
-        "1800000",
-        "1625000",
         "1500000",
-        "1450000",
-        "1375000",
-        "1325000",
-        "1275000",
-        "1175000",
-        "1100000",
+        "1429000",
+        "1367000",
+        "1314000",
+        "1261000",
+        "1208000",
+        "1155000",
+        "1102000",
         "1050000",
-        "999000",
-        "950000",
-        "900000",
-        "850000",
-        "774000",
-        "500000"
+        "948000",
+        "846000",
+        "745000",
+        "643000",
+        "542000",
+        "501000",
+        "400000"
       ],
       "DefaultIndex": 0,
       "ResetOnInit": true
     },
     {
       "Name": "CPULittleClusterMinFreq",
-      "Path": "/sys/devices/system/cpu/cpufreq/mtk/lcluster_min_freq",
+      "Path": "/sys/devices/system/cpu/cpufreq/policy4/scaling_min_freq",
       "Values": [
-        "1800000",
-        "1625000",
         "1500000",
-        "1450000",
-        "1375000",
-        "1325000",
-        "1275000",
-        "1175000",
-        "1100000",
+        "1429000",
+        "1367000",
+        "1314000",
+        "1261000",
+        "1208000",
+        "1155000",
+        "1102000",
         "1050000",
-        "999000",
-        "950000",
-        "900000",
-        "850000",
-        "774000",
-        "500000",
+        "948000",
+        "846000",
+        "745000",
+        "643000",
+        "542000",
+        "501000",
+        "400000",
         "-1"
       ],
       "ResetOnInit": true
     },
     {
       "Name": "CPUBigClusterMaxFreq",
-      "Path": "/sys/devices/system/cpu/cpufreq/mtk/bcluster_max_freq",
+      "Path": "/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq",
       "Values": [
         "-1",
-        "2000000",
-        "1950000",
-        "1900000",
-        "1850000",
-        "1800000",
-        "1710000",
-        "1621000",
-        "1532000",
-        "1443000",
-        "1354000",
-        "1295000",
-        "1176000",
-        "1087000",
-        "998000",
-        "909000",
-        "850000"        
+        "2001000",
+        "1961000",
+        "1927000",
+        "1897000",
+        "1868000",
+        "1838000",
+        "1809000",
+        "1779000",
+        "1750000",
+        "1617000",
+        "1484000",
+        "1351000",
+        "1218000",
+        "1085000",
+        "979000",
+        "900000"
       ],
       "DefaultIndex": 0,
       "ResetOnInit": true
     },
     {
       "Name": "CPUBigClusterMinFreq",
-      "Path": "/sys/devices/system/cpu/cpufreq/mtk/bcluster_min_freq",
+      "Path": "/sys/devices/system/cpu/cpufreq/policy0/scaling_min_freq",
       "Values": [
-        "2000000",
-        "1950000",
-        "1900000",
-        "1850000",
-        "1800000",
-        "1710000",
-        "1621000",
-        "1532000",
-        "1443000",
-        "1354000",
-        "1295000",
-        "1176000",
-        "1087000",
-        "998000",
-        "909000",
-        "850000",        
+        "2001000",
+        "1961000",
+        "1927000",
+        "1897000",
+        "1868000",
+        "1838000",
+        "1809000",
+        "1779000",
+        "1750000",
+        "1617000",
+        "1484000",
+        "1351000",
+        "1218000",
+        "1085000",
+        "979000",
+        "900000",
         "-1"
       ],
       "ResetOnInit": true
     },
     {
-      "Name": "GPUSchedMode",
-      "Path": "/sys/devices/platform/13040000.mali/js_ctx_scheduling_mode",
+      "Name": "GPUGEDBoost",
+      "Path": "/sys/module/ged/parameters/gx_force_cpu_boost",
       "Values": [
         "0",
         "1"
@@ -109,20 +109,8 @@
       "ResetOnInit": true
     },
     {
-      "Name": "GPUSchedPeriod",
-      "Path": "/sys/devices/platform/13040000.mali/js_scheduling_period",
-      "Values": [
-        "100",
-        "75",
-        "50",
-        "0"
-      ],
-      "ResetOnInit": true,
-      "DefaultIndex": 0
-    },
-    {
-      "Name": "GPUDVFSInterval",
-      "Path": "/sys/devices/platform/13040000.mali/dvfs_period",
+      "Name": "GPUDVFSMargin",
+      "Path": "/sys/kernel/ged/hal/dvfs_margin_value",
       "Values": [
         "100",
         "75",
@@ -148,39 +136,6 @@
         "0"
       ],
       "ResetOnInit": true
-    },
-    {
-      "Name": "FGBoostPerf",
-      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/perfserv_fg_boost",
-      "Values": [
-        "0",
-        "50",
-        "100"
-      ],
-      "ResetOnInit": true,
-      "DefaultIndex": 0
-    },
-    {
-      "Name": "TABoostPerf",
-      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/perfserv_ta_boost",
-      "Values": [
-        "0",
-        "50",
-        "100"
-      ],
-      "ResetOnInit": true,
-      "DefaultIndex": 0
-    },
-    {
-      "Name": "BGBoostPerf",
-      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/perfserv_bg_boost",
-      "Values": [
-        "0",
-        "50",
-        "100"
-      ],
-      "ResetOnInit": true,
-      "DefaultIndex": 0
     },
     {
       "Name": "FBTFloorBound",
@@ -246,34 +201,6 @@
       "DefaultIndex": 0
     },
     {
-      "Name": "EASMigrateCost",
-      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/m_sched_migrate_cost_n",
-      "Values": [
-        "0",
-        "100000",
-        "200000",
-        "400000",
-        "800000",
-        "1000000",
-        "2000000",
-        "4000000",
-        "8000000",
-        "10000000"
-      ],
-      "ResetOnInit": true,
-      "DefaultIndex": 3
-    },
-    {
-      "Name": "CCIFreqMode",
-      "Path": "/proc/cpufreq/cpufreq_cci_mode",
-      "Values": [
-        "0",
-        "1"
-      ],
-      "ResetOnInit": true,
-      "DefaultIndex": 0
-    },
-    {
       "Name": "GPUBlockBoost",
       "Path": "/sys/kernel/fpsgo/common/gpu_block_boost",
       "Values": [
@@ -287,7 +214,7 @@
     },
     {
       "Name": "UclampMin",
-      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/perfserv_uclamp_min",
+      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/perf_uclamp_min",
       "Values": [
         "100",
         "75",
@@ -299,7 +226,7 @@
     },
     {
       "Name": "BGUclampMin",
-      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/perfserv_bg_uclamp_min",
+      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/perf_bg_uclamp_min",
       "Values": [
         "100",
         "75",
@@ -311,7 +238,7 @@
     },
     {
       "Name": "FGUclampMin",
-      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/perfserv_fg_uclamp_min",
+      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/perf_fg_uclamp_min",
       "Values": [
         "100",
         "75",
@@ -323,7 +250,7 @@
     },
     {
       "Name": "TAUclampMin",
-      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/perfserv_ta_uclamp_min",
+      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/perf_ta_uclamp_min",
       "Values": [
         "100",
         "75",
@@ -382,17 +309,17 @@
       "PowerHint": "SUSTAINED_PERFORMANCE",
       "Node": "CPUBigClusterMaxFreq",
       "Duration": 0,
-      "Value": "2000000"
+      "Value": "2001000"
     },
     {
       "PowerHint": "SUSTAINED_PERFORMANCE",
       "Node": "CPULittleClusterMaxFreq",
       "Duration": 0,
-      "Value": "1800000"
+      "Value": "1500000"
     },
     {
       "PowerHint": "SUSTAINED_PERFORMANCE",
-      "Node": "GPUSchedMode",
+      "Node": "GPUGEDBoost",
       "Duration": 0,
       "Value": "1"
     },
@@ -400,25 +327,25 @@
       "PowerHint": "INTERACTION",
       "Node": "CPULittleClusterMinFreq",
       "Duration": 0,
-      "Value": "1275000"
+      "Value": "1208000"
     },
     {
       "PowerHint": "INTERACTION",
       "Node": "CPUBigClusterMinFreq",
       "Duration": 0,
-      "Value": "1443000"
+      "Value": "1617000"
     },
     {
       "PowerHint": "INTERACTION",
       "Node": "CPULittleClusterMaxFreq",
       "Duration": 0,
-      "Value": "1625000"
+      "Value": "1429000"
     },
     {
       "PowerHint": "INTERACTION",
       "Node": "CPUBigClusterMaxFreq",
       "Duration": 0,
-      "Value": "2000000"
+      "Value": "2001000"
     },
     {
       "PowerHint": "INTERACTION",
@@ -437,18 +364,6 @@
       "Node": "FBTBHROPP",
       "Duration": 0,
       "Value": "15"
-    },
-    {
-      "PowerHint": "INTERACTION",
-      "Node": "CCIFreqMode",
-      "Duration": 0,
-      "Value": "1"
-    },
-    {
-      "PowerHint": "INTERACTION",
-      "Node": "FGBoostPerf",
-      "Duration": 0,
-      "Value": "50"
     },
     {
       "PowerHint": "INTERACTION",
@@ -478,25 +393,25 @@
       "PowerHint": "LAUNCH",
       "Node": "CPUBigClusterMaxFreq",
       "Duration": 3000,
-      "Value": "2000000"
+      "Value": "2001000"
     },
     {
       "PowerHint": "LAUNCH",
       "Node": "CPUBigClusterMinFreq",
       "Duration": 3000,
-      "Value": "2000000"
+      "Value": "2001000"
     },
     {
       "PowerHint": "LAUNCH",
       "Node": "CPULittleClusterMaxFreq",
       "Duration": 3000,
-      "Value": "1800000"
+      "Value": "1500000"
     },
     {
       "PowerHint": "LAUNCH",
       "Node": "CPULittleClusterMinFreq",
       "Duration": 3000,
-      "Value": "1800000"
+      "Value": "1500000"
     },
     {
       "PowerHint": "LAUNCH",
@@ -530,13 +445,13 @@
     },
     {
       "PowerHint": "EXPENSIVE_RENDERING",
-      "Node": "GPUDVFSInterval",
+      "Node": "GPUDVFSMargin",
       "Duration": 0,
       "Value": "75"
     },
     {
       "PowerHint": "EXPENSIVE_RENDERING",
-      "Node": "GPUSchedMode",
+      "Node": "GPUGEDBoost",
       "Duration": 0,
       "Value": "1"
     },
