@@ -138,39 +138,6 @@
       "ResetOnInit": true
     },
     {
-      "Name": "FGBoostPerf",
-      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/perfserv_fg_boost",
-      "Values": [
-        "0",
-        "50",
-        "100"
-      ],
-      "ResetOnInit": true,
-      "DefaultIndex": 0
-    },
-    {
-      "Name": "TABoostPerf",
-      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/perfserv_ta_boost",
-      "Values": [
-        "0",
-        "50",
-        "100"
-      ],
-      "ResetOnInit": true,
-      "DefaultIndex": 0
-    },
-    {
-      "Name": "BGBoostPerf",
-      "Path": "/proc/perfmgr/boost_ctrl/eas_ctrl/perfserv_bg_boost",
-      "Values": [
-        "0",
-        "50",
-        "100"
-      ],
-      "ResetOnInit": true,
-      "DefaultIndex": 0
-    },
-    {
       "Name": "FBTFloorBound",
       "Path": "/sys/module/fbt_cpu/parameters/floor_bound",
       "Values": [
@@ -397,12 +364,6 @@
       "Node": "FBTBHROPP",
       "Duration": 0,
       "Value": "15"
-    },
-    {
-      "PowerHint": "INTERACTION",
-      "Node": "FGBoostPerf",
-      "Duration": 0,
-      "Value": "50"
     },
     {
       "PowerHint": "INTERACTION",
