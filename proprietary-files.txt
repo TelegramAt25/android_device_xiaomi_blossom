@@ -550,7 +550,7 @@ vendor/lib64/vendor.mediatek.hardware.gpu@1.0.so
 # Display - PQ
 vendor/bin/hw/vendor.mediatek.hardware.pq@2.2-service
 vendor/etc/init/vendor.mediatek.hardware.pq@2.2-service.rc
-vendor/lib/hw/vendor.mediatek.hardware.pq@2.6-impl.so|dd8492ec33832a256c139493ac883d3caa04d89d
+vendor/lib/hw/vendor.mediatek.hardware.pq@2.6-impl.so
 vendor/lib/libpq_cust_base.so
 vendor/lib/libpq_prot.so
 vendor/lib/vendor.mediatek.hardware.pq@2.0.so
@@ -560,7 +560,7 @@ vendor/lib/vendor.mediatek.hardware.pq@2.3.so
 vendor/lib/vendor.mediatek.hardware.pq@2.4.so
 vendor/lib/vendor.mediatek.hardware.pq@2.5.so
 vendor/lib/vendor.mediatek.hardware.pq@2.6.so
-vendor/lib64/hw/vendor.mediatek.hardware.pq@2.6-impl.so|055ef20ae1f876ec279ff0669350e32d7b42bc28
+vendor/lib64/hw/vendor.mediatek.hardware.pq@2.6-impl.so
 vendor/lib64/libpq_cust_base.so
 vendor/lib64/libpq_prot.so
 vendor/lib64/vendor.mediatek.hardware.pq@2.0.so
