@@ -1,0 +1,44 @@
+From 2727dbee7ed948bb6c3c4fc77263be3833d6e155 Mon Sep 17 00:00:00 2001
+From: fukiame <fukiame@proton.me>
+Date: Tue, 28 May 2024 14:33:44 +0530
+Subject: [PATCH] [DNM] SystemUI: tweak default lock screen clock size
+
+the default was too big for 1600x720
+change it here to be a bit closer to AOSP default
+
+this should have been user tunable anyways though...
+
+Change-Id: I33ca588cc50ba7b18c5af92a815857268f03b1db
+Signed-off-by: Sushrut1101 <guptasushrut@gmail.com>
+---
+ .../systemui/shared/clocks/DefaultClockController.kt        | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/packages/SystemUI/customization/src/com/android/systemui/shared/clocks/DefaultClockController.kt b/packages/SystemUI/customization/src/com/android/systemui/shared/clocks/DefaultClockController.kt
+index ab7547c5..d1a60b3e 100644
+--- a/packages/SystemUI/customization/src/com/android/systemui/shared/clocks/DefaultClockController.kt
++++ b/packages/SystemUI/customization/src/com/android/systemui/shared/clocks/DefaultClockController.kt
+@@ -139,9 +139,9 @@ class DefaultClockController(
+ 
+                 override fun onFontSettingChanged(fontSizePx: Float) {
+             	    val smallClockTextSize = Secure.getIntForUser(ctx.getContentResolver(),
+-                 		Secure.KG_SMALL_CLOCK_TEXT_SIZE, 86, UserHandle.USER_CURRENT)
++                 		Secure.KG_SMALL_CLOCK_TEXT_SIZE, 65, UserHandle.USER_CURRENT)
+             	    val largeClockTextSize = Secure.getIntForUser(ctx.getContentResolver(),
+-                 		Secure.KG_LARGE_CLOCK_TEXT_SIZE, 180, UserHandle.USER_CURRENT)
++                 		Secure.KG_LARGE_CLOCK_TEXT_SIZE, 120, UserHandle.USER_CURRENT)
+            		    val finalSmallTextSize = smallClockTextSize.dp
+            		    val finalLargeClockTextSize = largeClockTextSize.dp
+             	    val fontFamily = Secure.getStringForUser(ctx.getContentResolver(),
+@@ -196,7 +196,7 @@ class DefaultClockController(
+             val parent = view.parent
+             val lp = view.getLayoutParams() as FrameLayout.LayoutParams
+             val customTopMargin = Secure.getIntForUser(ctx.getContentResolver(),
+-                Secure.KG_CUSTOM_CLOCK_TOP_MARGIN, 280, UserHandle.USER_CURRENT)
++                Secure.KG_CUSTOM_CLOCK_TOP_MARGIN, 125, UserHandle.USER_CURRENT)
+             lp.topMargin = (-1f * customTopMargin).toInt()
+             view.setLayoutParams(lp)
+         }
+-- 
+2.44.0
+
