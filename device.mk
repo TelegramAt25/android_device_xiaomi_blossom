@@ -509,6 +509,7 @@ PRODUCT_COPY_FILES += \
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
+    bootable/deprecated-ota \
     hardware/google/interfaces \
     hardware/google/pixel \
     hardware/mediatek \
