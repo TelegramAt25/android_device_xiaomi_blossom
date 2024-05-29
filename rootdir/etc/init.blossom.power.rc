@@ -38,7 +38,7 @@ on post-fs
 
 on property:sys.boot_completed=1
     # We should adjust the setting upon boot_complete
-    write /sys/block/mmcblk0/queue/iostats 1
+    write /sys/block/mmcblk0/queue/iostats 0
     write /sys/block/mmcblk0/queue/nr_requests 128
 
     write /dev/stune/schedtune.boost 0
