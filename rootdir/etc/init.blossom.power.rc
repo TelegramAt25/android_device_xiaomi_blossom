@@ -19,9 +19,6 @@ on init
     write /dev/cpuset/top-app/cpus 0-7
     write /dev/cpuset/restricted/cpus 2-7
 
-    # update bg rt_runtime 100ms
-    write /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us 100000
-
     # boot time fs tune
     write /sys/block/mmcblk0/queue/iostats 0
     write /sys/block/mmcblk0/queue/nr_requests 256
@@ -44,28 +41,23 @@ on property:sys.boot_completed=1
     write /sys/block/mmcblk0/queue/iostats 0
     write /sys/block/mmcblk0/queue/nr_requests 128
 
-    write /dev/stune/schedtune.boost 0
-    write /dev/stune/foreground/schedtune.boost 0
-    write /dev/stune/background/schedtune.boost 0
-    write /dev/stune/top-app/schedtune.boost 0
-    write /dev/stune/rt/schedtune.boost 0
-    write /sys/devices/system/cpu/eas/enable 1
-    write /proc/cpufreq/cpufreq_sched_disable 0
     chown system system /dev/stune/foreground/schedtune.prefer_idle
     chown system system /dev/stune/top-app/schedtune.prefer_idle
     chown system system /dev/stune/rt/schedtune.prefer_idle
+
     write /dev/stune/foreground/schedtune.prefer_idle 0
     write /dev/stune/top-app/schedtune.prefer_idle 0
     write /dev/stune/rt/schedtune.prefer_idle 0
-    write /dev/stune/top-app/schedtune.boost 1
-    write /proc/sys/kernel/sched_migration_cost_ns 200000
-    write /proc/sys/net/ipv4/tcp_mtu_probing 1
-    write /proc/sys/net/ipv4/ip_no_pmtu_disc 0
-    write /proc/sys/kernel/panic_on_rcu_stall 0
 
-    # switch to sched-dvfs
-    write /sys/devices/system/cpu/cpufreq/policy0/scaling_governor "schedplus"
-    write /sys/devices/system/cpu/cpufreq/policy4/scaling_governor "schedplus"
+    write /dev/stune/schedtune.boost 0
+    write /dev/stune/foreground/schedtune.boost 0
+    write /dev/stune/background/schedtune.boost 0
+    write /dev/stune/rt/schedtune.boost 0
+
+    write /sys/devices/system/cpu/eas/enable 1
+    write /proc/cpufreq/cpufreq_sched_disable 0
+    write /proc/sys/kernel/sched_migration_cost_ns 200000
+    write /proc/sys/kernel/panic_on_rcu_stall 0
 
     # restore perf. parameters
     write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "0 0"
@@ -78,3 +70,5 @@ on property:sys.boot_completed=1
     # TCP settings
     write /proc/sys/net/ipv4/tcp_ecn 1
     write /proc/sys/net/ipv4/tcp_fastopen 3
+    write /proc/sys/net/ipv4/tcp_mtu_probing 1
+    write /proc/sys/net/ipv4/ip_no_pmtu_disc 0
