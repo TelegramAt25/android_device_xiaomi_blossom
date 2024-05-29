@@ -354,11 +354,9 @@ vendor/lib64/vendor.mediatek.hardware.mms@1.5.so
 
 # NVRAM
 vendor/bin/hw/vendor.mediatek.hardware.nvram@1.1-service
-vendor/bin/atcid
 vendor/bin/fuelgauged
 vendor/bin/fuelgauged_nvram
 vendor/bin/nvram_daemon
-vendor/etc/init/atcid.rc
 vendor/etc/init/fuelgauged_init.rc
 vendor/etc/init/fuelgauged_nvram_init.rc
 vendor/etc/init/nvram_daemon.rc
@@ -384,8 +382,6 @@ vendor/lib64/vendor.mediatek.hardware.nvram@1.0.so
 vendor/lib64/vendor.mediatek.hardware.nvram@1.1.so
 
 # Audio
-vendor/bin/audiocmdservice_atci
-vendor/etc/init/audiocmdservice_atci.rc
 vendor/lib/hw/audio.primary.mt6765.so
 vendor/lib/hw/audio.r_submix.mt6765.so
 vendor/lib/hw/audio.usb.mt6765.so
