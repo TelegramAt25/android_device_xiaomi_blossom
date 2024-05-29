@@ -233,7 +233,6 @@ vendor/lib64/libbt-vendor.so
 vendor/lib64/vendor.mediatek.hardware.bluetooth.audio@2.1.so
 
 # NFC
-vendor/etc/init/android.hardware.nfc@1.2-service.sec.rc
 vendor/etc/init/init.nfc.sec.rc
 vendor/etc/sec_s3nrn82_rfreg.bin
 

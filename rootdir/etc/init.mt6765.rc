@@ -1001,9 +1001,9 @@ on property:ro.hardware.fp.restartimes=max
 
 # NFC
 on property:ro.boot.hwname=angelican
-    enable nfc_hal_service
+    enable vendor.samsung_nfc_hal_service
 
-service nfc_hal_service /vendor/bin/hw/android.hardware.nfc@1.2-service.sec
+service vendor.samsung_nfc_hal_service /vendor/bin/hw/android.hardware.nfc@1.2-service.samsung
     override
     disabled
     class hal
