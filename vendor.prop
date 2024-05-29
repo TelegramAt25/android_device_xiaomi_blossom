@@ -200,7 +200,6 @@ telephony.lteOnCdmaDevice=1
 # SurfaceFlinger
 ro.surface_flinger.primary_display_orientation=ORIENTATION_0
 ro.surface_flinger.force_hwc_copy_for_virtual_displays=true
-ro.surface_flinger.running_without_sync_framework=true
 ro.surface_flinger.uclamp.min=130 
 service.sf.prime_shader_cache=0
 debug.sf.use_phase_offsets_as_durations=1
