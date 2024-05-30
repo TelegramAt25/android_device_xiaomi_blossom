@@ -88,13 +88,6 @@ prebuilt_etc {
 }
 
 prebuilt_etc {
-    name: "init.ago.rc",
-    src: "etc/init.ago.rc",
-    relative_install_path: "init/hw",
-    vendor: true,
-}
-
-prebuilt_etc {
     name: "init.mt6765.volte.rc",
     src: "etc/init.mt6765.volte.rc",
     relative_install_path: "init/hw",
