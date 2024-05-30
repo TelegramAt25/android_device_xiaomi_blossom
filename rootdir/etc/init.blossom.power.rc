@@ -43,7 +43,6 @@ on post-fs-data
     write /sys/kernel/mm/swap/vma_ra_enabled false
     write /proc/sys/vm/vfs_cache_pressure 130
     write /proc/sys/vm/dirty_writeback_centisecs 300
-    swapon_all /vendor/etc/fstab.mt6765
 
 on property:sys.boot_completed=1
     # We should adjust the setting upon boot_complete
@@ -81,3 +80,6 @@ on property:sys.boot_completed=1
     write /proc/sys/net/ipv4/tcp_fastopen 3
     write /proc/sys/net/ipv4/tcp_mtu_probing 1
     write /proc/sys/net/ipv4/ip_no_pmtu_disc 0
+
+    # enable zram
+    swapon_all /vendor/etc/fstab.mt6765
