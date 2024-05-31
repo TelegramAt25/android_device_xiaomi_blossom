@@ -246,7 +246,6 @@ vendor/etc/libnfc-sec-vendor.conf
 # WLAN
 vendor/bin/hw/hostapd
 vendor/bin/hw/wpa_supplicant
-vendor/bin/stp_dump3
 vendor/bin/wmt_launcher
 vendor/bin/wmt_loader
 vendor/etc/init/android.hardware.wifi.supplicant-service.rc
@@ -267,25 +266,19 @@ vendor/bin/hw/vendor.mediatek.hardware.mms@1.5-service
 vendor/bin/ccci_fsd
 vendor/bin/ccci_mdinit
 vendor/bin/ccci_rpcd
-vendor/bin/charon
 vendor/bin/dmc_core
-vendor/bin/em_hidl
 vendor/bin/epdg_wod
 vendor/bin/gsm0710muxd
-vendor/bin/md_monitor
-vendor/bin/md_monitor_ctrl
 vendor/bin/netdagent
 vendor/bin/netdc
 vendor/etc/apdb/APDB_MT6765_S01__W2043
 vendor/etc/apdb/APDB_MT6765_S01__W2043_ENUM
-vendor/etc/init/em_hidl_user.rc
 vendor/etc/init/gsm0710muxd.rc
 vendor/etc/init/init.cccifsd.rc
 vendor/etc/init/init.cccimdinit.rc
 vendor/etc/init/init.cccirpcd.rc
 vendor/etc/init/init.md_apps.rc
 vendor/etc/init/init_connectivity.rc
-vendor/etc/init/md_monitor.rc
 vendor/etc/init/mtkrild.rc
 vendor/etc/init/netdagent.rc
 vendor/etc/init/networksetting.rc
