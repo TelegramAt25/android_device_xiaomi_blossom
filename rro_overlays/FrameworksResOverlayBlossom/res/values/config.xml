@@ -623,4 +623,8 @@
     <!-- Disable bluetooth by default -->
     <bool name="def_bluetooth_on">false</bool>
 
+    <!-- Will display the bouncer on one side of the display, and the current user icon and
+         user switcher on the other side -->
+    <bool name="config_enableBouncerUserSwitcher">false</bool>
+
 </resources>
