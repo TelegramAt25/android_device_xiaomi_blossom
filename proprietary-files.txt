@@ -372,6 +372,7 @@ vendor/lib64/vendor.mediatek.hardware.nvram@1.0.so
 vendor/lib64/vendor.mediatek.hardware.nvram@1.1.so
 
 # Audio
+vendor/etc/aurisys_param/Speech_AudioParam.xml
 vendor/lib/hw/audio.primary.mt6765.so
 vendor/lib/hw/audio.r_submix.mt6765.so
 vendor/lib/hw/audio.usb.mt6765.so
