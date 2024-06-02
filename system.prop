@@ -2,6 +2,7 @@
 audio.chk.cal.spk=0
 audio.chk.cal.us=0
 ro.audio.silent=0
+ro.config.vc_call_vol_steps=9
 
 # Brand
 Build.BRAND=MTK
