@@ -5,8 +5,6 @@ LOCAL_MODULE := remove_packages
 LOCAL_MODULE_CLASS := APPS
 LOCAL_MODULE_TAGS := optional
 LOCAL_OVERRIDES_PACKAGES := \
-    AboutBliss \
-    BlissUpdater \
     Drive \
     Gmail2 \
     Maps \
