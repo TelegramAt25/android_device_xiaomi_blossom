@@ -234,7 +234,7 @@ PRODUCT_PACKAGES += \
 # Preopt critical applications
 PRODUCT_DEXPREOPT_SPEED_APPS += \
     Settings \
-    BlissSystemUI
+    SystemUI
 
 # Power
 PRODUCT_PACKAGES += \
