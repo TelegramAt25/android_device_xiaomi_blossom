@@ -15,9 +15,6 @@ $(call inherit-product, device/xiaomi/blossom/device.mk)
 # Inherit some common BlissRoms stuff.
 $(call inherit-product, vendor/bliss/config/common_full_phone.mk)
 
-# Include private signing keys
--include vendor/extra/product.mk
-
 PRODUCT_NAME := bliss_blossom
 PRODUCT_DEVICE := blossom
 PRODUCT_MANUFACTURER := Xiaomi
