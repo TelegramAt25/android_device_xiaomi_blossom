@@ -15,6 +15,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.log.tag.AdnRecordLoader=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.AirplaneHandler=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.AppOps=$(VENDOR_LOG_LEVEL) \
+    persist.log.tag.BpfNetMapsReader=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.BufferQueueDump=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.BufferQueueProducer=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.C2K_RIL-DATA=$(VENDOR_LOG_LEVEL) \
