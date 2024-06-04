@@ -480,6 +480,7 @@ PRODUCT_SOONG_NAMESPACES += \
     hardware/google/pixel \
     hardware/mediatek \
     hardware/mediatek/libmtkperf_client \
+    $(LOCAL_PATH)/power-libperfmgr \
     $(LOCAL_PATH)
 
 # Runtime Resource Overlays
