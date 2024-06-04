@@ -15,6 +15,9 @@ $(call inherit-product, device/xiaomi/blossom/device.mk)
 # Inherit some common Miku UI stuff.
 $(call inherit-product, vendor/miku/build/product/miku_product.mk)
 
+# include private signing keys
+-include vendor/niigo-priv/keys/keys.m
+
 # Maintainer
 MIKU_MASTER := fukiame
 
