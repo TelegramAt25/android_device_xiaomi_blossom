@@ -96,6 +96,7 @@ BOARD_KERNEL_CMDLINE += androidboot.init_fatal_reboot_target=recovery
 BOARD_KERNEL_CMDLINE += kpti=off
 BOARD_KERNEL_CMDLINE += quiet loglevel=3
 BOARD_KERNEL_CMDLINE += cgroup_disable=pressure
+BOARD_KERNEL_CMDLINE += cgroup.memory=nokmem,nosocket
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
