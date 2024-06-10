@@ -1,3 +1,0 @@
-allow mtk_hal_audio persist_data_file:dir { search };
-
-allow mtk_hal_audio self:process execmem;
