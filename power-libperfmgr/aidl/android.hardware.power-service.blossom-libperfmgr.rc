@@ -1,4 +1,4 @@
-service vendor.power-hal-aidl /vendor/bin/hw/android.hardware.power-service.lineage-libperfmgr
+service vendor.power-hal-aidl /vendor/bin/hw/android.hardware.power-service.blossom-libperfmgr
     class hal
     user root
     group system

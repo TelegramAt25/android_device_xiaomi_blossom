@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#define LOG_TAG "android.hardware.power-service.lineage.ext-libperfmgr"
+#define LOG_TAG "android.hardware.power-service.blossom.ext-libperfmgr"
 
 #include "PowerExt.h"
 
