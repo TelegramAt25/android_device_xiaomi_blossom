@@ -11,4 +11,5 @@ vndbinder_use(hal_fingerprint_default)
 add_hwservice(hal_fingerprint_default, hal_fingerprint_hwservice)
 add_service(hal_fingerprint_default, vendor_fingerprint_service)
 
-rw_dir_file(hal_fingerprint_default, proc_ppm)
+allow hal_fingerprint_default proc_ppm:dir r_dir_perms;
+allow hal_fingerprint_default proc_ppm:file rw_file_perms;
