@@ -424,8 +424,7 @@ PRODUCT_PACKAGES += \
     android.frameworks.sensorservice@1.0 \
     android.hardware.sensors@1.0.vendor \
     android.hardware.sensors@2.0.vendor \
-    libsensorndkbridge \
-    libsensorndkbridge-hidl
+    libsensorndkbridge
 
 # GNSS
 PRODUCT_PACKAGES += \
