@@ -1,0 +1,47 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: SamarV-121 <samar@samarv121.dev>
+Date: Fri, 4 Aug 2023 04:10:52 +0000
+Subject: [PATCH] gd: hci: Allow disabling erroneous data reporting
+
+Certain devices may assert support for it, yet they may not genuinely possess it, resulting in a crash of the entire Bluetooth stack.
+
+Change-Id: I5d0d90b107ddcbfd99eaccc178146333eb3bd6f8
+
+diff --git a/system/gd/hci/controller.cc b/system/gd/hci/controller.cc
+index be068bd..3f396b9 100644
+--- a/system/gd/hci/controller.cc
++++ b/system/gd/hci/controller.cc
+@@ -39,6 +39,10 @@ constexpr bool kDefaultVendorCapabilitiesEnabled = true;
+ static const std::string kPropertyVendorCapabilitiesEnabled =
+     "bluetooth.core.le.vendor_capabilities.enabled";
+ 
++constexpr bool kDefaultErroneousDataReportingEnabled = true;
++static const std::string kPropertyErroneousDataReportingEnabled =
++    "bluetooth.hci.erroneous_data_reporting.enabled";
++
+ using os::Handler;
+ 
+ struct Controller::impl {
+@@ -186,11 +190,14 @@ struct Controller::impl {
+           handler->BindOnceOn(this, &Controller::impl::le_set_host_feature_handler));
+     }
+ 
+-    if (is_supported(OpCode::READ_DEFAULT_ERRONEOUS_DATA_REPORTING)) {
+-      hci_->EnqueueCommand(
+-          ReadDefaultErroneousDataReportingBuilder::Create(),
+-          handler->BindOnceOn(
+-              this, &Controller::impl::read_default_erroneous_data_reporting_handler));
++    if (os::GetSystemPropertyBool(
++            kPropertyErroneousDataReportingEnabled, kDefaultErroneousDataReportingEnabled)) {
++        if (is_supported(OpCode::READ_DEFAULT_ERRONEOUS_DATA_REPORTING)) {
++          hci_->EnqueueCommand(
++              ReadDefaultErroneousDataReportingBuilder::Create(),
++              handler->BindOnceOn(
++                  this, &Controller::impl::read_default_erroneous_data_reporting_handler));
++        }
+     }
+ 
+     // Skip vendor capabilities check if configured.
+-- 
+2.45.1
+
