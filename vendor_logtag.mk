@@ -262,6 +262,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.log.tag.UiccCard=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.UiccController=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.UxUtility=$(VENDOR_LOG_LEVEL) \
+    persist.log.tag.VDO_LOG=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.VT=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.View=$(VENDOR_LOG_LEVEL) \
     persist.log.tag.VsimAdaptor=$(VENDOR_LOG_LEVEL) \
