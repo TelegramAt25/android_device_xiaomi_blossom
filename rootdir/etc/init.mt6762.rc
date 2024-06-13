@@ -97,9 +97,7 @@ on charger
 
 on fs
     # mount fstab
-    write /sys/kernel/tracing/trace_marker "B|1|Mount"
     mount_all /vendor/etc/fstab.mt6765 --early
-    write /sys/kernel/tracing/trace_marker "E"
 
     #Thermal
     mkdir /data/vendor/.tp/ 0775 system system
@@ -135,9 +133,7 @@ on late-fs
     wait_for_prop hwservicemanager.ready "true"
     exec_start wait_for_keymaster
 
-    write /sys/kernel/tracing/trace_marker "B|1|Mount late"
     mount_all /vendor/etc/fstab.mt6765 --late
-    write /sys/kernel/tracing/trace_marker "E"
 
 on post-fs-data
     chown system system /mnt/vendor/nvcfg
