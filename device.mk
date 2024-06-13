@@ -119,7 +119,8 @@ PRODUCT_PACKAGES += \
     libtinycompress \
     libtinyxml \
     libaudiofoundation \
-    libaudiofoundation.vendor
+    libaudiofoundation.vendor \
+    libaudioroute.vendor
 
 PRODUCT_PACKAGES += \
     BesLoudness \
@@ -257,6 +258,10 @@ PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.6.vendor \
     libutils-v30 \
     libutils-v32
+
+PRODUCT_PACKAGES += \
+    libpng.vendor \
+    libutilscallstack.vendor
 
 # Media
 PRODUCT_PACKAGES += \
@@ -445,6 +450,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libprotobuf-cpp-full-3.9.1-vendorcompat \
     libprotobuf-cpp-lite-3.9.1-vendorcompat
+
+PRODUCT_PACKAGES += \
+    libcurl.vendor \
+    libjsoncpp.vendor \
+    libsqlite.vendor \
+    libssl.vendor
 
 # Shims
 PRODUCT_PACKAGES += \
