@@ -369,6 +369,10 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/blossom/proprietary/vendor/firmware/novatek_ts_truly_fw.bin:recovery/root/vendor/firmware/novatek_ts_truly_fw.bin \
     vendor/xiaomi/blossom/proprietary/vendor/firmware/novatek_ts_truly_mp.bin:recovery/root/vendor/firmware/novatek_ts_truly_mp.bin
 
+# FM Radio
+PRODUCT_PACKAGES += \
+    FMRadio
+
 # HIDL
 PRODUCT_PACKAGES += \
     android.hidl.base@1.0 \
