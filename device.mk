@@ -293,6 +293,7 @@ PRODUCT_COPY_FILES += \
 
 # Health
 PRODUCT_PACKAGES += \
+    android.hardware.health-V1-ndk \
     android.hardware.health@2.1-impl \
     android.hardware.health@2.1-impl.recovery \
     android.hardware.health@2.1-service \
@@ -389,6 +390,7 @@ PRODUCT_PACKAGES += \
     android.hardware.drm@1.3.vendor \
     android.hardware.drm@1.4.vendor \
     libmockdrmcryptoplugin \
+    libdrm \
     libdrm.vendor
 
 # Gatekeeper
@@ -444,7 +446,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libshim_audio \
     libshim_beanpod \
-    libshim_showlogo \
     libshim_vtservice
 
 # VNDK
