@@ -39,7 +39,7 @@ vendor/firmware/WMT_SOC.cfg
 # Firmware - Bluetooth
 vendor/firmware/BT_FW.cfg
 vendor/firmware/soc1_0_patch_mcu_1_1_hdr.bin
-vendor/firmware/soc1_0_ram_bt_1_1_hdr.bin
+vendor/firmware/soc1_0_ram_bt_1_1_hdr.bin|441cbf348725baf9000bdf5f76f48e385cbc42b0
 vendor/firmware/soc1_0_ram_mcu_1_1_hdr.bin
 vendor/firmware/soc3_0_ram_bt_1_1_hdr.bin
 vendor/firmware/soc3_0_ram_bt_1a_1_hdr.bin
