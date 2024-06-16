@@ -58,12 +58,6 @@ vendor/firmware/sec_s3nrn82_firmware.bin
 vendor/firmware/Conf_MultipleTest_aa.ini
 vendor/firmware/Conf_MultipleTest_ab.ini
 
-# Charger - from blue V816.0.4.0.UGRINXM
-system_ext/bin/kpoc_charger|fa7490304c49cdd7efbc52c9ac9a6d179f02ca4d
-system_ext/etc/init/kpoc_charger.rc|2ce485c39956849bd2294428d801c3c26ec1c040
-system_ext/lib/libshowlogo.so|75b1b09a44b07986c1c37a5189ed1009ed93a669
-system_ext/lib/libsysenv_system.so|b2d572a4fb828281f1f12e87999505e27dd9fd54
-
 # Power
 vendor/etc/fstb.cfg
 vendor/lib/hw/power.default.so
