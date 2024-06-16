@@ -10,6 +10,9 @@ Build.BRAND=MTK
 # Camera
 ro.camera.sound.forced=0
 
+# Charger
+ro.charger.enable_suspend=true
+
 # Dalvik
 dalvik.vm.dex2oat-cpu-set=4,5,6,7
 dalvik.vm.dex2oat-threads=4
