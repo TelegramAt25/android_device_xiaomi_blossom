@@ -487,6 +487,7 @@ PRODUCT_SYSTEM_EXT_PROPERTIES += \
     persist.arm64.memtag.system_server=off
 
 # Updater
+AB_OTA_UPDATER := false
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.recovery_update=false
 
