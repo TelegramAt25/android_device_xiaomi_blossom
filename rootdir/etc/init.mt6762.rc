@@ -25,7 +25,6 @@ on charger
     write /proc/perfmgr/boost_ctrl/cpu_ctrl/boot_freq "-1 -1 -1 -1"
     write /sys/devices/platform/10012000.dvfsrc/helio-dvfsrc/dvfsrc_req_ddr_opp "-1"
 
-    write /proc/hps/enabled 0
     write /sys/devices/system/cpu/cpu0/online 1
     write /sys/devices/system/cpu/cpu1/online 0
     write /sys/devices/system/cpu/cpu2/online 0
@@ -84,19 +83,9 @@ on fs
     restorecon_recursive /mnt/vendor/persist
 
 on post-fs
-    # change permission for engineer mode
-    chown radio system /proc/freqhopping/dramc
-    chown radio system /proc/freqhopping/dumpregs
-    chown radio system /proc/freqhopping/freqhopping_debug
-    chown radio system /proc/freqhopping/status
-    chown radio system /proc/freqhopping/userdef
-
     # support A/B feature for emmc boot region
     symlink /dev/block/mmcblk0boot0 /dev/block/platform/bootdevice/by-name/preloader_a
     symlink /dev/block/mmcblk0boot1 /dev/block/platform/bootdevice/by-name/preloader_b
-
-    chown system system /proc/bootprof
-    chmod 0664 /proc/bootprof
 
     chown system system /mnt/vendor/protect_f
     chmod 0770 /mnt/vendor/protect_f
@@ -500,28 +489,6 @@ on boot
 
     chown system system /sys/class/thermal/thermal_message/sconfig
 
-    # HMP CPU hotplug strategy
-    chown system system /proc/hps/num_base_perf_serv
-    chmod 0660 /proc/hps/num_base_perf_serv
-    chown system system /proc/hps/num_limit_power_serv
-    chmod 0660 /proc/hps/num_limit_power_serv
-    chown system system /proc/hps/num_limit_ultra_power_saving
-    chmod 0660 /proc/hps/num_limit_ultra_power_saving
-    chown system system /proc/hps/down_threshold
-    chmod 0660 /proc/hps/down_threshold
-    chown system system /proc/hps/up_threshold
-    chmod 0660 /proc/hps/up_threshold
-    chown system system /proc/hps/rush_boost_enabled
-    chmod 0660 /proc/hps/rush_boost_enabled
-    chown system system /proc/hps/heavy_task_enabled
-    chmod 0660 /proc/hps/heavy_task_enabled
-    chown system system /proc/hps/power_mode
-    chmod 0660 /proc/hps/power_mode
-    chown system system /proc/hps/up_times
-    chmod 0660 /proc/hps/up_times
-    chown system system /proc/hps/down_times
-    chmod 0660 /proc/hps/down_times
-
     # PPM
     chown system system /proc/ppm/mode
     chmod 0660 /proc/ppm/mode
@@ -705,39 +672,6 @@ on boot
     chmod 664 /proc/ppm/policy/ut_fix_freq_idx
     chown system system /proc/ppm/policy/ut_fix_freq_idx
 
-on property:vold.decrypt=trigger_reset_main
-    setprop sys.boot_completed 0
-    setprop dev.bootcomplete 0
-
-on property:vold.decrypt=trigger_shutdown_framework
-    setprop sys.boot_completed 0
-    setprop dev.bootcomplete 0
-
-    # Define TCP buffer sizes for various networks
-    #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
-    setprop net.tcp.buffersize.default 4096,87380,524288,4096,16384,524288
-    setprop net.tcp.buffersize.wifi    524288,1048576,2097152,262144,524288,1048576
-    setprop net.tcp.buffersize.lte     524288,1048576,2097152,262144,524288,1048576
-    setprop net.tcp.buffersize.umts    4094,87380,524288,4096,16384,524288
-    setprop net.tcp.buffersize.hspa    4094,87380,524288,4096,16384,524288
-    setprop net.tcp.buffersize.hsupa   4094,87380,524288,4096,16384,524288
-    setprop net.tcp.buffersize.hsdpa   4094,87380,524288,4096,16384,524288
-    setprop net.tcp.buffersize.hspap   4094,87380,1220608,4096,16384,1220608
-    setprop net.tcp.buffersize.edge    4093,26280,35040,4096,16384,35040
-    setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
-
-    setprop persist.sys.strictmode.disable 1
-    setprop persist.bluetooth.a2dp_offload.disabled false
-
-on property:sys.camera.sensormode.apk=1
-    setprop vendor.debug.cameng.force_sensormode 1
-
-on property:sys.camera.sensormode.apk=0
-    setprop vendor.debug.cameng.force_sensormode -1
-
-on property:sys.camera.ctsverify.apk=1
-    setprop vendor.camera.ctsverify.apk 5
-
 on init
     symlink /dev/block/platform/bootdevice /dev/block/bootdevice
 
@@ -771,11 +705,10 @@ service vendor.samsung_nfc_hal_service /vendor/bin/hw/android.hardware.nfc@1.2-s
     user nfc
     group nfc
 
-# initialize powerHAL when boot is completed
 on property:sys.boot_completed=1
+    # initialize powerHAL when boot is completed
     setprop vendor.powerhal.init 1
 
-on property:sys.boot_completed=1
     # STOP EATING MY BATTERY AFTER 100H OF UPTIME FUCK YOU
     stop statsd
 
