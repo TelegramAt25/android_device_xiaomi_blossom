@@ -19,4 +19,4 @@ genfscon sysfs /devices/system/cpu/cpufreq/mtk/.cluster_(min|max)_freq  u:object
 genfscon sysfs /kernel/gpu/gpu_(min|max)_clock          u:object_r:sysfs_mtk_gpufreq:s0
 
 # DT2W
-genfscon proc  /proc/tp_gesture                         u:object_r:proc_tp:s0
+genfscon proc  /tp_gesture                         u:object_r:proc_tp:s0
