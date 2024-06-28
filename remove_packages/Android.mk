@@ -9,6 +9,7 @@ LOCAL_OVERRIDES_PACKAGES := \
     Gmail2 \
     Maps \
     PrebuiltGmail \
+    Updater \
     YouTube
 LOCAL_UNINSTALLABLE_MODULE := true
 LOCAL_CERTIFICATE := PRESIGNED
