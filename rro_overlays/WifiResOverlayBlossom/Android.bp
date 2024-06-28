@@ -2,6 +2,5 @@ runtime_resource_overlay {
     name: "WifiResOverlayBlossom",
     theme: "WifiResOverlay",
     certificate: "platform",
-    sdk_version: "current",
     product_specific: true
 }
