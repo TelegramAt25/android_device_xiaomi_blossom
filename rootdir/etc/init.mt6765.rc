@@ -21,27 +21,6 @@ on late-init
     # enable rcu_expedited
     write /sys/kernel/rcu_expedited 1
 
-on property:odm.display_hbm=0
-    write /sys/display_hbm/hbm_mode 0
-
-on property:odm.display_hbm=1
-    write /sys/display_hbm/hbm_mode 1
-
-on property:odm.display_hbm=2
-    write /sys/display_hbm/hbm_mode 2
-
-on property:odm.display_cabc=0
-    write /sys/display_cabc/cabc_mode 0
-
-on property:odm.display_cabc=1
-    write /sys/display_cabc/cabc_mode 1
-
-on property:odm.display_cabc=2
-    write /sys/display_cabc/cabc_mode 2
-
-on property:odm.display_cabc=3
-    write /sys/display_cabc/cabc_mode 3
-
 on charger
     write /proc/perfmgr/boost_ctrl/cpu_ctrl/boot_freq "-1 -1 -1 -1"
     write /sys/devices/platform/10012000.dvfsrc/helio-dvfsrc/dvfsrc_req_ddr_opp "-1"
