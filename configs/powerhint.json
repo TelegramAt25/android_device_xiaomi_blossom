@@ -116,24 +116,6 @@
       "DefaultIndex": 0
     },
     {
-      "Name": "TASchedtuneBoost",
-      "Path": "/dev/stune/top-app/schedtune.boost",
-      "Values": [
-        "40",
-        "10"
-      ],
-      "ResetOnInit": true
-    },
-    {
-      "Name": "CDSchedtuneBoost",
-      "Path": "/dev/stune/camera-daemon/schedtune.boost",
-      "Values": [
-        "1",
-        "0"
-      ],
-      "ResetOnInit": true
-    },
-    {
       "Name": "FBTFloorBound",
       "Path": "/sys/module/fbt_cpu/parameters/floor_bound",
       "Values": [
@@ -350,12 +332,6 @@
       "Node": "CPUBigClusterMaxFreq",
       "Duration": 1000,
       "Value": "2001000"
-    },
-    {
-      "PowerHint": "INTERACTION",
-      "Node": "TASchedtuneBoost",
-      "Duration": 1000,
-      "Value": "40"
     },
     {
       "PowerHint": "INTERACTION",
