@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: ExactExampl <64069095+ExactExampl@users.noreply.github.com>
+Date: Fri, 5 Jan 2024 11:40:54 +0200
+Subject: [PATCH] core: jni: add a separate prop to activate ART LowMemoryMode
+
+* We might want this for low ram devices, add an option that allows activating it separated from other low ram configs
+
+Change-Id: Ibe2ab18e806590c1b82f13079621eb176a279b5c
+
+diff --git a/core/jni/AndroidRuntime.cpp b/core/jni/AndroidRuntime.cpp
+index eba6cca7..d558e2e7 100644
+--- a/core/jni/AndroidRuntime.cpp
++++ b/core/jni/AndroidRuntime.cpp
+@@ -899,6 +899,11 @@ int AndroidRuntime::startVm(JavaVM** pJavaVM, JNIEnv** pEnv, bool zygote, bool p
+       addOption("-XX:LowMemoryMode");
+     }
+ 
++    property_get("ro.config.art_lowmem", propBuf, "");
++    if (strcmp(propBuf, "true") == 0) {
++      addOption("-XX:LowMemoryMode");
++    }
++
+     /*
+      * Garbage-collection related options.
+      */
+-- 
+2.45.0
+
