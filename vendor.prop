@@ -122,7 +122,7 @@ ro.lmk.use_minfree_levels=true
 ro.lmk.use_new_strategy=true
 ro.lmk.psi_complete_stall_ms=70
 ro.lmk.swap_free_low_percentage=20
-ro.lmk.filecache_min_kb=262144
+ro.lmk.filecache_min_kb=110592
 
 # Logd
 ro.logd.kernel=false
