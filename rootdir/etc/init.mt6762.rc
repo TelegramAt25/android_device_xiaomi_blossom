@@ -65,6 +65,9 @@ on charger
     chmod 0664 /dev/mtk_disp_mgr
     chown system graphics /dev/mtk_disp_mgr
 
+    start vold
+    mount_all /vendor/etc/fstab.mt6765 --late
+
     # Turn backlight on and switch to backlight trigger
     write /sys/class/leds/lcd-backlight/brightness "1000"
     write /sys/class/leds/lcd-backlight/trigger "backlight"
