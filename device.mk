@@ -453,7 +453,10 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     libcurl.vendor \
+    libion.vendor \
     libjsoncpp.vendor \
+    libpower.vendor \
+    libprocessgroup.vendor \
     libsqlite.vendor \
     libssl.vendor
 
