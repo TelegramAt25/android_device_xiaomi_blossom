@@ -1,0 +1,1 @@
+allow platform_app pm_archiving_enabled_prop:file read;
