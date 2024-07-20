@@ -723,6 +723,7 @@ service vendor.charger /system/bin/charger
     user system
     group system graphics wakelock input
     capabilities SYS_BOOT
+    seclabel u:r:charger:s0
     file /dev/kmsg w
     file /sys/fs/pstore/console-ramoops-0 r
     file /sys/fs/pstore/console-ramoops r
