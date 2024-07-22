@@ -27,6 +27,6 @@
     <bool name="config_vibrateOnIconAnimation">true</bool>
 
     <!-- If not zero, limits the internal screen recorder's framerate to the set value. -->
-    <integer name="config_screenRecorderMaxFramerate">60</integer>
+    <integer name="config_screenRecorderMaxFramerate">30</integer>
 
 </resources>
