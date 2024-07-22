@@ -4,5 +4,3 @@ allowxperm init per_boot_file:file ioctl { F2FS_IOC_SET_PIN_FILE };
 allow init proc_bus_input:file r_file_perms;
 
 allow init vendor_sysfs_mmc_host:file w_file_perms;
-
-allow init vendor_file:file { execute execute_no_trans };
