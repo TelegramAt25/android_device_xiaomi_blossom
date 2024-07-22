@@ -261,6 +261,7 @@ PRODUCT_PACKAGES += \
     libutils-v32
 
 PRODUCT_PACKAGES += \
+    libcamera_metadata.vendor \
     libpng.vendor \
     libutilscallstack.vendor
 
