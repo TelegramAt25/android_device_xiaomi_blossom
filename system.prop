@@ -33,9 +33,6 @@ vendor.display.enable_default_color_mode=0
 # fdsan
 debug.fdsan=0
 
-# Filesystem
-fs_mgr.overlayfs.prefer_cache_backing_storage=true
-
 # GPU
 ro.opengles.version=196610
 
