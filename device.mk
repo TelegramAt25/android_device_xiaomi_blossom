@@ -456,6 +456,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     libcurl.vendor \
+    libgralloctypes.vendor \
     libion.vendor \
     libjsoncpp.vendor \
     libpower.vendor \
