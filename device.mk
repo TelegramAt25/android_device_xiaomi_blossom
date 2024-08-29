@@ -462,7 +462,8 @@ PRODUCT_PACKAGES += \
     libpower.vendor \
     libprocessgroup.vendor \
     libsqlite.vendor \
-    libssl.vendor
+    libssl.vendor \
+    libui.vendor
 
 # Shims
 PRODUCT_PACKAGES += \
