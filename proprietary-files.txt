@@ -68,7 +68,6 @@ vendor/lib/vendor.mediatek.hardware.power@1.1.so
 vendor/lib/vendor.mediatek.hardware.power@2.0.so
 
 # IMS
-vendor/bin/hw/vtservice_hidl
 vendor/bin/mtk_pkm_service
 vendor/bin/muxreport
 vendor/bin/volte_imcb
@@ -86,12 +85,10 @@ vendor/etc/init/init.volte_imsm_93.rc
 vendor/etc/init/init.volte_md_status.rc
 vendor/etc/init/init.volte_stack.rc
 vendor/etc/init/init.volte_ua.rc
-vendor/etc/init/init.vtservice_hidl.rc
 vendor/etc/init/init.wfca.rc
 vendor/etc/init/init.wod.rc
 vendor/etc/init/mtk_pkm_service.rc
 vendor/etc/init/muxreport.rc
-vendor/lib/hw/vendor.mediatek.hardware.videotelephony@1.0-impl.so
 vendor/lib/libMtkSpeechEnh.so
 vendor/lib/libasn1c_core.so
 vendor/lib/libasn1c_mapi.so
@@ -117,13 +114,10 @@ vendor/lib/vendor.mediatek.hardware.dmc@1.0.so
 vendor/lib/vendor.mediatek.hardware.dmc@1.1.so
 vendor/lib/vendor.mediatek.hardware.dmc@1.2.so
 vendor/lib/vendor.mediatek.hardware.mtkradioex@2.0.so
-vendor/lib/vendor.mediatek.hardware.videotelephony@1.0.so
 vendor/lib64/libmtcloader.so
 vendor/lib64/libwapi.so
 
 # IMS (System)
-bin/vtservice
-etc/init/init.vtservice.rc
 framework/mediatek-common.jar
 framework/mediatek-framework.jar
 framework/mediatek-ims-base.jar
@@ -133,33 +127,15 @@ framework/mediatek-ims-legacy.jar
 framework/mediatek-telecom-common.jar
 framework/mediatek-telephony-base.jar
 framework/mediatek-telephony-common.jar
-lib/libcomutils.so
-lib/libimsma.so
-lib/libimsma_adapt.so
-lib/libimsma_rtp.so
-lib/libimsma_socketwrapper.so
-lib/libmtk_vt_service.so
-lib/libmtk_vt_wrapper.so
 lib/libmtkavenhancements.so
-lib/libsignal.so
-lib/libsink.so
-lib/libsource.so
-lib/libvcodec_cap.so
-lib/libvcodec_capenc.so
-lib/libvt_avsync.so
-lib64/libmtk_vt_wrapper.so
 lib64/libmtkavenhancements.so
-lib64/libvcodec_cap.so
-lib64/libvcodec_capenc.so
 priv-app/ImsService/ImsService.apk
 system_ext/lib/vendor.mediatek.hardware.dmc@1.1.so
 system_ext/lib/vendor.mediatek.hardware.dmc@1.2.so
 system_ext/lib/vendor.mediatek.hardware.mtkradioex@2.0.so
-system_ext/lib/vendor.mediatek.hardware.videotelephony@1.0.so
 system_ext/lib64/vendor.mediatek.hardware.dmc@1.1.so
 system_ext/lib64/vendor.mediatek.hardware.dmc@1.2.so
 system_ext/lib64/vendor.mediatek.hardware.mtkradioex@2.0.so
-system_ext/lib64/vendor.mediatek.hardware.videotelephony@1.0.so
 
 # GPS
 vendor/bin/bip
@@ -326,6 +302,29 @@ vendor/lib64/vendor.mediatek.hardware.mms@1.2.so
 vendor/lib64/vendor.mediatek.hardware.mms@1.3.so
 vendor/lib64/vendor.mediatek.hardware.mms@1.4.so
 vendor/lib64/vendor.mediatek.hardware.mms@1.5.so
+
+# Radio (Video Telephony) - from blue V816.0.4.0.UGRINXM
+-system_ext/bin/vtservice|3eb4c03300dfd7b0b4cdb688ea05c01f0b2bde9e
+system_ext/etc/init/init.vtservice.rc|50a2249906edc06059b443513db47a2ddc0490dc
+-system_ext/lib/libcomutils.so|fecece013b6e0570f349144fed31428387e328ae
+-system_ext/lib/libimsma.so|2e4e6c28e252efa21f523a73c9ac37767a4f2753
+-system_ext/lib/libimsma_adapt.so|ae9bcc5dd7f77c950c6c212c7939d00d4ddec403
+-system_ext/lib/libimsma_rtp.so|60bc3ca99172878b9e9d5e987a8587cfdfc1f133
+-system_ext/lib/libimsma_socketwrapper.so|855f8f14bebf857ba535a8ef952326b09eda70af
+-system_ext/lib/libmtk_vt_service.so|c69bd52fc4aa4f370ee90ca668260b98e7ccb588
+-system_ext/lib/libmtk_vt_wrapper.so|f25007d81b2a19b3b0564dea9dcf8f18fe52cc30
+-system_ext/lib/libsignal.so|f483ee7399495b42337673a7d6bd6eb42ac3e206
+-system_ext/lib/libsink.so|b40b1ad3435fb4ce16e66fa3c930928129857762
+-system_ext/lib/libsource.so|8f9c20a098a5caddd7984be6ab9dc5334040d131
+-system_ext/lib/libvcodec_cap.so|6a26d798f966d33abf540751b477aed002412883
+-system_ext/lib/libvcodec_capenc.so|329e65e13a717bbbe40b5a97476005b28455254a
+-system_ext/lib/libvt_avsync.so|a70a6a62a3675a8d55f951415f9d0f00bc760052
+-system_ext/lib/vendor.mediatek.hardware.videotelephony-V1-ndk.so|f78d6cb1edcfe776b8a2f2b229c6d928f4013b6b
+-system_ext/lib/vendor.mediatek.hardware.videotelephony@1.0.so;MODULE=vendor.mediatek.hardware.videotelephony@1.0.system_ext|fa9b5f7c9603c2eb86b94b33df2e7331c4a151b0
+-vendor/bin/hw/vtservice_hidl|53569543f0ea7ace6bab5c94a190b5398dba1fd0
+vendor/etc/init/init.vtservice_hidl.rc|f2e992214ed5bb99c2c2a135cf1f0996dba8a8a0
+-vendor/lib/hw/vendor.mediatek.hardware.videotelephony@1.0-impl.so|1ca9ae80d39a609ed69a91a6e53da8e687ffc75e
+-vendor/lib/vendor.mediatek.hardware.videotelephony@1.0.so|90d390d33edd8acc1526ccb506314d4a841a6578
 
 # NVRAM
 vendor/bin/hw/vendor.mediatek.hardware.nvram@1.1-service
