@@ -20,7 +20,7 @@ $(call inherit-product, vendor/yaap/config/common_full_phone.mk)
 
 scr_resolution := 720
 
-PRODUCT_NAME := miku_blossom
+PRODUCT_NAME := yaap_blossom
 PRODUCT_DEVICE := blossom
 PRODUCT_MANUFACTURER := Xiaomi
 PRODUCT_BRAND := Redmi
