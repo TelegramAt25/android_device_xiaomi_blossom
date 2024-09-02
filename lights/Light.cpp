@@ -20,13 +20,10 @@
 
 #include <fstream>
 
-// T25 - add in for prop reading
-using android::base::GetProperty;
-
 #define LCD_LED         "/sys/class/leds/lcd-backlight/"
 
 #define BRIGHTNESS      "brightness"
-// #define MAX_BRIGHTNESS  "max_brightness" // T25 - unused
+#define MAX_BRIGHTNESS  "max_brightness"
 
 namespace {
 /*
@@ -47,36 +44,25 @@ static void set(std::string path, int value) {
     set(path, std::to_string(value));
 }
 
-// T25 start - brightness handling rework
-
 /*
- * check for the control prop and change accordingly
+ * Read max brightness from path and close file.
  */
+static int getMaxBrightness(std::string path) {
+    // T25 start - override max brightness
+    /*
+    std::ifstream file(path);
+    int value;
 
-static bool isExtended() {
-    std::string p = GetProperty("persist.debug.niigo.extended_brightness", "");
-    if (p == "true") {
-        return true;
-    } else {
-        return false;
+    if (!file.is_open()) {
+        LOG(WARNING) << "failed to read from " << path.c_str();
+        return 0;
     }
-}
 
-static int getMaxBrightness() {
+    file >> value;
+    */
+    // overridden due to faulty behavior
     int value = 1023;
-
-    if (isExtended()) {
-        value = 2047;
-    }
-    return value;
-}
-
-static int getMinBrightness() {
-    int value = 13;
-
-    if (isExtended()) {
-        value = 8;
-    }
+    // T25 end
     return value;
 }
 
@@ -101,24 +87,23 @@ static uint32_t getBrightness(const HwLightState& state) {
     return (77 * red + 150 * green + 29 * blue) >> 8;
 }
 
-static inline uint32_t scaleBrightness(uint32_t brightness, uint32_t maxBrightness, uint32_t minBrightness) {
+static inline uint32_t scaleBrightness(uint32_t brightness, uint32_t maxBrightness) {
     if (brightness == 0) {
         return 0;
     }
 
-    return (brightness - 1) * (maxBrightness - minBrightness) / (0xFF - 1) + minBrightness;
+    // T25 - reduce min brightness to 13
+    return (brightness - 1) * (maxBrightness - 13) / (0xFF - 1) + 13;
 }
 
-static inline uint32_t getScaledBrightness(const HwLightState& state, uint32_t maxBrightness, uint32_t minBrightness) {
-    return scaleBrightness(getBrightness(state), maxBrightness, minBrightness);
+static inline uint32_t getScaledBrightness(const HwLightState& state, uint32_t maxBrightness) {
+    return scaleBrightness(getBrightness(state), maxBrightness);
 }
 
 static void handleBacklight(const HwLightState& state) {
-    uint32_t brightness = getScaledBrightness(state, getMaxBrightness(), getMinBrightness());
+    uint32_t brightness = getScaledBrightness(state, getMaxBrightness(LCD_LED MAX_BRIGHTNESS));
     set(LCD_LED BRIGHTNESS, brightness);
 }
-
-// T25 end - brightness handling rework
 
 /* Keep sorted in the order of importance. */
 static std::vector<LightType> backends = {
