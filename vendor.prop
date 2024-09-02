@@ -224,11 +224,6 @@ debug.sf.enable_hwc_vds=0
 # TEE
 ro.vendor.mtk_microtrust_tee_support=1
 
-# Suspend
-suspend.short_suspend_threshold_millis=2000
-suspend.short_suspend_backoff_enabled=true
-suspend.max_sleep_time_millis=40000
-
 # WiFi
 persist.vendor.connsys.chipid=-1
 persist.vendor.connsys.coredump.mode=0
