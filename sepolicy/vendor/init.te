@@ -4,3 +4,8 @@ allowxperm init per_boot_file:file ioctl { F2FS_IOC_SET_PIN_FILE };
 allow init proc_bus_input:file r_file_perms;
 
 allow init vendor_sysfs_mmc_host:file w_file_perms;
+
+# allow init to bind mount over volte stack
+allow init volte_imcb_exec:file mounton;
+allow init volte_stack_exec:file mounton;
+allow init volte_ua_exec:file mounton;
