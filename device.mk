@@ -4,8 +4,17 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+KERNEL_PATH := device/xiaomi/blossom-kernel
+
 # Enable userspace reboot
 $(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
+
+# Copy Kernel
+KERNEL_IMAGE := $(KERNEL_PATH)/kernel
+PRODUCT_COPY_FILES += $(KERNEL_IMAGE):kernel
+
+# Kernel Headers
+PRODUCT_VENDOR_KERNEL_HEADERS += $(KERNEL_PATH)/kernel-headers
 
 # Dynamic Partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
