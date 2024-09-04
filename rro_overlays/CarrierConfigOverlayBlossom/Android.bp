@@ -1,5 +1,7 @@
 runtime_resource_overlay {
     name: "CarrierConfigOverlayBlossom",
-    vendor: true,
+    theme: "CarrierConfigOverlay",
+    certificate: "platform",
+    product_specific: true,
     aaptflags: ["--keep-raw-values"]
 }
