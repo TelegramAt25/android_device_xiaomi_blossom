@@ -686,21 +686,6 @@ on init
 on boot
     insmod /vendor/lib/modules/fpsgo.ko
 
-# Fingerprint
-service vendor.fps_hal /vendor/bin/hw/android.hardware.biometrics.fingerprint@2.1-service
-    class late_start
-    user system
-    group system input uhid
-    # writepid /dev/cpuset/system-background/tasks
-
-service vendor.focaltech.fps_hal /vendor/bin/hw/vendor.focaltech.fingerprint@1.0-service
-    class late_start
-    user system
-    group system
-
-on property:ro.hardware.fp.restartimes=max
-    stop vendor.fps_hal
-
 # NFC
 on property:ro.boot.hwname=angelican
     enable vendor.samsung_nfc_hal_service
