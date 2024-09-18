@@ -181,16 +181,6 @@
         <item>0:2:15</item>
     </string-array>
 
-    <!-- Default files to pin via Pinner Service -->
-    <string-array name="config_defaultPinnerServiceFiles" translatable="false">
-        <item>/system/framework/framework.jar</item>
-        <item>/system/framework/services.jar</item>
-        <item>/apex/com.android.art/javalib/core-oj.jar</item>
-        <item>/apex/com.android.art/javalib/core-libart.jar</item>
-        <item>/system/bin/surfaceflinger</item>
-        <item>/system_ext/priv-app/SystemUI/SystemUI.apk</item>
-    </string-array>
-
     <!-- Applications which are disabled unless matching a particular sku -->
     <string-array name="config_disableApkUnlessMatchedSku_skus_list" translatable="false">
         <item>angelican</item>
