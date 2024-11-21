@@ -97,6 +97,9 @@ ro.vendor.mtk_log_hide_gps=0
 ro.vendor.mtk_wapi_support=1
 ro.vendor.mtk_wappush_support=1
 
+# Graphics
+debug.graphics.game_default_frame_rate.disabled=true
+
 # IMS
 persist.vendor.ims_support=1
 persist.vendor.mims_support=2
