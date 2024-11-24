@@ -459,9 +459,6 @@
          available on some devices. -->
     <bool name="config_enableHapticTextHandle">true</bool>
 
-    <!-- Determines whether the shell features all run on another thread. -->
-    <bool name="config_enableShellMainThread">true</bool>
-
     <!-- Is the device capable of hot swapping an ICC Card -->
      <bool name="config_hotswapCapable">true</bool>
 
