@@ -82,9 +82,6 @@ ro.vendor.mtk_widevine_drm_l3_support=1
 # FM Radio
 persist.vendor.connsys.fm_chipid=mt6631
 
-# FRP
-ro.frp.pst=/dev/block/platform/bootdevice/by-name/frp
-
 # FUSE passthrough
 persist.sys.fuse.passthrough.enable=true
 
