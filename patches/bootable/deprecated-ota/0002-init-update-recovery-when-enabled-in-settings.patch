@@ -1,0 +1,57 @@
+From abb1250def8ebff6767737599c0b8bc603ea649f Mon Sep 17 00:00:00 2001
+From: "Brint E. Kriebel" <bekit@cyngn.com>
+Date: Wed, 14 May 2014 18:13:00 -0700
+Subject: [PATCH] init: update recovery when enabled in settings
+
+Update the recovery image only if the option is enabled
+under Developer options
+
+This reverts commit 231e0a9e6a1da6fa4a188840f68af649669e417f.
+
+Change-Id: I928f7ee8bb3eaf5581bb8225661d253ecca0c4ef
+
+Change CM recovery install script filename [2/2]
+
+This is part 2/2 to maintain backwards compatibility with CWM's
+verify_root_and_recovery() function. CWM checks if install-recovery.sh
+exists and has an executable flag set, then offers to disable the script
+for the user. CM now controls this with the persist.sys.recovery_update
+property which is configurable via settings, so we don't need to
+double-check this.
+
+This changes the name of the recovery install script to
+install-cm-recovery.sh.
+
+Change-Id: I275dd358b46c626dfcb8fe02c583a308d5a89c56
+
+init: Move install-recovery.sh back to the standard location
+
+L moved the location of install-recovery.sh from /system/etc/ to
+/system/bin. Since CWM recovery isn't looking for this location
+anyway, let's return the file to this standard location. This allows
+all other code in L to function properly.
+
+Maintain the change to the init to allow flash_recovery to be disabled
+in settings.
+
+Change-Id: I8a85db8addeb75a2fd60d809c5ed4edc619ef7ed
+---
+ applypatch/vendor_flash_recovery.rc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/applypatch/vendor_flash_recovery.rc b/applypatch/vendor_flash_recovery.rc
+index a6003be..219dd31 100644
+--- a/applypatch/vendor_flash_recovery.rc
++++ b/applypatch/vendor_flash_recovery.rc
+@@ -2,3 +2,8 @@ service vendor_flash_recovery /vendor/bin/install-recovery.sh
+     class main
+     oneshot
+     user root
++    disabled
++
++# update recovery if enabled
++on property:persist.sys.recovery_update=true
++    start vendor_flash_recovery
+-- 
+2.47.0
+
