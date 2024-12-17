@@ -911,7 +911,7 @@ vendor/lib/libneuropilot_hal_utils.so
 vendor/bin/hw/android.hardware.biometrics.fingerprint@2.1-service
 vendor/bin/hw/vendor.focaltech.fingerprint@1.0-service
 vendor/etc/permissions/com.fingerprints.extension.xml
--vendor/framework/com.fingerprints.extension.jar
+-vendor/framework/com.fingerprints.extension.jar|da85473758ee143fad4d824d1fb95d9ad6b297a9
 vendor/lib/hw/fingerprint.focaltech.default.so
 vendor/lib/hw/fingerprint.fpc.default.so
 vendor/lib/com.fingerprints.extension@1.0.so
