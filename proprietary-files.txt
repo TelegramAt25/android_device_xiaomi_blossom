@@ -907,15 +907,6 @@ vendor/etc/camera/waDumpinputSubImg_1600x1200.nv21
 # Neural Networks
 vendor/lib/libneuropilot_hal_utils.so
 
-# Fingerprint
-vendor/bin/hw/android.hardware.biometrics.fingerprint@2.1-service
-vendor/bin/hw/vendor.focaltech.fingerprint@1.0-service
-vendor/etc/permissions/com.fingerprints.extension.xml
--vendor/framework/com.fingerprints.extension.jar
-vendor/lib/hw/fingerprint.focaltech.default.so
-vendor/lib/hw/fingerprint.fpc.default.so
-vendor/lib/com.fingerprints.extension@1.0.so
-
 # Sensors
 vendor/bin/hw/android.hardware.sensors@2.0-service-mediatek
 vendor/bin/sensors_test

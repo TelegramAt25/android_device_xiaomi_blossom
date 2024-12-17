@@ -173,14 +173,6 @@
          This value is a fraction between 3.5% and 100%. -->
     <item name="config_screenBrightnessSettingMaximumFloat" format="float" type="dimen">1.0</item>
 
-    <!-- List of biometric sensors on the device, in decreasing strength. Consumed by AuthService
-         when registering authenticators with BiometricService. Format must be ID:Modality:Strength,
-         where: IDs are unique per device, Modality as defined in BiometricAuthenticator.java,
-         and Strength as defined in Authenticators.java -->
-    <string-array name="config_biometric_sensors" translatable="false">
-        <item>0:2:15</item>
-    </string-array>
-
     <!-- Default files to pin via Pinner Service -->
     <string-array name="config_defaultPinnerServiceFiles" translatable="false">
         <item>/system/framework/framework.jar</item>
