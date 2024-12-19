@@ -23,6 +23,11 @@ LOCAL_OVERRIDES_PACKAGES += \
     Stk \
     messaging
 endif
+ifeq ($(NUKE_AUDIOFX),true)
+LOCAL_OVERRIDES_PACKAGES += \
+    AudioFX \
+    MusicFX
+endif
 LOCAL_UNINSTALLABLE_MODULE := true
 LOCAL_CERTIFICATE := PRESIGNED
 LOCAL_SRC_FILES := /dev/null
