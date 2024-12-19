@@ -10,6 +10,18 @@ LOCAL_OVERRIDES_PACKAGES := \
     Maps \
     PrebuiltGmail \
     YouTube
+ifeq ($(FUNNY_SLIM),true)
+LOCAL_OVERRIDES_PACKAGES += \
+    Calendar \
+    Contacts \
+    Dialer \
+    Gallery \
+    Gallery2 \
+    LocalMediaPlayer \
+    QuickAccessWallet \
+    Stk \
+    messaging
+endif
 LOCAL_UNINSTALLABLE_MODULE := true
 LOCAL_CERTIFICATE := PRESIGNED
 LOCAL_SRC_FILES := /dev/null
