@@ -9,6 +9,7 @@ LOCAL_OVERRIDES_PACKAGES := \
     Gmail2 \
     Maps \
     PrebuiltGmail \
+    QuickSearchBox \
     YouTube
 ifeq ($(FUNNY_SLIM),true)
 LOCAL_OVERRIDES_PACKAGES += \
