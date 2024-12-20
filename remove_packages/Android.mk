@@ -27,6 +27,7 @@ LOCAL_OVERRIDES_PACKAGES += \
     messaging
 endif
 ifeq ($(NUKE_AUDIOFX),true)
+TARGET_EXCLUDES_AUDIOFX := true
 LOCAL_OVERRIDES_PACKAGES += \
     AudioFX \
     MusicFX
