@@ -15,10 +15,13 @@ ifeq ($(FUNNY_SLIM),true)
 LOCAL_OVERRIDES_PACKAGES += \
     Calendar \
     Contacts \
+    DeskClock \
     Dialer \
     Gallery \
     Gallery2 \
     LocalMediaPlayer \
+    Music \
+    MusicKotlin \
     QuickAccessWallet \
     Stk \
     messaging
