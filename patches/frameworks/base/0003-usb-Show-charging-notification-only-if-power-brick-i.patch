@@ -1,0 +1,41 @@
+From f8de734aa658c0278ed9ff6e1be2f2cac0cb3ce6 Mon Sep 17 00:00:00 2001
+From: Adithya R <gh0strider.2k18.reborn@gmail.com>
+Date: Mon, 15 Jan 2024 08:22:28 +0530
+Subject: [PATCH] usb: Show charging notification only if power brick is
+ disconnected
+
+On USB HIDL devices (qcom) and barely-implemented AIDL (older Pixels)
+the power brick connection status is always POWER_BRICK_STATUS_UNKNOWN,
+leading to charging notification showing up even while charging with a
+wall charger.
+
+Properly implemented USB AIDL [1] should report
+POWER_BRICK_STATUS_DISCONNECTED when charging with anything other than
+a wall charger (i.e SDP/PD), hence use this as the check instead.
+
+[1]: https://android.googlesource.com/device/google/gs101/+/94bc87a6f21a027fc8c30ba3fbf1328b0adc5959/usb/usb/Usb.cpp#785
+
+Fixes a13e377.
+
+Change-Id: I9e251211e5801b2c1766a12bab7d4787c445dc14
+---
+ services/usb/java/com/android/server/usb/UsbDeviceManager.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/services/usb/java/com/android/server/usb/UsbDeviceManager.java b/services/usb/java/com/android/server/usb/UsbDeviceManager.java
+index a924e12f9..ec5f317a1 100644
+--- a/services/usb/java/com/android/server/usb/UsbDeviceManager.java
++++ b/services/usb/java/com/android/server/usb/UsbDeviceManager.java
+@@ -1543,7 +1543,8 @@ public class UsbDeviceManager implements ActivityTaskManagerInternal.ScreenObser
+                 titleRes = com.android.internal.R.string.usb_charging_notification_title;
+                 id = SystemMessage.NOTE_USB_CHARGING;
+             } else if (mSinkPower && mConnectedToDataDisabledPort
+-                    && mPowerBrickConnectionStatus != UsbPortStatus.POWER_BRICK_STATUS_CONNECTED) {
++                    && mPowerBrickConnectionStatus ==
++                            UsbPortStatus.POWER_BRICK_STATUS_DISCONNECTED) {
+                 // Show charging notification when USB Data is disabled on the port, and not
+                 // connected to a wall charger.
+                 titleRes = com.android.internal.R.string.usb_charging_notification_title;
+-- 
+2.47.0
+
