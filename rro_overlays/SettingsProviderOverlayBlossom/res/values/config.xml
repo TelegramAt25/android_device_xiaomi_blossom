@@ -30,4 +30,8 @@
          pending notification -->
     <bool name="def_notification_pulse">false</bool>
 
+    <!-- Number of retries for connecting to DHCP.
+         Value here is the same as WifiStateMachine.DEFAULT_MAX_DHCP_RETRIES -->
+    <integer name="def_max_dhcp_retries">5</integer>
+
 </resources>
