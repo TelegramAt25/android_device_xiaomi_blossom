@@ -21,4 +21,9 @@
 
     <bool name="def_bluetooth_on">false</bool>
 
+    <!-- 0 == off, 3 == on -->
+    <integer name="def_location_mode">0</integer>
+    <!-- 0 == off, 1 == on-->
+    <integer name="def_paired_device_location_mode">0</integer>
+
 </resources>
