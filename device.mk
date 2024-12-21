@@ -531,6 +531,7 @@ PRODUCT_PACKAGES += \
     DialerOverlayBlossom \
     FrameworksResOverlayBlossom \
     SettingsOverlayBlossom \
+    SettingsProviderOverlayBlossom \
     SystemUIOverlayBlossom \
     TelephonyOverlayBlossom \
     WifiResOverlayBlossom
