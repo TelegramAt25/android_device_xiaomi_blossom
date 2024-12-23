@@ -506,11 +506,6 @@ PRODUCT_SYSTEM_EXT_PROPERTIES += \
 
 # Miku UI (not really) - optional apps
 # these shouldve been in source but eh
-ifeq ($(TARGET_SHIP_LATINIME),true)
-PRODUCT_PACKAGES += \
-    LatinIME
-endif
-
 ifeq ($(TARGET_SHIP_FOSSBROWSER),true)
 PRODUCT_PACKAGES += \
     FOSSBrowser
