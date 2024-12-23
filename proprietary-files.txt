@@ -30,7 +30,7 @@ vendor/firmware/novatek_ts_truly_fw.bin
 vendor/firmware/novatek_ts_truly_mp.bin
 
 # Firmware - GPU
-vendor/firmware/rgx.fw
+vendor/firmware/rgx.fw|415f28d3597302d9777851937c2bbb8d873ecb30
 vendor/firmware/rgx.sh
 
 # Firmware - Connectivity
