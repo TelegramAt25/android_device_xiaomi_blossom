@@ -908,7 +908,7 @@ vendor/etc/camera/waDumpinputSubImg_1600x1200.nv21
 vendor/lib/libneuropilot_hal_utils.so
 
 # Fingerprint
-vendor/bin/hw/android.hardware.biometrics.fingerprint@2.1-service
+vendor/bin/hw/android.hardware.biometrics.fingerprint@2.1-service|658d181ba1e0ebff8e27ecfefe033de593781cd2
 vendor/bin/hw/vendor.focaltech.fingerprint@1.0-service
 vendor/etc/permissions/com.fingerprints.extension.xml
 -vendor/framework/com.fingerprints.extension.jar
