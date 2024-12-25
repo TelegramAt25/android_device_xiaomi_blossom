@@ -54,7 +54,7 @@ PRODUCT_AAPT_PREF_CONFIG := xhdpi
 PRODUCT_AAPT_PREBUILT_DPI := xhdpi hdpi
 
 # GMS
-ifeq ($(WITH_GMS),true)
+ifeq ($(MIKU_GAPPS),true)
 GMS_MAKEFILE=gms_minimal.mk
 endif
 
