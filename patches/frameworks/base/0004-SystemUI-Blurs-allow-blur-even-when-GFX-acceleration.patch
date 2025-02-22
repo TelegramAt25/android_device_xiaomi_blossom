@@ -1,0 +1,49 @@
+From 380326b7fad5c06eb3571cff276d4bc36aa6f7f4 Mon Sep 17 00:00:00 2001
+From: Pulkit077 <pulkitagarwal2k1@gmail.com>
+Date: Sat, 1 Jan 2022 19:35:59 +0800
+Subject: [PATCH] SystemUI: Blurs: allow blur even when GFX acceleration is
+ disabled
+
+ isHighEndGfx returns false when ro.config.avoid_gfx_accel or config_avoidGfxAccel is set causing to disable blur.
+ Blur is still heavy but with new renderengine patches by Kdrag0n and reducing amount of blur, it seems to be less aggressive on CPU.
+ With this we can still reduce memory usage and keep using blur giving users option to enable it.
+
+ New behaviour: blurs are only disabled if device has low ram prop set.
+
+Test: boot, enable blur toggle under developer option, reboot and blurs are visible.
+Change-Id: Id1729aca89b6dff22c865ae913da044c0e7c7f31
+[dlwlrma123: adapted to S]
+---
+ .../src/com/android/systemui/shared/system/BlurUtils.java       | 2 +-
+ .../SystemUI/src/com/android/systemui/statusbar/BlurUtils.kt    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/packages/SystemUI/shared/src/com/android/systemui/shared/system/BlurUtils.java b/packages/SystemUI/shared/src/com/android/systemui/shared/system/BlurUtils.java
+index 61b0e4d90..84bb0730e 100644
+--- a/packages/SystemUI/shared/src/com/android/systemui/shared/system/BlurUtils.java
++++ b/packages/SystemUI/shared/src/com/android/systemui/shared/system/BlurUtils.java
+@@ -29,7 +29,7 @@ public abstract class BlurUtils {
+      * @return {@code true} when supported.
+      */
+     public static boolean supportsBlursOnWindows() {
+-        return CROSS_WINDOW_BLUR_SUPPORTED && ActivityManager.isHighEndGfx()
++        return CROSS_WINDOW_BLUR_SUPPORTED && !ActivityManager.isLowRamDeviceStatic()
+                 && !SystemProperties.getBoolean("persist.sysui.disableBlur", false);
+     }
+ }
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/BlurUtils.kt b/packages/SystemUI/src/com/android/systemui/statusbar/BlurUtils.kt
+index 6bbd4a504..27e42d672 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/BlurUtils.kt
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/BlurUtils.kt
+@@ -141,7 +141,7 @@ open class BlurUtils @Inject constructor(
+      * @return {@code true} when supported.
+      */
+     open fun supportsBlursOnWindows(): Boolean {
+-        return CROSS_WINDOW_BLUR_SUPPORTED && ActivityManager.isHighEndGfx() &&
++        return CROSS_WINDOW_BLUR_SUPPORTED && !ActivityManager.isLowRamDeviceStatic() &&
+                 crossWindowBlurListeners.isCrossWindowBlurEnabled() &&
+                 !SystemProperties.getBoolean("persist.sysui.disableBlur", false)
+     }
+-- 
+2.47.0
+
