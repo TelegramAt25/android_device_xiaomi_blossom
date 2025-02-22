@@ -641,4 +641,14 @@
     <!-- True if the device should block turning display on at boot until wallpaper is ready -->
     <bool name="config_checkWallpaperAtBoot">false</bool>
 
+    <!-- Array of values used in Gesture Navigation settings page to reduce/increase the back
+     gesture's inset size. These values will be multiplied into the default width, read from the
+     gesture navigation overlay package, in order to create 3 different sizes which are selectable
+     via a slider component. -->
+    <array name="config_backGestureInsetScales">
+        <item>0.35</item>
+        <item>1.00</item>
+        <item>1.30</item>
+    </array>
+
 </resources>
