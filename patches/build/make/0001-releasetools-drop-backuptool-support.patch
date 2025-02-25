@@ -1,0 +1,147 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: atharvnegi <atharvnegi2951@gmail.com>
+Date: Tue, 25 Feb 2025 23:09:18 +0700
+Subject: [PATCH] releasetools: drop backuptool support
+
+reverts 0f5817f843b2a843c82ffd762a2eabb95bbd7121
+
+Change-Id: Ibf7228cb8cc53b525d20ad6b250c69f419de26a6
+---
+ core/Makefile                               | 11 -----------
+ tools/releasetools/edify_generator.py       | 20 --------------------
+ tools/releasetools/non_ab_ota.py            |  7 -------
+ tools/releasetools/ota_from_target_files.py |  8 --------
+ 4 files changed, 46 deletions(-)
+
+diff --git a/core/Makefile b/core/Makefile
+index e79ab0a..2ca4ae3 100644
+--- a/core/Makefile
++++ b/core/Makefile
+@@ -7164,7 +7164,6 @@ PATH=$(INTERNAL_USERIMAGES_BINARY_PATHS):$(dir $(ZIP2ZIP)):$$PATH \
+     $(OTA_FROM_TARGET_FILES) \
+         --verbose \
+         --path $(HOST_OUT) \
+-        --backup=$(backuptool) \
+         $(if $(OEM_OTA_CONFIG), --oem_settings $(OEM_OTA_CONFIG)) \
+         $(if $(BOOT_VAR_OTA_CONFIG), --boot_variable_file $(BOOT_VAR_OTA_CONFIG)) \
+         $(2) \
+@@ -7182,16 +7181,6 @@ INTERNAL_OTA_METADATA := $(PRODUCT_OUT)/ota_metadata
+ 
+ $(call declare-0p-target,$(INTERNAL_OTA_METADATA))
+ 
+-ifeq ($(TARGET_BUILD_VARIANT),user)
+-    $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
+-else
+-ifneq ($(LINEAGE_BUILD),)
+-    $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := true
+-else
+-    $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
+-endif
+-endif
+-
+ $(INTERNAL_OTA_PACKAGE_TARGET): KEY_CERT_PAIR := $(DEFAULT_KEY_CERT_PAIR)
+ $(INTERNAL_OTA_PACKAGE_TARGET): .KATI_IMPLICIT_OUTPUTS := $(INTERNAL_OTA_METADATA)
+ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_DIR) $(OTA_FROM_TARGET_FILES) $(INTERNAL_OTATOOLS_FILES)
+diff --git a/tools/releasetools/edify_generator.py b/tools/releasetools/edify_generator.py
+index 8063c48..e02b2ae 100644
+--- a/tools/releasetools/edify_generator.py
++++ b/tools/releasetools/edify_generator.py
+@@ -156,20 +156,6 @@ class EdifyGenerator(object):
+            ");")
+     self.script.append(self.WordWrap(cmd))
+ 
+-  def RunBackup(self, command, dynamic=False):
+-    systemEntry = self.fstab["/system"]
+-    if dynamic:
+-      for p in ["vendor", "product", "system_ext"]:
+-        fstabEntry = self.fstab.get("/"+p, None)
+-        if fstabEntry:
+-          self.script.append('map_partition("%s");' % (fstabEntry.device,))
+-
+-      self.script.append(('run_program("/tmp/install/bin/backuptool.sh", "%s", map_partition("%s"), "%s");' % (
+-          command, systemEntry.device, systemEntry.fs_type)))
+-    else:
+-      self.script.append(('run_program("/tmp/install/bin/backuptool.sh", "%s", "%s", "%s");' % (
+-          command, systemEntry.device, systemEntry.fs_type)))
+-
+   def ShowProgress(self, frac, dur):
+     """Update the progress bar, advancing it over 'frac' over the next
+     'dur' seconds.  'dur' may be zero to advance it via SetProgress
+@@ -262,12 +248,6 @@ class EdifyGenerator(object):
+           p.mount_point, mount_flags))
+       self.mounts.add(p.mount_point)
+ 
+-  def Unmount(self, mount_point):
+-    """Unmount the partition with the given mount_point."""
+-    if mount_point in self.mounts:
+-      self.mounts.remove(mount_point)
+-      self.script.append('unmount("%s");' % (mount_point,))
+-
+   def UnpackPackageDir(self, src, dst):
+     """Unpack a given directory from the OTA package into the given
+     destination directory."""
+diff --git a/tools/releasetools/non_ab_ota.py b/tools/releasetools/non_ab_ota.py
+index bc98187..ef2b390 100644
+--- a/tools/releasetools/non_ab_ota.py
++++ b/tools/releasetools/non_ab_ota.py
+@@ -221,9 +221,6 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
+   script.SetPermissionsRecursive("/tmp/install", 0, 0, 0o755, 0o644, None, None)
+   script.SetPermissionsRecursive("/tmp/install/bin", 0, 0, 0o755, 0o755, None, None)
+ 
+-  if OPTIONS.backuptool:
+-    script.RunBackup("backup", target_info.get('use_dynamic_partitions') == "true")
+-
+   # All other partitions as well as the data wipe use 10% of the progress, and
+   # the update of the system partition takes the remaining progress.
+   system_progress = 0.9 - (len(block_diff_dict) - 1) * 0.1
+@@ -266,10 +263,6 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
+ 
+   device_specific.FullOTA_PostValidate()
+ 
+-  if OPTIONS.backuptool:
+-    script.ShowProgress(0.02, 10)
+-    script.RunBackup("restore", target_info.get('use_dynamic_partitions') == "true")
+-
+   script.WriteRawImage("/boot", "boot.img")
+ 
+   script.ShowProgress(0.1, 10)
+diff --git a/tools/releasetools/ota_from_target_files.py b/tools/releasetools/ota_from_target_files.py
+index 22a367a..6446e1f 100755
+--- a/tools/releasetools/ota_from_target_files.py
++++ b/tools/releasetools/ota_from_target_files.py
+@@ -144,10 +144,6 @@ Non-A/B OTA specific options
+       that any changes made to the system partition are done using the new
+       recovery (new kernel, etc.).
+ 
+-  --backup <boolean>
+-      Enable or disable the execution of backuptool.sh.
+-      Disabled by default.
+-
+ A/B OTA specific options
+ 
+   --disable_fec_computation
+@@ -312,7 +308,6 @@ OPTIONS.worker_threads = multiprocessing.cpu_count() // 2
+ if OPTIONS.worker_threads == 0:
+   OPTIONS.worker_threads = 1
+ OPTIONS.two_step = False
+-OPTIONS.backuptool = False
+ OPTIONS.include_secondary = False
+ OPTIONS.block_based = True
+ OPTIONS.updater_binary = None
+@@ -1239,8 +1234,6 @@ def main(argv):
+                          "integers are allowed." % (a, o))
+     elif o in ("-2", "--two_step"):
+       OPTIONS.two_step = True
+-    elif o == "--backup":
+-      OPTIONS.backuptool = True
+     elif o == "--include_secondary":
+       OPTIONS.include_secondary = True
+     elif o == "--no_signing":
+@@ -1359,7 +1352,6 @@ def main(argv):
+                                  "extra_script=",
+                                  "worker_threads=",
+                                  "two_step",
+-                                 "backup=",
+                                  "include_secondary",
+                                  "no_signing",
+                                  "block",
