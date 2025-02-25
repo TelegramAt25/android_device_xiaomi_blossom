@@ -5,4 +5,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/miku_blossom.mk
+    $(LOCAL_DIR)/lineage_blossom.mk
