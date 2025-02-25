@@ -14,5 +14,3 @@ ro.product.system.device=dandelion
 ro.product.system.marketname=Redmi 9A
 ro.product.system.model=M2006C3LI
 ro.product.system.fingerprint=Redmi/dandelion_in/dandelion:11/RP1A.200720.011/V12.5.9.0.RCDINXM:user/release-keys
-
-persist.sys.axion_processor_info=Mediatek_Helio_G25
