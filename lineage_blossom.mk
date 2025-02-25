@@ -18,6 +18,9 @@ $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 # include private signing keys
 -include vendor/niigo-priv/keys/keys.mk
 
+# local patch - skip backuptool
+TARGET_SKIP_BACKUPTOOL := true
+
 PRODUCT_NAME := lineage_blossom
 PRODUCT_DEVICE := blossom
 PRODUCT_MANUFACTURER := Xiaomi
