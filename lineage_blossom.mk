@@ -27,7 +27,8 @@ AXION_CAMERA_REAR_INFO := 13
 AXION_CAMERA_FRONT_INFO := 5
 
 # Processor
-AXION_PROCESSOR := Mediatek_Helio_G25
+# declared per device, see config/props/system
+AXION_PROCESSOR := something_went_wrong
 
 # Maintainer
 AXION_MAINTAINER := fukiame

@@ -14,3 +14,6 @@ ro.product.system.device=angelica
 ro.product.system.marketname=Redmi 9C
 ro.product.system.model=M2006C3MG
 ro.product.system.fingerprint=Redmi/angelica_global/angelica:11/RP1A.200720.011/V12.5.4.0.RCRMIXM:user/release-keys
+
+persist.sys.device_camera_info_rear=13,2,2
+persist.sys.axion_processor_info=Mediatek_Helio_G35
