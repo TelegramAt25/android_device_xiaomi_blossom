@@ -1,0 +1,36 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: fukiame <fukiame@proton.me>
+Date: Tue, 25 Feb 2025 16:37:47 +0700
+Subject: [PATCH] allow opting out of backuptool
+
+- as it currently is, backuptool is only used for /etc/hosts backups
+- nowadays, most users prefers systemless methods of modifying hosts,
+  such as Magisk systemless hosts
+- allow maintainers to opt out if they want to
+
+Change-Id: I808a7fabf896eeafd2ec83a2a3d23a557499783f
+Signed-off-by: fukiame <fukiame@proton.me>
+---
+ config/common.mk | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/config/common.mk b/config/common.mk
+index d9232e0..ad930a5 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -43,6 +43,7 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += persist.sys.strictmode.disable=true
+ endif
+ 
+ # Backup Tool
++ifneq ($(TARGET_SKIP_BACKUPTOOL),true)
+ PRODUCT_COPY_FILES += \
+     vendor/lineage/prebuilt/common/bin/backuptool.sh:install/bin/backuptool.sh \
+     vendor/lineage/prebuilt/common/bin/backuptool.functions:install/bin/backuptool.functions
+@@ -66,6 +67,7 @@ PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
+     system/bin/backuptool_ab.sh \
+     system/bin/backuptool_ab.functions \
+     system/bin/backuptool_postinstall.sh
++endif
+ 
+ ifneq ($(TARGET_BUILD_VARIANT),user)
+ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
