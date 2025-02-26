@@ -79,9 +79,10 @@ void vendor_load_properties()
         property_override("ro.config.art_lowmem", "true");
     } else {
         // from - phone-xhdpi-2048-dalvik-heap.mk
+        // modified
         heapstartsize = "8m";
         heapgrowthlimit = "192m";
-        heapsize = "512m";
+        heapsize = "384m";
         heaptargetutilization = "0.75";
         heapminfree = "512k";
         heapmaxfree = "8m";
