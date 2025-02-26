@@ -85,6 +85,6 @@ on property:sys.boot_completed=1
     # disably systracker
     write /sys/bus/platform/drivers/systracker/tracker_run 0
 
-    # report max freq to unity tasks, miHoYo games, and some others
-    write /proc/sys/kernel/sched_lib_name "libunity.so,com.miHoYo.,libfb.so,liblogic.so,libssgamesdkcronet.so,libil2cpp.so,com.activision."
+    # report max freq to unity tasks and miHoYo games
+    write /proc/sys/kernel/sched_lib_name "com.miHoYo.,libunity.so"
     write /proc/sys/kernel/sched_lib_mask_force 255
