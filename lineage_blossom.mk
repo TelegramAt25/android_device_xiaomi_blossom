@@ -30,7 +30,7 @@ AXION_CAMERA_REAR_INFO := 13
 AXION_CAMERA_FRONT_INFO := 5
 
 # Processor
-AXION_PROCESSOR := Mediatek_Helio_G25
+AXION_PROCESSOR := Mediatek_Helio_G25_/_G35
 
 # Maintainer
 AXION_MAINTAINER := fukiame
