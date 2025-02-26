@@ -282,6 +282,18 @@
          "Type":"COMPONENT"
       },
       {
+         "Name":"mtk-cl-kshutdown05",
+         "Type":"COMPONENT"
+      },
+      {
+         "Name":"mtk-cl-kshutdown06",
+         "Type":"COMPONENT"
+      },
+      {
+         "Name":"mtk-cl-kshutdown07",
+         "Type":"COMPONENT"
+      },
+      {
          "Name":"mtk-cl-mutt00",
          "Type":"MODEM"
       },
@@ -363,6 +375,10 @@
       },
       {
          "Name":"tzimgs4-sysrst",
+         "Type":"COMPONENT"
+      },
+      {
+         "Name":"tzimgs5-sysrst",
          "Type":"COMPONENT"
       },
       {
