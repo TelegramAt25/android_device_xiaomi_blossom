@@ -21,6 +21,9 @@ $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 # local patch - skip backuptool
 TARGET_SKIP_BACKUPTOOL := true
 
+# skip addond
+TARGET_SUPPORTS_ADDOND := false
+
 # AxionAOSP flags start
 # Camera
 AXION_CAMERA_REAR_INFO := 13
