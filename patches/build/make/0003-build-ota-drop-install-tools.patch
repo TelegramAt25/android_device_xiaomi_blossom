@@ -1,0 +1,121 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: fukiame <fukiame@proton.me>
+Date: Wed, 26 Feb 2025 20:36:48 +0700
+Subject: [PATCH] build: ota: drop install tools
+
+reverts 046628b25a40f9eff6c56b0ffbd0186d10b51e97
+
+Change-Id: I664dabdd96f4638263736d8fe5e3ffaa50840e17
+---
+ core/Makefile                         |  5 -----
+ tools/releasetools/edify_generator.py | 20 --------------------
+ tools/releasetools/non_ab_ota.py      | 14 --------------
+ tools/releasetools/ota_utils.py       |  2 +-
+ 4 files changed, 1 insertion(+), 40 deletions(-)
+
+diff --git a/core/Makefile b/core/Makefile
+index 2ca4ae3..ceae1c8 100644
+--- a/core/Makefile
++++ b/core/Makefile
+@@ -2495,8 +2495,6 @@ ifdef BUILDING_RECOVERY_IMAGE
+ 
+ INTERNAL_RECOVERYIMAGE_FILES := $(filter $(TARGET_RECOVERY_OUT)/%, \
+     $(ALL_DEFAULT_INSTALLED_MODULES))
+-INTERNAL_RECOVERYIMAGE_FILES += $(filter $(PRODUCT_OUT)/install/%, \
+-    $(ALL_DEFAULT_INSTALLED_MODULES))
+ 
+ INSTALLED_FILES_FILE_RECOVERY := $(PRODUCT_OUT)/installed-files-recovery.txt
+ INSTALLED_FILES_JSON_RECOVERY := $(INSTALLED_FILES_FILE_RECOVERY:.txt=.json)
+@@ -6617,9 +6615,6 @@ ifneq (true,$(BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT))
+ 	$(hide) $(call package_files-copy-root, \
+ 	    $(TARGET_RECOVERY_ROOT_OUT),$(zip_root)/$(PRIVATE_RECOVERY_OUT)/RAMDISK)
+ endif
+-	@# OTA install helpers
+-	$(hide) $(call package_files-copy-root, \
+-	    $(PRODUCT_OUT)/install,$(zip_root)/INSTALL)
+ ifdef INSTALLED_RECOVERY_KERNEL_TARGET
+ 	# The python script that wraps it all up wants it to be named kernel, so do that
+ 	cp $(INSTALLED_RECOVERY_KERNEL_TARGET) $(zip_root)/$(PRIVATE_RECOVERY_OUT)/kernel
+diff --git a/tools/releasetools/edify_generator.py b/tools/releasetools/edify_generator.py
+index e02b2ae..3254676 100644
+--- a/tools/releasetools/edify_generator.py
++++ b/tools/releasetools/edify_generator.py
+@@ -248,11 +248,6 @@ class EdifyGenerator(object):
+           p.mount_point, mount_flags))
+       self.mounts.add(p.mount_point)
+ 
+-  def UnpackPackageDir(self, src, dst):
+-    """Unpack a given directory from the OTA package into the given
+-    destination directory."""
+-    self.script.append('package_extract_dir("%s", "%s");' % (src, dst))
+-
+   def Comment(self, comment):
+     """Write a comment into the update script."""
+     self.script.append("")
+@@ -391,21 +386,6 @@ class EdifyGenerator(object):
+         assert not entry.slotselect, \
+           "Use %s because %s is slot suffixed" % (fn, lst[1])
+ 
+-  def SetPermissionsRecursive(self, fn, uid, gid, dmode, fmode, selabel,
+-                              capabilities):
+-    """Recursively set path ownership and permissions."""
+-    if capabilities is None:
+-      capabilities = "0x0"
+-    cmd = 'set_metadata_recursive("%s", "uid", %d, "gid", %d, ' \
+-        '"dmode", 0%o, "fmode", 0%o' \
+-        % (fn, uid, gid, dmode, fmode)
+-    if not fn.startswith("/tmp"):
+-      cmd += ', "capabilities", "%s"' % capabilities
+-    if selabel is not None:
+-      cmd += ', "selabel", "%s"' % selabel
+-    cmd += ');'
+-    self.script.append(cmd)
+-
+   def WriteRawImage(self, mount_point, fn, mapfn=None):
+     """Write the given package file into the partition for the given
+     mount point."""
+diff --git a/tools/releasetools/non_ab_ota.py b/tools/releasetools/non_ab_ota.py
+index ef2b390..2dffa5c 100644
+--- a/tools/releasetools/non_ab_ota.py
++++ b/tools/releasetools/non_ab_ota.py
+@@ -109,15 +109,6 @@ def GetBlockDifferences(target_zip, source_zip, target_info, source_info,
+   return block_diff_dict
+ 
+ 
+-def CopyInstallTools(output_zip):
+-  install_path = os.path.join(OPTIONS.input_tmp, "INSTALL")
+-  for root, subdirs, files in os.walk(install_path):
+-     for f in files:
+-      install_source = os.path.join(root, f)
+-      install_target = os.path.join("install", os.path.relpath(root, install_path), f)
+-      output_zip.write(install_source, install_target)
+-
+-
+ def WriteFullOTAPackage(input_zip, output_file):
+   target_info = common.BuildInfo(OPTIONS.info_dict, OPTIONS.oem_dicts)
+ 
+@@ -216,11 +207,6 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
+ 
+   device_specific.FullOTA_InstallBegin()
+ 
+-  CopyInstallTools(output_zip)
+-  script.UnpackPackageDir("install", "/tmp/install")
+-  script.SetPermissionsRecursive("/tmp/install", 0, 0, 0o755, 0o644, None, None)
+-  script.SetPermissionsRecursive("/tmp/install/bin", 0, 0, 0o755, 0o755, None, None)
+-
+   # All other partitions as well as the data wipe use 10% of the progress, and
+   # the update of the system partition takes the remaining progress.
+   system_progress = 0.9 - (len(block_diff_dict) - 1) * 0.1
+diff --git a/tools/releasetools/ota_utils.py b/tools/releasetools/ota_utils.py
+index 0da9fef..3ae7ee8 100644
+--- a/tools/releasetools/ota_utils.py
++++ b/tools/releasetools/ota_utils.py
+@@ -45,7 +45,7 @@ OPTIONS.boot_variable_file = None
+ 
+ METADATA_NAME = 'META-INF/com/android/metadata'
+ METADATA_PROTO_NAME = 'META-INF/com/android/metadata.pb'
+-UNZIP_PATTERN = ['IMAGES/*', 'INSTALL/*', 'META/*', 'OTA/*',
++UNZIP_PATTERN = ['IMAGES/*', 'META/*', 'OTA/*',
+                  'RADIO/*', '*/build.prop', '*/default.prop', '*/build.default', "*/etc/vintf/*"]
+ SECURITY_PATCH_LEVEL_PROP_NAME = "ro.build.version.security_patch"
+ TARGET_FILES_IMAGES_SUBDIR = ["IMAGES", "PREBUILT_IMAGES", "RADIO"]
