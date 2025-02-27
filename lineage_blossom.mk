@@ -24,6 +24,9 @@ TARGET_SKIP_BACKUPTOOL := true
 # skip addond
 TARGET_SUPPORTS_ADDOND := false
 
+# always nuke audiofx
+NUKE_AUDIOFX := true
+
 # AxionAOSP flags start
 # Camera
 AXION_CAMERA_REAR_INFO := 13
