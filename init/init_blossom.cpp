@@ -81,8 +81,8 @@ void vendor_load_properties()
         // from - phone-xhdpi-2048-dalvik-heap.mk
         // modified
         heapstartsize = "8m";
-        heapgrowthlimit = "128m";
-        heapsize = "256m";
+        heapgrowthlimit = "192m";
+        heapsize = "384m";
         heaptargetutilization = "0.75";
         heapminfree = "512k";
         heapmaxfree = "8m";
