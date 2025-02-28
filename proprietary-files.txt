@@ -212,7 +212,6 @@ vendor/lib64/vendor.mediatek.hardware.bluetooth.audio@2.1.so
 vendor/etc/sec_s3nrn82_rfreg.bin
 
 # NFC - Configs
-vendor/etc/nfc/nfc_whitelist.properties
 vendor/etc/libnfc-nci.conf
 vendor/etc/libnfc-sec-vendor.conf
 
